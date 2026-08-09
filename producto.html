@@ -185,6 +185,10 @@
                 <input type="tel" id="deliveryPhone" required placeholder="Ej. 3337271440" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
             </div>
             <div>
+                <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Correo Electrónico</label>
+                <input type="email" id="deliveryEmail" required placeholder="Ej. cliente@correo.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
+            </div>
+            <div>
                 <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Calle y Número</label>
                 <input type="text" id="deliveryStreet" required placeholder="Ej. Av. Pedro Moreno 123" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
             </div>
@@ -361,11 +365,12 @@
         event.preventDefault();
         const name = document.getElementById('deliveryName').value;
         const phone = document.getElementById('deliveryPhone').value;
+        const email = document.getElementById('deliveryEmail').value;
         const street = document.getElementById('deliveryStreet').value;
         const colonia = document.getElementById('deliveryColonia').value;
         const city = document.getElementById('deliveryCity').value;
 
-        const addressData = { name, phone, street, colonia, city };
+        const addressData = { name, phone, email, street, colonia, city };
         localStorage.setItem('user_delivery_address', JSON.stringify(addressData));
         updateAddressDisplay();
         updateBuyBoxAddress();
@@ -376,7 +381,7 @@
         const stored = localStorage.getItem('user_delivery_address');
         if (stored) {
             const data = JSON.parse(stored);
-            addressDisplay.innerHTML = `📍 Entregar a: <strong class="text-amber-400">${data.name}</strong> <span class="text-slate-400">(${data.street}, ${data.colonia} - Tel: ${data.phone})</span> <button onclick="openDeliveryModal()" class="text-blue-400 hover:underline font-bold ml-1 cursor-pointer">Cambiar</button>`;
+            addressDisplay.innerHTML = `📍 Entregar a: <strong class="text-amber-400">${data.name}</strong> <span class="text-slate-400">(${data.street}, ${data.colonia} - Tel: ${data.phone} - Email: ${data.email})</span> <button onclick="openDeliveryModal()" class="text-blue-400 hover:underline font-bold ml-1 cursor-pointer">Cambiar</button>`;
         } else {
             addressDisplay.innerHTML = `<span>📍 ¿En dónde quieres que llegue tu producto? </span><button onclick="openDeliveryModal()" class="text-amber-400 hover:text-amber-300 font-black underline ml-1 cursor-pointer">Registrar dirección</button>`;
         }
@@ -387,7 +392,7 @@
         const stored = localStorage.getItem('user_delivery_address');
         if (stored) {
             const data = JSON.parse(stored);
-            buyBoxAddress.innerHTML = `<span>Entregar a: <strong>${data.name}</strong></span><br><span class="text-[10px] text-slate-400">${data.street}, ${data.colonia} - Tel: ${data.phone}</span>`;
+            buyBoxAddress.innerHTML = `<span>Entregar a: <strong>${data.name}</strong></span><br><span class="text-[10px] text-slate-400">${data.street}, ${data.colonia} - Tel: ${data.phone} - Email: ${data.email}</span>`;
         } else {
             buyBoxAddress.innerHTML = `<span>No has registrado dirección.</span> <button onclick="openDeliveryModal()" class="text-blue-600 hover:underline font-bold block mt-1">Registrar dirección de envío</button>`;
         }
