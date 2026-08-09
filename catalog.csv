@@ -1,0 +1,20 @@
+sku,nombre,imagen,precio,frecuencia,inventario_tipo,categoria,existencias,descripcion
+REV-001,Muy Interesante,assets/img/portadas/science_cover.jpg,85.00,mensual,primer mercado,revistas,12,"Descubre las últimas fronteras de la ciencia, tecnología y el universo."
+REV-002,National Geographic,assets/img/portadas/travel_cover.jpg,95.00,mensual,primer mercado,revistas,8,Explora las maravillas naturales y culturas de nuestro planeta con fotografía galardonada.
+REV-003,Cosmopolitan,assets/img/portadas/casa_cover.jpg,75.00,mensual,primer mercado,revistas,15,"Moda, estilo de vida, tendencias de belleza e historias inspiradoras para la mujer moderna."
+REV-004,Vanidades,assets/img/portadas/casa_cover.jpg,70.00,quincenal,primer mercado,revistas,9,"La revista líder de entretenimiento, realeza, recetas y decoración en español."
+REV-005,Esquire,assets/img/portadas/tech_cover.jpg,90.00,mensual,primer mercado,revistas,6,"Estilo de vida masculino, alta relojería, automovilismo y cultura contemporánea."
+REV-006,Muy Interesante Ciencia,assets/img/portadas/science_cover.jpg,85.00,mensual,primer mercado,revistas,4,"Edición especial dedicada a la física cuántica, biotecnología y medicina del futuro."
+REV-007,National Geographic Viajes,assets/img/portadas/travel_cover.jpg,95.00,mensual,primer mercado,revistas,3,"Guías completas de destinos mundiales, consejos de viaje y mapas detallados."
+REV-008,Cosmopolitan Moda,assets/img/portadas/casa_cover.jpg,75.00,mensual,primer mercado,revistas,5,Especial de temporada con las pasarelas internacionales y colecciones otoño-invierno.
+REV-009,Vanidades Hogar,assets/img/portadas/casa_cover.jpg,70.00,quincenal,primer mercado,revistas,4,"Ideas prácticas para organizar tu espacio, decoración de interiores y recetas rápidas."
+REV-010,Hogar y Jardín,assets/img/portadas/casa_cover.jpg,65.00,mensual,primer mercado,revistas,7,"Paisajismo, cuidado de plantas de interiores y diseño de terrazas urbanas."
+REV-011,Mascotas y Naturaleza,assets/img/portadas/wildlife_cover.jpg,60.00,mensual,primer mercado,revistas,9,"El bienestar de tu mascota: nutrición, salud veterinaria y psicología animal."
+REV-012,Sopas de Letras Gigante,assets/img/portadas/tech_cover.jpg,40.00,quincenal,segundo mercado,revistas,24,Ejercicios mentales divertidos para mantener la mente activa y ágil a cualquier edad.
+REV-013,Crucigramas Clásicos,assets/img/portadas/tech_cover.jpg,35.00,semanal,segundo mercado,revistas,18,Los retos clásicos de palabras y conocimiento general para resolver en tus ratos libres.
+REV-014,Sudoku Desafío,assets/img/portadas/tech_cover.jpg,38.00,quincenal,segundo mercado,revistas,15,Rompecabezas numéricos desde nivel básico hasta extremo para entrenar la concentración.
+REV-015,Revista Padres e Hijos 2016,assets/img/portadas/wildlife_cover.jpg,30.00,mensual,segundo mercado,revistas,11,"Consejos atemporales de pediatría, crianza respetuosa y estimulación temprana para bebés."
+DUL-001,Carlos V,assets/img/mascota_tigre.jpg,12.00,quincenal,primer mercado,dulces,45,"El chocolate con leche favorito de México, ideal para saciar un antojo dulce instantáneo."
+DUL-002,Halls Menta,assets/img/mascota_tigre.jpg,10.00,quincenal,primer mercado,dulces,60,Pastillas refrescantes con sabor a mentol eucalipto para despejar tu garganta y respiración.
+DUL-003,Mazapán de la Rosa Grande,assets/img/mascota_tigre.jpg,8.00,quincenal,primer mercado,dulces,100,El dulce tradicional de cacahuate molido con textura suave y sabor inigualable.
+CIG-001,Cigarro Suelto,assets/img/mascota_tigre.jpg,10.00,semanal,primer mercado,cigarros,200,Cigarro individual de marcas líderes nacionales con precio de venta único y estándar.

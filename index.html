@@ -124,10 +124,226 @@
     </div>
 </div>
 
-<!-- CONTENIDO CLARO Y COMPLETAMENTE VACÍO ABAJO DE LA CABECERA -->
-<main class="flex-1 bg-orange-50/20 w-full"></main>
+<!-- CONTENIDO DE 8 COLUMNAS (1 y 8 VACÍAS PERMANENTEMENTE) -->
+<main class="flex-1 bg-orange-50/15 w-full py-8 text-slate-800">
+    <div class="w-full grid grid-cols-1 md:grid-cols-8 gap-6 px-4 md:px-0">
+        <!-- Columna 1: Vacía -->
+        <div class="hidden md:block col-span-1"></div>
+
+        <!-- Espacio Central de 6 Columnas (Columnas 2 a 7) -->
+        <div class="col-span-1 md:col-span-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- Columna 2 (Spans 3/12 del espacio central): Títulos de Revistas Físicas/Digitales y Stock -->
+            <div class="lg:col-span-3 bg-white p-5 rounded-3xl border border-slate-200/80 shadow-lg flex flex-col gap-4">
+                <h3 class="text-xs font-mono text-blue-600 uppercase tracking-widest font-black">// Revistas Disponibles</h3>
+                
+                <div class="flex flex-col gap-2">
+                    <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-bold">Título y Existencias</span>
+                    <ul class="flex flex-col gap-2" id="magazine-list">
+                        <!-- Llenado dinámico por JavaScript (15 revistas) -->
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Columna 3 (Spans 2/12 del espacio central): 5 Portadas sin personas -->
+            <div class="lg:col-span-2 bg-white p-5 rounded-3xl border border-slate-200/80 shadow-lg flex flex-col gap-3 items-center">
+                <h3 class="text-xs font-mono text-blue-600 uppercase tracking-widest font-black text-center mb-1">// Portadas</h3>
+                <div class="flex flex-col gap-3 w-full" id="magazine-covers">
+                    <!-- 5 portadas -->
+                </div>
+            </div>
+
+            <!-- Columnas 4 a 7 (Spans 7/12 del espacio central): 10 Rectángulos de productos + Paginación -->
+            <div class="lg:col-span-7 flex flex-col gap-4">
+                <!-- Contenedor de los 10 Rectángulos -->
+                <div class="flex flex-col gap-4" id="products-list-container">
+                    <!-- Rectángulos cargados por JS -->
+                </div>
+
+                <!-- Paginación: Página 1, 2, 3, 4, 5, 7 -->
+                <div class="flex justify-center items-center gap-2 mt-6 flex-wrap" id="pagination-controls">
+                    <!-- Botones de página -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Columna 8: Vacía -->
+        <div class="hidden md:block col-span-1"></div>
+    </div>
+</main>
 
 <script>
+    // Base de datos de productos (Coincide con catalog.csv)
+    const productCatalog = [
+        {sku: "REV-001", nombre: "Muy Interesante", imagen: "assets/img/portadas/science_cover.jpg", precio: "85.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 12, descripcion: "Descubre las últimas fronteras de la ciencia, tecnología y el universo."},
+        {sku: "REV-002", nombre: "National Geographic", imagen: "assets/img/portadas/travel_cover.jpg", precio: "95.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 8, descripcion: "Explora las maravillas naturales y culturas de nuestro planeta con fotografía galardonada."},
+        {sku: "REV-003", nombre: "Cosmopolitan", imagen: "assets/img/portadas/casa_cover.jpg", precio: "75.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 15, descripcion: "Moda, estilo de vida, tendencias de belleza e historias inspiradoras para la mujer moderna."},
+        {sku: "REV-004", nombre: "Vanidades", imagen: "assets/img/portadas/casa_cover.jpg", precio: "70.00", frecuencia: "Quincenal", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 9, descripcion: "La revista líder de entretenimiento, realeza, recetas y decoración en español."},
+        {sku: "REV-005", nombre: "Esquire", imagen: "assets/img/portadas/tech_cover.jpg", precio: "90.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 6, descripcion: "Estilo de vida masculino, alta relojería, automovilismo y cultura contemporánea."},
+        {sku: "REV-006", nombre: "Muy Interesante Ciencia", imagen: "assets/img/portadas/science_cover.jpg", precio: "85.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 4, descripcion: "Edición especial dedicada a la física cuántica, biotecnología y medicina del futuro."},
+        {sku: "REV-007", name: "National Geographic Viajes", nombre: "NG Viajes", imagen: "assets/img/portadas/travel_cover.jpg", precio: "95.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 3, descripcion: "Guías completas de destinos mundiales, consejos de viaje y mapas detallados."},
+        {sku: "REV-008", nombre: "Cosmopolitan Moda", imagen: "assets/img/portadas/casa_cover.jpg", precio: "75.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 5, descripcion: "Especial de temporada con las pasarelas internacionales y colecciones otoño-invierno."},
+        {sku: "REV-009", nombre: "Vanidades Hogar", imagen: "assets/img/portadas/casa_cover.jpg", precio: "70.00", frecuencia: "Quincenal", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 4, descripcion: "Ideas prácticas para organizar tu espacio, decoración de interiores y recetas rápidas."},
+        {sku: "REV-010", nombre: "Hogar y Jardín", imagen: "assets/img/portadas/casa_cover.jpg", precio: "65.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 7, descripcion: "Paisajismo, cuidado de plantas de interiores y diseño de de terrazas urbanas."},
+        
+        {sku: "REV-011", nombre: "Mascotas y Naturaleza", imagen: "assets/img/portadas/wildlife_cover.jpg", precio: "60.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 9, descripcion: "El bienestar de tu mascota: nutrición, salud veterinaria y psicología animal."},
+        {sku: "REV-012", nombre: "Sopas de Letras Gigante", imagen: "assets/img/portadas/tech_cover.jpg", precio: "40.00", frecuencia: "Quincenal", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 24, descripcion: "Ejercicios mentales divertidos para mantener la mente activa y ágil a cualquier edad."},
+        {sku: "REV-013", nombre: "Crucigramas Clásicos", imagen: "assets/img/portadas/tech_cover.jpg", precio: "35.00", frecuencia: "Semanal", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 18, descripcion: "Los retos clásicos de palabras y conocimiento general para resolver en tus ratos libres."},
+        {sku: "REV-014", nombre: "Sudoku Desafío", imagen: "assets/img/portadas/tech_cover.jpg", precio: "38.00", frecuencia: "Quincenal", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 15, descripcion: "Rompecabezas numéricos desde nivel básico hasta extremo para entrenar la concentración."},
+        {sku: "REV-015", nombre: "Revista Padres e Hijos 2016", imagen: "assets/img/portadas/wildlife_cover.jpg", precio: "30.00", frecuencia: "Mensual", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 11, descripcion: "Consejos atemporales de pediatría, crianza respetuosa y estimulación temprana para bebés."}
+    ];
+
+    const magazineCovers = [
+        "assets/img/portadas/science_cover.jpg",
+        "assets/img/portadas/wildlife_cover.jpg",
+        "assets/img/portadas/tech_cover.jpg",
+        "assets/img/portadas/casa_cover.jpg",
+        "assets/img/portadas/travel_cover.jpg"
+    ];
+
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    const totalPagesList = [1, 2, 3, 4, 5, 7];
+
+    function renderColumnTwo() {
+        const listContainer = document.getElementById("magazine-list");
+        listContainer.innerHTML = "";
+        productCatalog.forEach(p => {
+            const li = document.createElement("li");
+            li.className = "flex justify-between items-center text-xs text-slate-700 py-1 border-b border-slate-100 hover:text-blue-600 transition cursor-pointer";
+            li.innerHTML = `
+                <span class="font-semibold truncate max-w-[150px]">${p.nombre}</span>
+                <span class="font-mono text-[10px] bg-slate-100 px-2 py-0.5 rounded-full text-slate-500 font-bold">${p.existencias}</span>
+            `;
+            li.onclick = () => {
+                const searchInput = document.getElementById("siteSearch");
+                if (searchInput) {
+                    searchInput.value = p.nombre;
+                    performSearch(p.nombre);
+                }
+            };
+            listContainer.appendChild(li);
+        });
+    }
+
+    function renderColumnThree() {
+        const coverContainer = document.getElementById("magazine-covers");
+        coverContainer.innerHTML = "";
+        magazineCovers.forEach((src, idx) => {
+            const img = document.createElement("img");
+            img.src = src;
+            img.alt = `Portada de Revista ${idx + 1}`;
+            img.className = "w-full aspect-[3/4] object-cover rounded-xl shadow border border-slate-100 hover:scale-103 transition duration-300";
+            coverContainer.appendChild(img);
+        });
+    }
+
+    function renderProducts(page, searchFilter = "") {
+        const listContainer = document.getElementById("products-list-container");
+        listContainer.innerHTML = "";
+
+        // Filter based on search input
+        const filtered = productCatalog.filter(p => 
+            p.nombre.toLowerCase().includes(searchFilter.toLowerCase()) || 
+            p.descripcion.toLowerCase().includes(searchFilter.toLowerCase())
+        );
+
+        if (filtered.length === 0) {
+            listContainer.innerHTML = `
+                <div class="bg-white p-8 rounded-3xl text-center border border-slate-200 shadow-md">
+                    <i class="fa-solid fa-folder-open text-slate-300 text-4xl mb-3"></i>
+                    <p class="text-sm font-semibold text-slate-500">No se encontraron productos coincidentes en el inventario.</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Calculate paging indices
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        const paginatedItems = filtered.slice(startIndex, endIndex);
+
+        if (paginatedItems.length === 0) {
+            listContainer.innerHTML = `
+                <div class="bg-white p-8 rounded-3xl text-center border border-slate-200 shadow-md">
+                    <i class="fa-solid fa-rectangle-xmark text-slate-300 text-4xl mb-3"></i>
+                    <p class="text-sm font-semibold text-slate-500">Esta página está vacía. Registra más productos en el catálogo.</p>
+                </div>
+            `;
+            return;
+        }
+
+        paginatedItems.forEach(p => {
+            const card = document.createElement("div");
+            card.className = "bg-white p-4.5 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-lg transition duration-300 flex flex-col sm:flex-row gap-4 items-center justify-between";
+            card.innerHTML = `
+                <div class="flex items-center gap-4 w-full sm:w-auto">
+                    <img src="${p.imagen}" alt="${p.nombre}" class="w-16 h-20 object-cover rounded-xl border border-slate-100 shadow-sm shrink-0">
+                    <div class="flex flex-col min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                            <h4 class="text-sm font-black text-slate-900 truncate">${p.nombre}</h4>
+                            <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">${p.sku}</span>
+                            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded ${p.inventario_tipo === 'Primer Mercado' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}">${p.inventario_tipo}</span>
+                        </div>
+                        <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-1">${p.descripcion}</p>
+                        <span class="text-[10px] font-medium text-slate-400">Publicación: <strong class="text-slate-500">${p.frecuencia}</strong></span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 shrink-0">
+                    <span class="text-base font-black text-amber-500">$${p.precio} MXN</span>
+                    <a href="https://wa.me/523337271440?text=Hola,%20me%20interesa%20comprar%20la%20revista%20${encodeURIComponent(p.nombre)}%20(${p.sku})" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-500 text-white font-black px-4.5 py-2 rounded-xl text-xs transition shadow-md hover:scale-103 flex items-center gap-1.5">
+                        💬 Comprar
+                    </a>
+                </div>
+            `;
+            listContainer.appendChild(card);
+        });
+    }
+
+    function renderPagination(searchFilter = "") {
+        const paginationContainer = document.getElementById("pagination-controls");
+        paginationContainer.innerHTML = "";
+
+        const filtered = productCatalog.filter(p => 
+            p.nombre.toLowerCase().includes(searchFilter.toLowerCase()) || 
+            p.descripcion.toLowerCase().includes(searchFilter.toLowerCase())
+        );
+        
+        totalPagesList.forEach(pNum => {
+            const btn = document.createElement("button");
+            btn.className = `px-3.5 py-2 rounded-xl text-xs font-black transition border shadow-sm ${currentPage === pNum ? 'bg-blue-600 text-white border-transparent' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`;
+            btn.innerText = `Página ${pNum}`;
+            btn.onclick = () => {
+                currentPage = pNum;
+                renderProducts(currentPage, searchFilter);
+                renderPagination(searchFilter);
+            };
+            paginationContainer.appendChild(btn);
+        });
+    }
+
+    function performSearch(query) {
+        currentPage = 1;
+        renderProducts(currentPage, query);
+        renderPagination(query);
+    }
+
+    // Set up search event
+    document.addEventListener('DOMContentLoaded', () => {
+        renderColumnTwo();
+        renderColumnThree();
+        renderProducts(currentPage);
+        renderPagination();
+
+        const searchInput = document.getElementById('siteSearch');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                performSearch(e.target.value.trim());
+            });
+        }
+    });
+
     function openDeliveryModal() {
         document.getElementById('deliveryModal').classList.remove('hidden');
     }
@@ -156,9 +372,6 @@
             addressDisplay.innerHTML = `<span>📍 ¿Dónde quieres recibir tu pedido? </span><button onclick="openDeliveryModal()" class="text-amber-400 hover:text-amber-300 font-black underline ml-1 cursor-pointer">Registrar dirección</button>`;
         }
     }
-    document.addEventListener('DOMContentLoaded', () => {
-        updateAddressDisplay();
-    });
 </script>
 </body>
 </html>
