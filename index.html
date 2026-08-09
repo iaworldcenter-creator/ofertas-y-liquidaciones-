@@ -103,6 +103,10 @@
                 <input type="text" id="deliveryName" required placeholder="Ej. Juan Pérez" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
             </div>
             <div>
+                <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Teléfono de Contacto</label>
+                <input type="tel" id="deliveryPhone" required placeholder="Ej. 3337271440" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
+            </div>
+            <div>
                 <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Calle y Número</label>
                 <input type="text" id="deliveryStreet" required placeholder="Ej. Av. Pedro Moreno 123" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
             </div>
@@ -346,6 +350,15 @@
 
     function openDeliveryModal() {
         document.getElementById('deliveryModal').classList.remove('hidden');
+        const stored = localStorage.getItem('user_delivery_address');
+        if (stored) {
+            const data = JSON.parse(stored);
+            document.getElementById('deliveryName').value = data.name || '';
+            document.getElementById('deliveryPhone').value = data.phone || '';
+            document.getElementById('deliveryStreet').value = data.street || '';
+            document.getElementById('deliveryColonia').value = data.colonia || '';
+            document.getElementById('deliveryCity').value = data.city || '';
+        }
     }
     function closeDeliveryModal() {
         document.getElementById('deliveryModal').classList.add('hidden');
@@ -353,11 +366,12 @@
     function saveDeliveryAddress(event) {
         event.preventDefault();
         const name = document.getElementById('deliveryName').value;
+        const phone = document.getElementById('deliveryPhone').value;
         const street = document.getElementById('deliveryStreet').value;
         const colonia = document.getElementById('deliveryColonia').value;
         const city = document.getElementById('deliveryCity').value;
 
-        const addressData = { name, street, colonia, city };
+        const addressData = { name, phone, street, colonia, city };
         localStorage.setItem('user_delivery_address', JSON.stringify(addressData));
         updateAddressDisplay();
         closeDeliveryModal();
@@ -367,7 +381,7 @@
         const stored = localStorage.getItem('user_delivery_address');
         if (stored) {
             const data = JSON.parse(stored);
-            addressDisplay.innerHTML = `📍 Entregar a: <strong class="text-amber-400">${data.name}</strong> <span class="text-slate-400">(${data.street}, ${data.colonia})</span> <button onclick="openDeliveryModal()" class="text-blue-400 hover:underline font-bold ml-1 cursor-pointer">Cambiar</button>`;
+            addressDisplay.innerHTML = `📍 Entregar a: <strong class="text-amber-400">${data.name}</strong> <span class="text-slate-400">(${data.street}, ${data.colonia} - Tel: ${data.phone})</span> <button onclick="openDeliveryModal()" class="text-blue-400 hover:underline font-bold ml-1 cursor-pointer">Cambiar</button>`;
         } else {
             addressDisplay.innerHTML = `<span>📍 ¿Dónde quieres recibir tu pedido? </span><button onclick="openDeliveryModal()" class="text-amber-400 hover:text-amber-300 font-black underline ml-1 cursor-pointer">Registrar dirección</button>`;
         }
