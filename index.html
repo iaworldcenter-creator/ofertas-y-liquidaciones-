@@ -219,11 +219,23 @@
         <h2>¿Viste algo que te interesa? ¡Te lo enviamos por Uber!</h2>
         <p>Pide por WhatsApp, paga el costo de envío y te llega directo a tu domicilio.</p>
     </section>
-    <form class="site-search" role="search" onsubmit="return false;">
-        <label class="sr-only" for="siteSearch">Buscar productos o secciones</label>
-        <input id="siteSearch" name="q" type="search" placeholder="Aquí encontrarás lo que necesitas" autocomplete="off">
-        <button type="submit">Buscar</button>
-    </form>
+    <!-- BUSCADOR CON REPARTO DE 8 COLUMNAS (COLUMNAS 2 A 7 ACTIVAS CON FONDO BLANCO) -->
+    <div class="w-full grid grid-cols-1 md:grid-cols-8 gap-0 my-8">
+        <!-- Columna 1: Vacía -->
+        <div class="hidden md:block col-span-1"></div>
+        
+        <!-- Columnas 2 a 7: Buscador -->
+        <div class="col-span-1 md:col-span-6 px-4 md:px-0">
+            <form class="flex items-center gap-2 p-2.5 rounded-2xl bg-white border border-slate-200 shadow-xl w-full" role="search" onsubmit="return false;">
+                <label class="sr-only" for="siteSearch">Buscar productos o secciones</label>
+                <input id="siteSearch" name="q" type="text" placeholder="¿Qué producto, pieza o antojo buscas hoy? Escribe aquí..." class="flex-1 bg-transparent border-0 outline-none text-slate-900 font-bold text-sm px-3 placeholder-slate-400" autocomplete="off">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white font-black px-6 py-3 rounded-xl text-xs transition shadow-md hover:scale-103 shrink-0">Buscar</button>
+            </form>
+        </div>
+        
+        <!-- Columna 8: Vacía -->
+        <div class="hidden md:block col-span-1"></div>
+    </div>
     <section class="mascot-feature" aria-label="El Tigre, mascota oficial de la marca">
         <img src="assets/img/mascota_tigre.jpg" alt="El Tigre presentando las mejores ofertas" class="w-full h-[250px] object-cover rounded-xl">
         <div class="mascot-copy">
