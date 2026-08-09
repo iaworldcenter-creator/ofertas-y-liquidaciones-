@@ -228,14 +228,25 @@
 
             <!-- Columnas 3 a 7 (Spans 5 de las 6 columnas centrales): Rejilla de 5 columnas de tarjetas de producto -->
             <div class="lg:col-span-5 flex flex-col gap-6">
-                <!-- Grid de 5 columnas en Escritorio, 3 en Tablet, 2 en Móvil -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="products-grid-container">
+                <!-- Grid de 5 columnas en Escritorio, Scroll Horizontal en Móvil -->
+                <div class="flex md:grid overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 pb-4 md:pb-0" id="products-grid-container">
                     <!-- Tarjetas de producto cargadas por JS (10 rectángulos en total) -->
                 </div>
 
                 <!-- Paginación: Página 1, 2, 3, 4, 5, 7 -->
-                <div class="flex justify-center items-center gap-2 mt-6 flex-wrap" id="pagination-controls">
+                <div class="flex justify-center items-center gap-2 mt-2 flex-wrap" id="pagination-controls">
                     <!-- Botones de página -->
+                </div>
+
+                <!-- SECCIÓN: LOS MÁS VENDIDOS & PROMOCIONES (10 productos) -->
+                <div class="border-t border-slate-200 pt-6 mt-4 flex flex-col gap-3">
+                    <h3 class="text-sm font-black text-slate-900 flex items-center gap-1.5">
+                        <i class="fa-solid fa-fire text-amber-500"></i> Los Más Vendidos &amp; Promociones Especiales
+                    </h3>
+                    <p class="text-[10px] text-slate-500 -mt-2">Artículos recomendados de hoy.</p>
+                    <div class="flex md:grid overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 pb-4 md:pb-0" id="featured-grid-container">
+                        <!-- 10 productos cargados por JS -->
+                    </div>
                 </div>
             </div>
 
@@ -272,6 +283,56 @@
     const totalPagesList = [1, 2, 3, 4, 5, 7];
     let activeCategory = "todas";
     let searchQuery = "";
+
+        // Productos destacados (Dulces, cigarros, gadgets)
+    const featuredCatalog = [
+        {sku: "DUL-001", nombre: "Carlos V", imagen: "assets/img/mascota_tigre.jpg", precio: "12.00", frecuencia: "Inmediato", inventario_tipo: "Primer Mercado", categoria: "dulces", existencias: 45, descripcion: "El chocolate con leche favorito de México."},
+        {sku: "DUL-002", nombre: "Halls Menta", imagen: "assets/img/mascota_tigre.jpg", precio: "10.00", frecuencia: "Inmediato", inventario_tipo: "Primer Mercado", categoria: "dulces", existencias: 60, descripcion: "Pastillas refrescantes sabor mentol eucalipto."},
+        {sku: "DUL-003", nombre: "Mazapán de la Rosa", imagen: "assets/img/mascota_tigre.jpg", precio: "8.00", frecuencia: "Inmediato", inventario_tipo: "Primer Mercado", categoria: "dulces", existencias: 100, descripcion: "Dulce tradicional de cacahuate molido."},
+        {sku: "CIG-001", nombre: "Cigarro Marlboro", imagen: "assets/img/mascota_tigre.jpg", precio: "10.00", frecuencia: "Inmediato", inventario_tipo: "Primer Mercado", categoria: "cigarros", existencias: 200, descripcion: "Cigarro suelto de precio único estándar."},
+        {sku: "GAD-001", nombre: "Cable USB-C", imagen: "assets/img/portadas/tech_cover.jpg", precio: "80.00", frecuencia: "Inmediato", inventario_tipo: "Primer Mercado", categoria: "gadgets", existencias: 14, descripcion: "Cable de carga rápida trenzado de 1.2m."},
+        {sku: "GAD-002", nombre: "Cargador Pared 18W", imagen: "assets/img/portadas/tech_cover.jpg", precio: "120.00", frecuencia: "Inmediato", inventario_tipo: "Primer Mercado", categoria: "gadgets", existencias: 8, descripcion: "Eliminador cargador USB de alto rendimiento."},
+        {sku: "GAD-003", nombre: "Power Bank 10k", imagen: "assets/img/portadas/tech_cover.jpg", precio: "299.00", frecuencia: "Inmediato", inventario_tipo: "Primer Mercado", categoria: "gadgets", existencias: 5, descripcion: "Batería de respaldo portátil 10000 mAh."},
+        {sku: "REV-012", nombre: "Sopas Letras", imagen: "assets/img/portadas/tech_cover.jpg", precio: "40.00", frecuencia: "Quincenal", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 24, descripcion: "Ejercicios mentales divertidos para todas las edades."},
+        {sku: "REV-013", nombre: "Crucigramas Clásicos", imagen: "assets/img/portadas/tech_cover.jpg", precio: "35.00", frecuencia: "Semanal", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 18, descripcion: "Retos clásicos de vocabulario y agilidad mental."},
+        {sku: "REV-014", nombre: "Sudoku Desafío", imagen: "assets/img/portadas/tech_cover.jpg", precio: "38.00", frecuencia: "Quincenal", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 15, descripcion: "Ejercicios numéricos desde básico a extremo."}
+    ];
+
+    function renderFeaturedGrid() {
+        const container = document.getElementById("featured-grid-container");
+        if (!container) return;
+        container.innerHTML = "";
+        
+        featuredCatalog.forEach(p => {
+            const card = document.createElement("div");
+            card.className = "bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow hover:shadow-md transition duration-200 flex flex-col justify-between h-full cursor-pointer hover:border-amber-400 snap-start shrink-0 w-[170px] md:w-auto";
+            card.onclick = () => {
+                window.location.href = `producto.html?sku=${p.sku}`;
+            };
+            card.innerHTML = `
+                <div class="flex flex-col gap-2">
+                    <div class="w-full aspect-[3/4] overflow-hidden rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
+                        <img src="${p.imagen}" alt="${p.nombre}" class="w-full h-full object-cover hover:scale-103 transition duration-300">
+                    </div>
+                    <div class="flex flex-col gap-1 mt-1">
+                        <div class="flex justify-between items-center gap-1">
+                            <span class="text-[9px] font-mono font-bold text-slate-400">${p.sku}</span>
+                            <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 border border-slate-200">${p.categoria}</span>
+                        </div>
+                        <h4 class="text-xs font-black text-slate-900 leading-tight line-clamp-2 min-h-[32px]">${p.nombre}</h4>
+                        <p class="text-[9px] text-slate-500 line-clamp-2 leading-snug">${p.descripcion}</p>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 mt-4 pt-2.5 border-t border-slate-100">
+                    <span class="text-xs font-black text-slate-900">$${p.precio} MXN</span>
+                    <a href="checkout.html?sku=${p.sku}" onclick="event.stopPropagation();" class="bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] font-bold py-1.5 rounded-full text-[10px] text-center shadow-sm border border-[#FCD200] transition active:scale-97">
+                        Comprar
+                    </a>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
 
     function renderStockList() {
         const listContainer = document.getElementById("magazine-stock-list");
@@ -338,7 +399,7 @@
         paginatedItems.forEach(p => {
             const card = document.createElement("div");
             // Amazon-style vertical product card
-            card.className = "bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow hover:shadow-md transition duration-200 flex flex-col justify-between h-full cursor-pointer hover:border-amber-400";
+            card.className = "bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow hover:shadow-md transition duration-200 flex flex-col justify-between h-full cursor-pointer hover:border-amber-400 snap-start shrink-0 w-[170px] md:w-auto";
             card.onclick = () => {
                 window.location.href = `producto.html?sku=${p.sku}`;
             };
@@ -435,6 +496,7 @@
     // Initialize page components
     document.addEventListener('DOMContentLoaded', () => {
         renderStockList();
+        renderFeaturedGrid();
         renderGrid(currentPage, searchQuery, activeCategory);
         renderPagination();
 
@@ -541,5 +603,36 @@
     <span class="text-sm font-black">¡Se ha agregado al carrito!</span>
     <span id="cartToastDetails" class="text-xs text-slate-400 font-semibold"></span>
 </div>
+<!-- FOOTER INFORMACIÓN Y POLÍTICAS -->
+<footer class="w-full bg-slate-950 text-slate-400 text-xs py-8 px-6 md:px-12 border-t border-slate-800 mt-12">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div>
+            <h4 class="text-sm font-black text-white mb-2.5">Contacto Local</h4>
+            <ul class="flex flex-col gap-1.5 text-[11px]">
+                <li><i class="fa-solid fa-phone text-amber-500 mr-1.5"></i> Teléfono: 333 727 1440</li>
+                <li><i class="fa-solid fa-location-dot text-amber-500 mr-1.5"></i> Sucursal: Guadalajara Centro, Jalisco</li>
+                <li><i class="fa-solid fa-truck-fast text-amber-500 mr-1.5"></i> Cobertura: Entrega a domicilio &lt; 5 km</li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="text-sm font-black text-white mb-2.5">Políticas de Compra</h4>
+            <ul class="flex flex-col gap-1.5 text-[11px]">
+                <li><i class="fa-solid fa-rotate-left text-amber-500 mr-1.5"></i> Devoluciones: Permitido en tienda dentro de 48h</li>
+                <li><i class="fa-solid fa-shield-halved text-amber-500 mr-1.5"></i> Garantía: Productos de calidad garantizados</li>
+                <li><i class="fa-solid fa-cookie-bite text-amber-500 mr-1.5"></i> Cookies: Usadas únicamente para mejorar tu servicio</li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="text-sm font-black text-white mb-2.5">Ahorro y Cashback</h4>
+            <ul class="flex flex-col gap-1.5 text-[11px] leading-relaxed">
+                <li><i class="fa-solid fa-piggy-bank text-amber-500 mr-1.5"></i> <strong>5% de Cashback</strong> en cada compra de forma directa.</li>
+                <li><i class="fa-solid fa-robot text-amber-500 mr-1.5"></i> Potenciado por el software de Anti-Gravity Copilot.</li>
+            </ul>
+        </div>
+    </div>
+    <div class="max-w-6xl mx-auto border-t border-slate-900 mt-6 pt-4 text-center text-[10px]">
+        <span>© 2026 Puesto de Revistas &amp; Bazar. Todos los derechos reservados.</span>
+    </div>
+</footer>
 </body>
 </html>
