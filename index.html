@@ -73,170 +73,131 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-<!-- FRANJA NEGRA DE NAVEGACIÓN SUPERIOR (ECOSISTEMA & AI CO-PILOT) -->
-<div class="w-full bg-slate-950 text-white border-b border-slate-800 text-[11px] font-mono py-2.5 px-4 flex flex-col md:flex-row justify-between items-center gap-2 relative z-[100]">
-    <div class="flex items-center gap-2 flex-wrap justify-center md:justify-start">
-        <a href="https://iaworldcenter-creator.github.io/kiosco-digital/" class="hover:text-amber-400 font-bold transition">Kiosco Digital</a>
-        <span class="text-slate-600">|</span>
-        <a href="https://iaworldcenter-creator.github.io/dulces-bazar/" class="hover:text-amber-400 font-bold transition">Dulcería &amp; Botanas</a>
-        <span class="text-slate-600">|</span>
-        <a href="https://iaworldcenter-creator.github.io/cigarros-bazar/" class="hover:text-amber-400 font-bold transition">Cigarros &amp; Accesorios</a>
-        <span class="text-slate-600">|</span>
-        <a href="https://iaworldcenter-creator.github.io/pc-custom-lab/" class="hover:text-amber-400 font-bold transition">PC Custom Lab</a>
-        <span class="text-slate-600">|</span>
-        <a href="https://iaworldcenter-creator.github.io/mi-puesto-bazar/" class="hover:text-amber-400 font-bold transition">Puesto de Revistas &amp; Bazar</a>
-        <span class="text-slate-600">|</span>
-        <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 font-bold transition">Inicia sesión Gemini</a>
-        <span class="text-slate-600">|</span>
+<!-- FRANJA NEGRA DE NAVEGACIÓN SUPERIOR AMPLIADA (ECOSISTEMA & AI CO-PILOT) -->
+<header class="w-full bg-slate-950 border-b border-slate-800 py-5 px-4 flex flex-col gap-4 relative z-[100] text-slate-100">
+    <!-- Nivel 1: Enlaces Centrados Separados por Rayitas -->
+    <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-xs font-semibold text-slate-300">
+        <a href="https://iaworldcenter-creator.github.io/kiosco-digital/" class="hover:text-amber-400 transition">Kiosco Digital</a>
+        <span class="text-slate-700">|</span>
+        <a href="https://iaworldcenter-creator.github.io/dulces-bazar/" class="hover:text-amber-400 transition">Dulcería &amp; Botanas</a>
+        <span class="text-slate-700">|</span>
+        <a href="https://iaworldcenter-creator.github.io/cigarros-bazar/" class="hover:text-amber-400 transition">Cigarros &amp; Accesorios</a>
+        <span class="text-slate-700">|</span>
+        <a href="https://iaworldcenter-creator.github.io/pc-custom-lab/" class="hover:text-amber-400 transition">PC Custom Lab</a>
+        <span class="text-slate-700">|</span>
+        <a href="https://iaworldcenter-creator.github.io/mi-puesto-bazar/" class="hover:text-amber-400 transition">Puesto de Revistas &amp; Bazar</a>
+        <span class="text-slate-700">|</span>
+        <a href="https://gemini.google.com" target="_blank" rel="noopener noreferrer" class="hover:text-amber-400 transition">Inicia sesión Gemini</a>
+        <span class="text-slate-700">|</span>
         <a href="https://github.com/google-deepmind" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-500 text-white font-black px-2.5 py-1 rounded-md transition text-[10px] uppercase tracking-wider">Descargar Anti-Gravity</a>
     </div>
-    <div class="flex items-center gap-2">
-        <span class="font-black text-amber-400 tracking-widest text-[10px] uppercase">Anti-Gravity</span>
-        <img src="assets/img/mascota_tigre.jpg" alt="Tigre Logo" class="w-6 h-6 rounded-full object-cover border border-amber-500 shadow-sm shadow-amber-500/20">
-    </div>
-</div>
 
-<!-- BARRA LATERAL FLOTANTE DE REDES SOCIALES -->
-<div class="fixed left-0 top-1/2 -translate-y-1/2 z-50 flex flex-col gap-3 bg-slate-950/80 backdrop-blur-md border-y border-r border-slate-800 p-2.5 rounded-r-2xl shadow-2xl">
-    <a href="https://www.youtube.com/@IAWorldCenter" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl bg-red-600/10 border border-red-500/30 text-red-500 hover:bg-red-600 hover:text-white transition flex items-center justify-center text-lg relative group" title="YouTube"><i class="fa-brands fa-youtube"></i><span class="absolute left-14 bg-slate-900 border border-slate-800 text-white text-[10px] font-mono px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition whitespace-nowrap">Canal de Contenido</span></a>
-    <a href="https://www.facebook.com/profile.php?id=61593020515115" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl bg-blue-600/10 border border-blue-500/30 text-blue-500 hover:bg-blue-600 hover:text-white transition flex items-center justify-center text-lg relative group" title="Facebook"><i class="fa-brands fa-facebook-f"></i><span class="absolute left-14 bg-slate-900 border border-slate-800 text-white text-[10px] font-mono px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition whitespace-nowrap">Facebook</span></a>
-    <a href="https://x.com/PCCUSTOMLAB" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/30 text-sky-400 hover:bg-sky-500 hover:text-white transition flex items-center justify-center text-lg relative group" title="Twitter/X"><svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="absolute left-14 bg-slate-900 border border-slate-800 text-white text-[10px] font-mono px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition whitespace-nowrap">Twitter / X</span></a>
-    <a href="https://www.instagram.com/pccustomlab/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl bg-pink-600/10 border border-pink-500/30 text-pink-500 hover:bg-pink-600 hover:text-white transition flex items-center justify-center text-lg relative group" title="Instagram"><i class="fa-brands fa-instagram"></i><span class="absolute left-14 bg-slate-900 border border-slate-800 text-white text-[10px] font-mono px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition whitespace-nowrap">Instagram</span></a>
-    <a href="https://t.me/pc_custom_lab" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-xl bg-cyan-600/10 border border-cyan-500/30 text-cyan-400 hover:bg-cyan-500 hover:text-white transition flex items-center justify-center text-lg relative group" title="Telegram"><i class="fa-brands fa-telegram"></i><span class="absolute left-14 bg-slate-900 border border-slate-800 text-white text-[10px] font-mono px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition whitespace-nowrap">Telegram</span></a>
-</div>
-
-    <header class="main-bar">
-        <div class="gemini-credit">
-            <span class="line-1">✦ Este sitio fue creado por la IA de Google</span>
-            <a href="https://gemini.google.com" target="_blank" rel="noopener" class="line-2">Gemini. Iniciar sesión aquí ↗</a>
-        </div>
-        <span class="section-tag">[ Ofertas del Día ]</span>
-        <nav class="desktop-nav" aria-label="Navegación principal">
-            <div class="nav-group">
-                <a href="https://iaworldcenter-creator.github.io/kiosco-digital/" class="nav-item">Revistas</a>
-                <div class="dropdown-menu">
-                    <a href="revistas.html#comics-manga">Cómics &amp; Manga</a>
-                    <a href="revistas.html#coleccionables">Coleccionables</a>
-                    <a href="revistas.html#sopas-de-letras">Sopas de Letras</a>
-                    <a href="revistas.html#moda">Moda y Estilo</a>
-                    <a href="revistas.html#estilo-de-vida">Revistas Científicas</a>
-                </div>
-            </div>
-            <div class="nav-group">
-                <a href="https://iaworldcenter-creator.github.io/pc-custom-lab/" class="nav-item">Electrónica</a>
-                <div class="dropdown-menu">
-                    <a href="electronica.html#bancos-de-memoria">Bancos de Memoria</a>
-                    <a href="electronica.html#audifonos">Audífonos</a>
-                    <a href="electronica.html#videojuegos-retro">Videojuegos Retro</a>
-                    <a href="electronica.html#cámaras-de-vigilancia">Cámaras de Vigilancia</a>
-                    <a href="electronica.html#cables-tipo-c">Cables Tipo C</a>
-                </div>
-            </div>
-            <a href="https://iaworldcenter-creator.github.io/mi-puesto-bazar/" class="brand-name">📰 Puesto de Revistas &amp; Bazar</a>
-            <div class="nav-group">
-                <a href="https://iaworldcenter-creator.github.io/dulces-bazar/" class="nav-item">Dulces</a>
-                <div class="dropdown-menu">
-                    <a href="dulces.html#mazapán-de-la-rosa">Mazapán de la Rosa</a>
-                    <a href="dulces.html#carlos-v-hersheys">Carlos V &amp; Hershey's</a>
-                    <a href="dulces.html#pulparindo">Pulparindo</a>
-                    <a href="dulces.html#gomitas">Gomitas</a>
-                    <a href="dulces.html#chocolates-especiales">Chocolates Especiales</a>
-                </div>
-            </div>
-            <div class="nav-group">
-                <a href="https://iaworldcenter-creator.github.io/cigarros-bazar/" class="nav-item">Cigarros</a>
-                <div class="dropdown-menu">
-                    <a href="cigarros.html#marcas-principales">Marcas Principales</a>
-                    <a href="cigarros.html#puros">Puros</a>
-                    <a href="cigarros.html#encendedores">Encendedores</a>
-                    <a href="cigarros.html#accesorios">Accesorios</a>
-                </div>
-            </div>
-            <div class="nav-group">
-                <a href="https://iaworldcenter-creator.github.io/ofertas-bazar/" class="nav-item">Ofertas del Día</a>
-                <div class="dropdown-menu">
-                    <a href="ofertas.html#paquetes-de-antojo">Paquetes de Antojo</a>
-                    <a href="ofertas.html#descuentos-de-la-semana">Descuentos de la Semana</a>
-                    <a href="ofertas.html#promociones-uber">Promociones Uber</a>
-                </div>
-            </div>
-        </nav>
-        <div class="mobile-header">
-            <a href="https://iaworldcenter-creator.github.io/mi-puesto-bazar/" class="brand-name">📰 Puesto &amp; Bazar</a>
-            <button class="menu-toggle-btn" type="button" onclick="toggleMenu()" aria-controls="mobileMenu" aria-expanded="false">☰ Menú</button>
-        </div>
-        <div class="mobile-menu" id="mobileMenu">
-            <div class="nav-group">
-                <a href="https://iaworldcenter-creator.github.io/kiosco-digital/" class="nav-item">Revistas</a>
-                <div class="dropdown-menu">
-                    <a href="revistas.html#comics-manga">Cómics &amp; Manga</a>
-                    <a href="revistas.html#coleccionables">Coleccionables</a>
-                    <a href="revistas.html#sopas-de-letras">Sopas de Letras</a>
-                    <a href="revistas.html#moda">Moda y Estilo</a>
-                    <a href="revistas.html#estilo-de-vida">Revistas Científicas</a>
-                </div>
-            </div>
-            <div class="nav-group">
-                <a href="https://iaworldcenter-creator.github.io/pc-custom-lab/" class="nav-item">Electrónica</a>
-                <div class="dropdown-menu">
-                    <a href="electronica.html#bancos-de-memoria">Bancos de Memoria</a>
-                    <a href="electronica.html#audifonos">Audífonos</a>
-                    <a href="electronica.html#videojuegos-retro">Videojuegos Retro</a>
-                    <a href="electronica.html#cámaras-de-vigilancia">Cámaras de Vigilancia</a>
-                    <a href="electronica.html#cables-tipo-c">Cables Tipo C</a>
-                </div>
-            </div>
-            <div class="nav-group">
-                <a href="https://iaworldcenter-creator.github.io/dulces-bazar/" class="nav-item">Dulces</a>
-                <div class="dropdown-menu">
-                    <a href="dulces.html#mazapán-de-la-rosa">Mazapán de la Rosa</a>
-                    <a href="dulces.html#carlos-v-hersheys">Carlos V &amp; Hershey's</a>
-                    <a href="dulces.html#pulparindo">Pulparindo</a>
-                    <a href="dulces.html#gomitas">Gomitas</a>
-                    <a href="dulces.html#chocolates-especiales">Chocolates Especiales</a>
-                </div>
-            </div>
-            <div class="nav-group">
-                <a href="https://iaworldcenter-creator.github.io/cigarros-bazar/" class="nav-item">Cigarros</a>
-                <div class="dropdown-menu">
-                    <a href="cigarros.html#marcas-principales">Marcas Principales</a>
-                    <a href="cigarros.html#puros">Puros</a>
-                    <a href="cigarros.html#encendedores">Encendedores</a>
-                    <a href="cigarros.html#accesorios">Accesorios</a>
-                </div>
-            </div>
-            <div class="nav-group">
-                <a href="https://iaworldcenter-creator.github.io/ofertas-bazar/" class="nav-item">Ofertas del Día</a>
-                <div class="dropdown-menu">
-                    <a href="ofertas.html#paquetes-de-antojo">Paquetes de Antojo</a>
-                    <a href="ofertas.html#descuentos-de-la-semana">Descuentos de la Semana</a>
-                    <a href="ofertas.html#promociones-uber">Promociones Uber</a>
-                </div>
-            </div>
-        </div>
-    </header>
-    <section class="hero">
-        <h2>¿Viste algo que te interesa? ¡Te lo enviamos por Uber!</h2>
-        <p>Pide por WhatsApp, paga el costo de envío y te llega directo a tu domicilio.</p>
-    </section>
-    <!-- BUSCADOR CON REPARTO DE 8 COLUMNAS (COLUMNAS 2 A 7 ACTIVAS CON FONDO BLANCO) -->
-    <div class="w-full grid grid-cols-1 md:grid-cols-8 gap-0 my-8">
-        <!-- Columna 1: Vacía -->
+    <!-- Nivel 2: Barra de Búsqueda Centrada de 6 Columnas (con fondo blanco y sombra profunda) -->
+    <div class="w-full grid grid-cols-1 md:grid-cols-8 gap-0 my-1">
         <div class="hidden md:block col-span-1"></div>
-        
-        <!-- Columnas 2 a 7: Buscador -->
         <div class="col-span-1 md:col-span-6 px-4 md:px-0">
-            <form class="flex items-center gap-2 p-2.5 rounded-2xl bg-white border border-slate-200 shadow-xl w-full" role="search" onsubmit="return false;">
+            <form class="flex items-center gap-2 p-2.5 rounded-2xl bg-white border border-slate-200 shadow-2xl w-full" role="search" onsubmit="return false;">
                 <label class="sr-only" for="siteSearch">Buscar productos o secciones</label>
                 <input id="siteSearch" name="q" type="text" placeholder="¿Qué producto, pieza o antojo buscas hoy? Escribe aquí..." class="flex-1 bg-transparent border-0 outline-none text-slate-900 font-bold text-sm px-3 placeholder-slate-400" autocomplete="off">
                 <button type="submit" class="bg-blue-600 hover:bg-blue-500 text-white font-black px-6 py-3 rounded-xl text-xs transition shadow-md hover:scale-103 shrink-0">Buscar</button>
             </form>
         </div>
-        
-        <!-- Columna 8: Vacía -->
         <div class="hidden md:block col-span-1"></div>
     </div>
-    <section class="mascot-feature" aria-label="El Tigre, mascota oficial de la marca">
+
+    <!-- Nivel 3: Marca, Logo Grande y Dirección de Entrega -->
+    <div class="w-full flex flex-col md:flex-row justify-between items-center gap-4 px-4 md:px-12 mt-1">
+        <!-- Logo y Nombre del Sitio / Anti-Gravity (Más grandes) -->
+        <div class="flex items-center gap-4">
+            <img src="assets/img/mascota_tigre.jpg" alt="Tigre Logo" class="w-14 h-14 rounded-full object-cover border-2 border-amber-500 shadow-lg shadow-amber-500/30">
+            <div class="flex flex-col">
+                <span class="text-xl font-black text-amber-400 tracking-wider uppercase">Anti-Gravity Copilot</span>
+                <span class="text-sm font-bold text-slate-400">Ofertas y Liquidaciones</span>
+            </div>
+        </div>
+
+        <!-- Dirección de Entrega -->
+        <div class="flex items-center gap-3 bg-slate-900 border border-slate-800 rounded-2xl px-5 py-3 shadow-lg max-w-sm w-full md:w-auto">
+            <i class="fa-solid fa-location-dot text-amber-500 text-lg animate-bounce"></i>
+            <div class="text-xs" id="delivery-address-display">
+                <span>📍 ¿Dónde quieres recibir tu pedido? </span>
+                <button onclick="openDeliveryModal()" class="text-amber-400 hover:text-amber-300 font-black underline ml-1 cursor-pointer">Registrar dirección</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- MODAL DE REGISTRO DE DIRECCIÓN (GLASSMORPHISM) -->
+<div id="deliveryModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-slate-950/80 backdrop-blur-md px-4">
+    <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative overflow-hidden text-slate-100">
+        <h3 class="text-lg font-black text-white mb-2 flex items-center gap-2">
+            <i class="fa-solid fa-map-location-dot text-amber-500"></i> Registrar Domicilio de Entrega
+        </h3>
+        <p class="text-[11px] text-slate-400 mb-4 leading-relaxed">
+            ⚠️ <strong>Nota:</strong> Servicio disponible únicamente a no más de <strong>5 km de distancia</strong> de nuestra sucursal Centro.
+        </p>
+        <form id="deliveryForm" onsubmit="saveDeliveryAddress(event)" class="flex flex-col gap-3">
+            <div>
+                <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Nombre Completo</label>
+                <input type="text" id="deliveryName" required placeholder="Ej. Juan Pérez" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
+            </div>
+            <div>
+                <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Calle y Número</label>
+                <input type="text" id="deliveryStreet" required placeholder="Ej. Av. Pedro Moreno 123" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
+            </div>
+            <div class="grid grid-cols-2 gap-2.5">
+                <div>
+                    <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Colonia</label>
+                    <input type="text" id="deliveryColonia" required placeholder="Ej. Centro" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Ciudad</label>
+                    <input type="text" id="deliveryCity" required placeholder="Ej. Guadalajara" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
+                </div>
+            </div>
+            <div class="flex gap-2.5 mt-2">
+                <button type="button" onclick="closeDeliveryModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2 rounded-xl text-xs transition">Cancelar</button>
+                <button type="submit" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-2 rounded-xl text-xs transition">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function openDeliveryModal() {
+        document.getElementById('deliveryModal').classList.remove('hidden');
+    }
+    function closeDeliveryModal() {
+        document.getElementById('deliveryModal').classList.add('hidden');
+    }
+    function saveDeliveryAddress(event) {
+        event.preventDefault();
+        const name = document.getElementById('deliveryName').value;
+        const street = document.getElementById('deliveryStreet').value;
+        const colonia = document.getElementById('deliveryColonia').value;
+        const city = document.getElementById('deliveryCity').value;
+
+        const addressData = { name, street, colonia, city };
+        localStorage.setItem('user_delivery_address', JSON.stringify(addressData));
+        updateAddressDisplay();
+        closeDeliveryModal();
+    }
+    function updateAddressDisplay() {
+        const addressDisplay = document.getElementById('delivery-address-display');
+        const stored = localStorage.getItem('user_delivery_address');
+        if (stored) {
+            const data = JSON.parse(stored);
+            addressDisplay.innerHTML = `📍 Entregar a: <strong class="text-amber-400">${data.name}</strong> <span class="text-slate-400">(${data.street}, ${data.colonia})</span> <button onclick="openDeliveryModal()" class="text-blue-400 hover:underline font-bold ml-1 cursor-pointer">Cambiar</button>`;
+        } else {
+            addressDisplay.innerHTML = `<span>📍 ¿Dónde quieres recibir tu pedido? </span><button onclick="openDeliveryModal()" class="text-amber-400 hover:text-amber-300 font-black underline ml-1 cursor-pointer">Registrar dirección</button>`;
+        }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+        updateAddressDisplay();
+    });
+</script>
+
+<section class="mascot-feature" aria-label="El Tigre, mascota oficial de la marca">
         <img src="assets/img/mascota_tigre.jpg" alt="El Tigre presentando las mejores ofertas" class="w-full h-[250px] object-cover rounded-xl">
         <div class="mascot-copy">
             <span class="mascot-kicker">Mascota Oficial</span>
