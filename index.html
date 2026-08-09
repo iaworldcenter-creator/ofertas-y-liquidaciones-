@@ -85,7 +85,7 @@
 </head>
 <body>
 <!-- FRANJA NEGRA DE NAVEGACIÓN SUPERIOR AMPLIADA (ECOSISTEMA & AI CO-PILOT) -->
-<header class="w-full bg-slate-950 border-b border-slate-800 pt-5 pb-6 px-4 flex flex-col gap-4 relative z-[100] text-slate-100">
+<header class="w-full bg-slate-950 border-b border-slate-800 pt-3 pb-3 px-4 flex flex-col gap-2.5 relative z-[100] text-slate-100">
     <!-- Nivel 1: Enlaces Centrados + Logo a la izquierda + Dirección a la derecha (todo arriba del buscador) -->
     <div class="w-full flex flex-col lg:flex-row justify-between items-center gap-4 border-b border-slate-800/40 pb-4 px-2">
         <!-- Izquierda: Logo y Nombre del Sitio / Anti-Gravity (Más grandes) -->
@@ -126,7 +126,7 @@
         <div class="flex items-center gap-2.5 bg-slate-900 border border-slate-800 rounded-xl px-4 py-2.5 shadow-md shrink-0">
             <i class="fa-solid fa-location-dot text-amber-500 text-sm animate-bounce"></i>
             <div class="text-xs" id="delivery-address-display">
-                <span>📍 ¿Dónde quieres recibir tu pedido? </span>
+                <span>📍 ¿En dónde quieres que llegue tu producto? </span>
                 <button onclick="openDeliveryModal()" class="text-amber-400 hover:text-amber-300 font-black underline ml-1 cursor-pointer">Registrar dirección</button>
             </div>
         </div>
@@ -543,7 +543,7 @@
             const data = JSON.parse(stored);
             addressDisplay.innerHTML = `📍 Entregar a: <strong class="text-amber-400">${data.name}</strong> <span class="text-slate-400">(${data.street}, ${data.colonia} - Tel: ${data.phone})</span> <button onclick="openDeliveryModal()" class="text-blue-400 hover:underline font-bold ml-1 cursor-pointer">Cambiar</button>`;
         } else {
-            addressDisplay.innerHTML = `<span>📍 ¿Dónde quieres recibir tu pedido? </span><button onclick="openDeliveryModal()" class="text-amber-400 hover:text-amber-300 font-black underline ml-1 cursor-pointer">Registrar dirección</button>`;
+            addressDisplay.innerHTML = `<span>📍 ¿En dónde quieres que llegue tu producto? </span><button onclick="openDeliveryModal()" class="text-amber-400 hover:text-amber-300 font-black underline ml-1 cursor-pointer">Registrar dirección</button>`;
         }
     }
     function getCart() {
