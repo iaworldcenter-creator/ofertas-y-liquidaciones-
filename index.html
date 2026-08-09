@@ -135,33 +135,44 @@
         <div class="hidden md:block col-span-1"></div>
 
         <!-- Espacio Central de 6 Columnas (Columnas 2 a 7) -->
-        <div class="col-span-1 md:col-span-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        <div class="col-span-1 md:col-span-6 grid grid-cols-1 lg:grid-cols-6 gap-6 items-start">
             
-            <!-- Columna 2 (Spans 3/12 del espacio central): Títulos de Revistas Físicas/Digitales y Stock -->
-            <div class="lg:col-span-3 bg-white p-5 rounded-3xl border border-slate-200/80 shadow-lg flex flex-col gap-4">
-                <h3 class="text-xs font-mono text-blue-600 uppercase tracking-widest font-black">// Revistas Disponibles</h3>
-                
-                <div class="flex flex-col gap-2">
-                    <span class="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-bold">Título y Existencias</span>
-                    <ul class="flex flex-col gap-2" id="magazine-list">
-                        <!-- Llenado dinámico por JavaScript (15 revistas) -->
+            <!-- Columna 2 (Spans 1 de las 6 columnas centrales): Sidebar estilo Amazon (Filtros y checklist) -->
+            <div class="lg:col-span-1 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-md flex flex-col gap-4">
+                <div>
+                    <h4 class="text-xs font-black text-slate-800 mb-2">Disponibilidad</h4>
+                    <label class="flex items-center gap-2 text-xs text-slate-600 mb-1 cursor-pointer">
+                        <input type="checkbox" checked class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                        <span>En existencia</span>
+                    </label>
+                    <label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
+                        <input type="checkbox" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                        <span>Incluir No Disponibles</span>
+                    </label>
+                </div>
+
+                <div class="border-t border-slate-100 pt-3">
+                    <h4 class="text-xs font-black text-slate-800 mb-2">Categoría</h4>
+                    <ul class="flex flex-col gap-1 text-xs text-slate-600" id="category-filter-list">
+                        <li class="font-bold text-blue-600 cursor-pointer hover:underline" onclick="filterByCategory('todas')">Todas las Revistas</li>
+                        <li class="cursor-pointer hover:text-blue-600" onclick="filterByCategory('Primer Mercado')">Primer Mercado</li>
+                        <li class="cursor-pointer hover:text-blue-600" onclick="filterByCategory('Segundo Mercado')">Segundo Mercado (Atemporales)</li>
+                    </ul>
+                </div>
+
+                <div class="border-t border-slate-100 pt-3">
+                    <h4 class="text-xs font-black text-slate-800 mb-2">Existencias</h4>
+                    <ul class="flex flex-col gap-1.5 font-mono text-[10px] text-slate-500" id="magazine-stock-list">
+                        <!-- Títulos y stock -->
                     </ul>
                 </div>
             </div>
 
-            <!-- Columna 3 (Spans 2/12 del espacio central): 5 Portadas sin personas -->
-            <div class="lg:col-span-2 bg-white p-5 rounded-3xl border border-slate-200/80 shadow-lg flex flex-col gap-3 items-center">
-                <h3 class="text-xs font-mono text-blue-600 uppercase tracking-widest font-black text-center mb-1">// Portadas</h3>
-                <div class="flex flex-col gap-3 w-full" id="magazine-covers">
-                    <!-- 5 portadas -->
-                </div>
-            </div>
-
-            <!-- Columnas 4 a 7 (Spans 7/12 del espacio central): 10 Rectángulos de productos + Paginación -->
-            <div class="lg:col-span-7 flex flex-col gap-4">
-                <!-- Contenedor de los 10 Rectángulos -->
-                <div class="flex flex-col gap-4" id="products-list-container">
-                    <!-- Rectángulos cargados por JS -->
+            <!-- Columnas 3 a 7 (Spans 5 de las 6 columnas centrales): Rejilla de 5 columnas de tarjetas de producto -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                <!-- Grid de 5 columnas en Escritorio, 3 en Tablet, 2 en Móvil -->
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4" id="products-grid-container">
+                    <!-- Tarjetas de producto cargadas por JS (10 rectángulos en total) -->
                 </div>
 
                 <!-- Paginación: Página 1, 2, 3, 4, 5, 7 -->
@@ -186,10 +197,10 @@
         {sku: "REV-004", nombre: "Vanidades", imagen: "assets/img/portadas/casa_cover.jpg", precio: "70.00", frecuencia: "Quincenal", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 9, descripcion: "La revista líder de entretenimiento, realeza, recetas y decoración en español."},
         {sku: "REV-005", nombre: "Esquire", imagen: "assets/img/portadas/tech_cover.jpg", precio: "90.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 6, descripcion: "Estilo de vida masculino, alta relojería, automovilismo y cultura contemporánea."},
         {sku: "REV-006", nombre: "Muy Interesante Ciencia", imagen: "assets/img/portadas/science_cover.jpg", precio: "85.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 4, descripcion: "Edición especial dedicada a la física cuántica, biotecnología y medicina del futuro."},
-        {sku: "REV-007", name: "National Geographic Viajes", nombre: "NG Viajes", imagen: "assets/img/portadas/travel_cover.jpg", precio: "95.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 3, descripcion: "Guías completas de destinos mundiales, consejos de viaje y mapas detallados."},
+        {sku: "REV-007", nombre: "NG Viajes", imagen: "assets/img/portadas/travel_cover.jpg", precio: "95.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 3, descripcion: "Guías completas de destinos mundiales, consejos de viaje y mapas detallados."},
         {sku: "REV-008", nombre: "Cosmopolitan Moda", imagen: "assets/img/portadas/casa_cover.jpg", precio: "75.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 5, descripcion: "Especial de temporada con las pasarelas internacionales y colecciones otoño-invierno."},
         {sku: "REV-009", nombre: "Vanidades Hogar", imagen: "assets/img/portadas/casa_cover.jpg", precio: "70.00", frecuencia: "Quincenal", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 4, descripcion: "Ideas prácticas para organizar tu espacio, decoración de interiores y recetas rápidas."},
-        {sku: "REV-010", nombre: "Hogar y Jardín", imagen: "assets/img/portadas/casa_cover.jpg", precio: "65.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 7, descripcion: "Paisajismo, cuidado de plantas de interiores y diseño de de terrazas urbanas."},
+        {sku: "REV-010", nombre: "Hogar y Jardín", imagen: "assets/img/portadas/casa_cover.jpg", precio: "65.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 7, descripcion: "Paisajismo, cuidado de plantas de interiores y diseño de terrazas urbanas."},
         
         {sku: "REV-011", nombre: "Mascotas y Naturaleza", imagen: "assets/img/portadas/wildlife_cover.jpg", precio: "60.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 9, descripcion: "El bienestar de tu mascota: nutrición, salud veterinaria y psicología animal."},
         {sku: "REV-012", nombre: "Sopas de Letras Gigante", imagen: "assets/img/portadas/tech_cover.jpg", precio: "40.00", frecuencia: "Quincenal", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 24, descripcion: "Ejercicios mentales divertidos para mantener la mente activa y ágil a cualquier edad."},
@@ -198,27 +209,21 @@
         {sku: "REV-015", nombre: "Revista Padres e Hijos 2016", imagen: "assets/img/portadas/wildlife_cover.jpg", precio: "30.00", frecuencia: "Mensual", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 11, descripcion: "Consejos atemporales de pediatría, crianza respetuosa y estimulación temprana para bebés."}
     ];
 
-    const magazineCovers = [
-        "assets/img/portadas/science_cover.jpg",
-        "assets/img/portadas/wildlife_cover.jpg",
-        "assets/img/portadas/tech_cover.jpg",
-        "assets/img/portadas/casa_cover.jpg",
-        "assets/img/portadas/travel_cover.jpg"
-    ];
-
     let currentPage = 1;
     const itemsPerPage = 10;
     const totalPagesList = [1, 2, 3, 4, 5, 7];
+    let activeCategory = "todas";
+    let searchQuery = "";
 
-    function renderColumnTwo() {
-        const listContainer = document.getElementById("magazine-list");
+    function renderStockList() {
+        const listContainer = document.getElementById("magazine-stock-list");
         listContainer.innerHTML = "";
         productCatalog.forEach(p => {
             const li = document.createElement("li");
-            li.className = "flex justify-between items-center text-xs text-slate-700 py-1 border-b border-slate-100 hover:text-blue-600 transition cursor-pointer";
+            li.className = "flex justify-between items-center py-0.5 border-b border-slate-50 hover:text-blue-600 transition cursor-pointer";
             li.innerHTML = `
-                <span class="font-semibold truncate max-w-[150px]">${p.nombre}</span>
-                <span class="font-mono text-[10px] bg-slate-100 px-2 py-0.5 rounded-full text-slate-500 font-bold">${p.existencias}</span>
+                <span class="truncate max-w-[90px]">${p.nombre}</span>
+                <span class="font-bold text-slate-400">(${p.existencias})</span>
             `;
             li.onclick = () => {
                 const searchInput = document.getElementById("siteSearch");
@@ -231,31 +236,25 @@
         });
     }
 
-    function renderColumnThree() {
-        const coverContainer = document.getElementById("magazine-covers");
-        coverContainer.innerHTML = "";
-        magazineCovers.forEach((src, idx) => {
-            const img = document.createElement("img");
-            img.src = src;
-            img.alt = `Portada de Revista ${idx + 1}`;
-            img.className = "w-full aspect-[3/4] object-cover rounded-xl shadow border border-slate-100 hover:scale-103 transition duration-300";
-            coverContainer.appendChild(img);
-        });
-    }
+    function renderGrid(page, searchFilter = "", categoryFilter = "todas") {
+        const gridContainer = document.getElementById("products-grid-container");
+        gridContainer.innerHTML = "";
 
-    function renderProducts(page, searchFilter = "") {
-        const listContainer = document.getElementById("products-list-container");
-        listContainer.innerHTML = "";
-
-        // Filter based on search input
-        const filtered = productCatalog.filter(p => 
-            p.nombre.toLowerCase().includes(searchFilter.toLowerCase()) || 
-            p.descripcion.toLowerCase().includes(searchFilter.toLowerCase())
-        );
+        // Apply filters
+        let filtered = productCatalog;
+        if (categoryFilter !== "todas") {
+            filtered = filtered.filter(p => p.inventario_tipo === categoryFilter);
+        }
+        if (searchFilter) {
+            filtered = filtered.filter(p => 
+                p.nombre.toLowerCase().includes(searchFilter.toLowerCase()) || 
+                p.descripcion.toLowerCase().includes(searchFilter.toLowerCase())
+            );
+        }
 
         if (filtered.length === 0) {
-            listContainer.innerHTML = `
-                <div class="bg-white p-8 rounded-3xl text-center border border-slate-200 shadow-md">
+            gridContainer.innerHTML = `
+                <div class="col-span-full bg-white p-12 rounded-3xl text-center border border-slate-200 shadow-md">
                     <i class="fa-solid fa-folder-open text-slate-300 text-4xl mb-3"></i>
                     <p class="text-sm font-semibold text-slate-500">No se encontraron productos coincidentes en el inventario.</p>
                 </div>
@@ -263,14 +262,14 @@
             return;
         }
 
-        // Calculate paging indices
+        // Paging indices
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
         const paginatedItems = filtered.slice(startIndex, endIndex);
 
         if (paginatedItems.length === 0) {
-            listContainer.innerHTML = `
-                <div class="bg-white p-8 rounded-3xl text-center border border-slate-200 shadow-md">
+            gridContainer.innerHTML = `
+                <div class="col-span-full bg-white p-12 rounded-3xl text-center border border-slate-200 shadow-md">
                     <i class="fa-solid fa-rectangle-xmark text-slate-300 text-4xl mb-3"></i>
                     <p class="text-sm font-semibold text-slate-500">Esta página está vacía. Registra más productos en el catálogo.</p>
                 </div>
@@ -280,64 +279,85 @@
 
         paginatedItems.forEach(p => {
             const card = document.createElement("div");
-            card.className = "bg-white p-4.5 rounded-3xl border border-slate-200/80 shadow-md hover:shadow-lg transition duration-300 flex flex-col sm:flex-row gap-4 items-center justify-between";
+            // Amazon-style vertical product card
+            card.className = "bg-white p-3.5 rounded-2xl border border-slate-200/80 shadow hover:shadow-md transition duration-200 flex flex-col justify-between h-full";
             card.innerHTML = `
-                <div class="flex items-center gap-4 w-full sm:w-auto">
-                    <img src="${p.imagen}" alt="${p.nombre}" class="w-16 h-20 object-cover rounded-xl border border-slate-100 shadow-sm shrink-0">
-                    <div class="flex flex-col min-w-0">
-                        <div class="flex items-center gap-2 flex-wrap mb-1">
-                            <h4 class="text-sm font-black text-slate-900 truncate">${p.nombre}</h4>
-                            <span class="text-[9px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-100 text-slate-500">${p.sku}</span>
-                            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded ${p.inventario_tipo === 'Primer Mercado' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}">${p.inventario_tipo}</span>
+                <div class="flex flex-col gap-2">
+                    <!-- Image -->
+                    <div class="w-full aspect-[3/4] overflow-hidden rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
+                        <img src="${p.imagen}" alt="${p.nombre}" class="w-full h-full object-cover hover:scale-103 transition duration-300">
+                    </div>
+                    <!-- Details -->
+                    <div class="flex flex-col gap-1 mt-1">
+                        <div class="flex justify-between items-center gap-1">
+                            <span class="text-[9px] font-mono font-bold text-slate-400">${p.sku}</span>
+                            <span class="text-[9px] font-bold px-1.5 py-0.2 rounded ${p.inventario_tipo === 'Primer Mercado' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-amber-50 text-amber-700 border border-amber-200'}">${p.inventario_tipo}</span>
                         </div>
-                        <p class="text-xs text-slate-500 line-clamp-2 leading-relaxed mb-1">${p.descripcion}</p>
-                        <span class="text-[10px] font-medium text-slate-400">Publicación: <strong class="text-slate-500">${p.frecuencia}</strong></span>
+                        <h4 class="text-xs font-black text-slate-900 leading-tight line-clamp-2 min-h-[32px]">${p.nombre}</h4>
+                        <p class="text-[10px] text-slate-500 line-clamp-2 leading-snug">${p.descripcion}</p>
+                        <span class="text-[9px] text-slate-400 font-medium">Frecuencia: <strong>${p.frecuencia}</strong></span>
                     </div>
                 </div>
-                <div class="flex items-center justify-between sm:justify-end gap-4 w-full sm:w-auto border-t sm:border-t-0 pt-3 sm:pt-0 shrink-0">
-                    <span class="text-base font-black text-amber-500">$${p.precio} MXN</span>
-                    <a href="https://wa.me/523337271440?text=Hola,%20me%20interesa%20comprar%20la%20revista%20${encodeURIComponent(p.nombre)}%20(${p.sku})" target="_blank" rel="noopener noreferrer" class="bg-blue-600 hover:bg-blue-500 text-white font-black px-4.5 py-2 rounded-xl text-xs transition shadow-md hover:scale-103 flex items-center gap-1.5">
-                        💬 Comprar
+                <!-- Price and Amazon-style Buy Button -->
+                <div class="flex flex-col gap-2 mt-4 pt-2.5 border-t border-slate-100">
+                    <span class="text-sm font-black text-slate-950">$${p.precio} MXN</span>
+                    <a href="https://wa.me/523337271440?text=Hola,%20me%20interesa%20comprar%20la%20revista%20${encodeURIComponent(p.nombre)}%20(${p.sku})" target="_blank" rel="noopener noreferrer" class="bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] font-bold py-1.5 rounded-full text-[11px] text-center shadow-sm border border-[#FCD200] transition active:scale-97">
+                        Comprar
                     </a>
                 </div>
             `;
-            listContainer.appendChild(card);
+            gridContainer.appendChild(card);
         });
     }
 
-    function renderPagination(searchFilter = "") {
+    function renderPagination() {
         const paginationContainer = document.getElementById("pagination-controls");
         paginationContainer.innerHTML = "";
-
-        const filtered = productCatalog.filter(p => 
-            p.nombre.toLowerCase().includes(searchFilter.toLowerCase()) || 
-            p.descripcion.toLowerCase().includes(searchFilter.toLowerCase())
-        );
         
         totalPagesList.forEach(pNum => {
             const btn = document.createElement("button");
-            btn.className = `px-3.5 py-2 rounded-xl text-xs font-black transition border shadow-sm ${currentPage === pNum ? 'bg-blue-600 text-white border-transparent' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`;
+            btn.className = `px-3 py-1.5 rounded-lg text-xs font-black transition border shadow-sm ${currentPage === pNum ? 'bg-blue-600 text-white border-transparent' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`;
             btn.innerText = `Página ${pNum}`;
             btn.onclick = () => {
                 currentPage = pNum;
-                renderProducts(currentPage, searchFilter);
-                renderPagination(searchFilter);
+                renderGrid(currentPage, searchQuery, activeCategory);
+                renderPagination();
             };
             paginationContainer.appendChild(btn);
         });
     }
 
-    function performSearch(query) {
+    function filterByCategory(cat) {
+        activeCategory = cat;
         currentPage = 1;
-        renderProducts(currentPage, query);
-        renderPagination(query);
+        
+        // Style sidebar links active state
+        const listItems = document.querySelectorAll("#category-filter-list li");
+        listItems.forEach(li => li.classList.remove("font-bold", "text-blue-600"));
+        
+        if (cat === "todas") {
+            listItems[0].classList.add("font-bold", "text-blue-600");
+        } else if (cat === "Primer Mercado") {
+            listItems[1].classList.add("font-bold", "text-blue-600");
+        } else if (cat === "Segundo Mercado") {
+            listItems[2].classList.add("font-bold", "text-blue-600");
+        }
+        
+        renderGrid(currentPage, searchQuery, activeCategory);
+        renderPagination();
     }
 
-    // Set up search event
+    function performSearch(query) {
+        searchQuery = query;
+        currentPage = 1;
+        renderGrid(currentPage, searchQuery, activeCategory);
+        renderPagination();
+    }
+
+    // Initialize page components
     document.addEventListener('DOMContentLoaded', () => {
-        renderColumnTwo();
-        renderColumnThree();
-        renderProducts(currentPage);
+        renderStockList();
+        renderGrid(currentPage, searchQuery, activeCategory);
         renderPagination();
 
         const searchInput = document.getElementById('siteSearch');
