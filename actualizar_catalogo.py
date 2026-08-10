@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-\"\"\"
+"""
 Herramienta de Automatización de Inventario y Catálogo - Puesto de Revistas & Bazar
 Esta herramienta lee 'catalog.csv' e inyecta la base de datos de productos directamente
 en los archivos HTML del sitio. También permite importar productos desde un archivo de proveedor.
@@ -10,7 +10,7 @@ Uso:
      
   2. Para importar nuevos productos de un archivo de proveedor externo:
      python actualizar_catalogo.py --importar archivo_proveedor.csv
-\"\"\"
+"""
 
 import os
 import sys

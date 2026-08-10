@@ -157,9 +157,9 @@
     <!-- Nivel 3: Atajos de Categoría/Departamentos (Sub-Navegación) -->
     <div class="w-full flex justify-center items-center gap-4 text-[10px] font-bold text-slate-400 border-t border-slate-900 pt-2 mt-1 flex-wrap">
         <span class="text-slate-500">Departamentos:</span>
-        <button onclick="filterByCategory('Primer Mercado')" class="hover:text-amber-400 transition">📖 Revistas Físicas</button>
+        <button onclick="filterByDept('revistas'); filterByMarket('Primer Mercado');" class="hover:text-amber-400 transition">📖 Revistas Físicas</button>
         <span class="text-slate-800">•</span>
-        <button onclick="filterByCategory('todas')" class="hover:text-amber-400 transition">📱 Digitales</button>
+        <button onclick="filterByDept('revistas'); filterByMarket('todas');" class="hover:text-amber-400 transition">📱 Digitales</button>
         <span class="text-slate-800">•</span>
         <button onclick="window.location.hash = 'featured-grid-container'; document.getElementById('featured-grid-container').scrollIntoView({behavior: 'smooth'});" class="hover:text-amber-400 transition">🍬 Dulces</button>
         <span class="text-slate-800">•</span>
@@ -167,7 +167,7 @@
         <span class="text-slate-800">•</span>
         <button onclick="window.location.hash = 'featured-grid-container'; document.getElementById('featured-grid-container').scrollIntoView({behavior: 'smooth'});" class="hover:text-amber-400 transition">🔌 Cables &amp; Gadgets</button>
         <span class="text-slate-800">•</span>
-        <button onclick="filterByCategory('Segundo Mercado')" class="hover:text-amber-400 transition">📦 Segundo Mercado</button>
+        <button onclick="filterByDept('revistas'); filterByMarket('Segundo Mercado');" class="hover:text-amber-400 transition">📦 Segundo Mercado</button>
     </div>
 </header>
 
@@ -239,11 +239,22 @@
                 </div>
 
                 <div class="border-t border-slate-100 pt-3">
-                    <h4 class="text-xs font-black text-slate-800 mb-2">Categoría</h4>
-                    <ul class="flex flex-col gap-1 text-xs text-slate-600" id="category-filter-list">
-                        <li class="font-bold text-blue-600 cursor-pointer hover:underline" onclick="filterByCategory('todas')">Todas las Revistas</li>
-                        <li class="cursor-pointer hover:text-blue-600" onclick="filterByCategory('Primer Mercado')">Primer Mercado</li>
-                        <li class="cursor-pointer hover:text-blue-600" onclick="filterByCategory('Segundo Mercado')">Segundo Mercado (Atemporales)</li>
+                    <h4 class="text-xs font-black text-slate-800 mb-2">Departamentos</h4>
+                    <ul class="flex flex-col gap-1 text-xs text-slate-600" id="department-filter-list">
+                        <li class="font-bold text-blue-600 cursor-pointer hover:underline" onclick="filterByDept('todas')">🛍️ Todas las Secciones</li>
+                        <li class="cursor-pointer hover:text-blue-600" onclick="filterByDept('revistas')">📖 Revistas y Periódicos</li>
+                        <li class="cursor-pointer hover:text-blue-600" onclick="filterByDept('dulces')">🍬 Dulcería y Botanas</li>
+                        <li class="cursor-pointer hover:text-blue-600" onclick="filterByDept('cigarros')">🚬 Cigarros y Accesorios</li>
+                        <li class="cursor-pointer hover:text-blue-600" onclick="filterByDept('gadgets')">🔌 PC Custom Lab (Gadgets)</li>
+                    </ul>
+                </div>
+
+                <div class="border-t border-slate-100 pt-3">
+                    <h4 class="text-xs font-black text-slate-800 mb-2">Tipo de Mercado</h4>
+                    <ul class="flex flex-col gap-1 text-xs text-slate-600" id="market-filter-list">
+                        <li class="font-bold text-blue-600 cursor-pointer hover:underline" onclick="filterByMarket('todas')">Todos los Mercados</li>
+                        <li class="cursor-pointer hover:text-blue-600" onclick="filterByMarket('Primer Mercado')">Primer Mercado (Nuevos)</li>
+                        <li class="cursor-pointer hover:text-blue-600" onclick="filterByMarket('Segundo Mercado')">Segundo Mercado (Reventa)</li>
                     </ul>
                 </div>
 
@@ -289,28 +300,222 @@
 <script>
     // Base de datos de productos (Coincide con catalog.csv)
     const productCatalog = [
-        {sku: "REV-001", nombre: "Muy Interesante", imagen: "assets/img/portadas/science_cover.jpg", precio: "85.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 12, descripcion: "Descubre las últimas fronteras de la ciencia, tecnología y el universo."},
-        {sku: "REV-002", nombre: "National Geographic", imagen: "assets/img/portadas/travel_cover.jpg", precio: "95.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 8, descripcion: "Explora las maravillas naturales y culturas de nuestro planeta con fotografía galardonada."},
-        {sku: "REV-003", nombre: "Cosmopolitan", imagen: "assets/img/portadas/casa_cover.jpg", precio: "75.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 15, descripcion: "Moda, estilo de vida, tendencias de belleza e historias inspiradoras para la mujer moderna."},
-        {sku: "REV-004", nombre: "Vanidades", imagen: "assets/img/portadas/casa_cover.jpg", precio: "70.00", frecuencia: "Quincenal", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 9, descripcion: "La revista líder de entretenimiento, realeza, recetas y decoración en español."},
-        {sku: "REV-005", nombre: "Esquire", imagen: "assets/img/portadas/tech_cover.jpg", precio: "90.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 6, descripcion: "Estilo de vida masculino, alta relojería, automovilismo y cultura contemporánea."},
-        {sku: "REV-006", nombre: "Muy Interesante Ciencia", imagen: "assets/img/portadas/science_cover.jpg", precio: "85.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 4, descripcion: "Edición especial dedicada a la física cuántica, biotecnología y medicina del futuro."},
-        {sku: "REV-007", nombre: "NG Viajes", imagen: "assets/img/portadas/travel_cover.jpg", precio: "95.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 3, descripcion: "Guías completas de destinos mundiales, consejos de viaje y mapas detallados."},
-        {sku: "REV-008", nombre: "Cosmopolitan Moda", imagen: "assets/img/portadas/casa_cover.jpg", precio: "75.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 5, descripcion: "Especial de temporada con las pasarelas internacionales y colecciones otoño-invierno."},
-        {sku: "REV-009", nombre: "Vanidades Hogar", imagen: "assets/img/portadas/casa_cover.jpg", precio: "70.00", frecuencia: "Quincenal", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 4, descripcion: "Ideas prácticas para organizar tu espacio, decoración de interiores y recetas rápidas."},
-        {sku: "REV-010", nombre: "Hogar y Jardín", imagen: "assets/img/portadas/casa_cover.jpg", precio: "65.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 7, descripcion: "Paisajismo, cuidado de plantas de interiores y diseño de terrazas urbanas."},
-        
-        {sku: "REV-011", nombre: "Mascotas y Naturaleza", imagen: "assets/img/portadas/wildlife_cover.jpg", precio: "60.00", frecuencia: "Mensual", inventario_tipo: "Primer Mercado", categoria: "revistas", existencias: 9, descripcion: "El bienestar de tu mascota: nutrición, salud veterinaria y psicología animal."},
-        {sku: "REV-012", nombre: "Sopas de Letras Gigante", imagen: "assets/img/portadas/tech_cover.jpg", precio: "40.00", frecuencia: "Quincenal", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 24, descripcion: "Ejercicios mentales divertidos para mantener la mente activa y ágil a cualquier edad."},
-        {sku: "REV-013", nombre: "Crucigramas Clásicos", imagen: "assets/img/portadas/tech_cover.jpg", precio: "35.00", frecuencia: "Semanal", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 18, descripcion: "Los retos clásicos de palabras y conocimiento general para resolver en tus ratos libres."},
-        {sku: "REV-014", nombre: "Sudoku Desafío", imagen: "assets/img/portadas/tech_cover.jpg", precio: "38.00", frecuencia: "Quincenal", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 15, descripcion: "Rompecabezas numéricos desde nivel básico hasta extremo para entrenar la concentración."},
-        {sku: "REV-015", nombre: "Revista Padres e Hijos 2016", imagen: "assets/img/portadas/wildlife_cover.jpg", precio: "30.00", frecuencia: "Mensual", inventario_tipo: "Segundo Mercado", categoria: "revistas", existencias: 11, descripcion: "Consejos atemporales de pediatría, crianza respetuosa y estimulación temprana para bebés."}
-    ];
+        {
+                "sku": "REV-001",
+                "nombre": "Muy Interesante",
+                "imagen": "assets/img/portadas/science_cover.jpg",
+                "precio": "85.00",
+                "frecuencia": "mensual",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 12,
+                "descripcion": "Descubre las últimas fronteras de la ciencia, tecnología y el universo."
+        },
+        {
+                "sku": "REV-002",
+                "nombre": "National Geographic",
+                "imagen": "assets/img/portadas/travel_cover.jpg",
+                "precio": "95.00",
+                "frecuencia": "mensual",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 8,
+                "descripcion": "Explora las maravillas naturales y culturas de nuestro planeta con fotografía galardonada."
+        },
+        {
+                "sku": "REV-003",
+                "nombre": "Cosmopolitan",
+                "imagen": "assets/img/portadas/casa_cover.jpg",
+                "precio": "75.00",
+                "frecuencia": "mensual",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 15,
+                "descripcion": "Moda, estilo de vida, tendencias de belleza e historias inspiradoras para la mujer moderna."
+        },
+        {
+                "sku": "REV-004",
+                "nombre": "Vanidades",
+                "imagen": "assets/img/portadas/casa_cover.jpg",
+                "precio": "70.00",
+                "frecuencia": "quincenal",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 9,
+                "descripcion": "La revista líder de entretenimiento, realeza, recetas y decoración en español."
+        },
+        {
+                "sku": "REV-005",
+                "nombre": "Esquire",
+                "imagen": "assets/img/portadas/tech_cover.jpg",
+                "precio": "90.00",
+                "frecuencia": "mensual",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 6,
+                "descripcion": "Estilo de vida masculino, alta relojería, automovilismo y cultura contemporánea."
+        },
+        {
+                "sku": "REV-006",
+                "nombre": "Muy Interesante Ciencia",
+                "imagen": "assets/img/portadas/science_cover.jpg",
+                "precio": "85.00",
+                "frecuencia": "mensual",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 4,
+                "descripcion": "Edición especial dedicada a la física cuántica, biotecnología y medicina del futuro."
+        },
+        {
+                "sku": "REV-007",
+                "nombre": "National Geographic Viajes",
+                "imagen": "assets/img/portadas/travel_cover.jpg",
+                "precio": "95.00",
+                "frecuencia": "mensual",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 3,
+                "descripcion": "Guías completas de destinos mundiales, consejos de viaje y mapas detallados."
+        },
+        {
+                "sku": "REV-008",
+                "nombre": "Cosmopolitan Moda",
+                "imagen": "assets/img/portadas/casa_cover.jpg",
+                "precio": "75.00",
+                "frecuencia": "mensual",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 5,
+                "descripcion": "Especial de temporada con las pasarelas internacionales y colecciones otoño-invierno."
+        },
+        {
+                "sku": "REV-009",
+                "nombre": "Vanidades Hogar",
+                "imagen": "assets/img/portadas/casa_cover.jpg",
+                "precio": "70.00",
+                "frecuencia": "quincenal",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 4,
+                "descripcion": "Ideas prácticas para organizar tu espacio, decoración de interiores y recetas rápidas."
+        },
+        {
+                "sku": "REV-010",
+                "nombre": "Hogar y Jardín",
+                "imagen": "assets/img/portadas/casa_cover.jpg",
+                "precio": "65.00",
+                "frecuencia": "mensual",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 7,
+                "descripcion": "Paisajismo, cuidado de plantas de interiores y diseño de terrazas urbanas."
+        },
+        {
+                "sku": "REV-011",
+                "nombre": "Mascotas y Naturaleza",
+                "imagen": "assets/img/portadas/wildlife_cover.jpg",
+                "precio": "60.00",
+                "frecuencia": "mensual",
+                "inventario_tipo": "primer mercado",
+                "categoria": "revistas",
+                "existencias": 9,
+                "descripcion": "El bienestar de tu mascota: nutrición, salud veterinaria y psicología animal."
+        },
+        {
+                "sku": "REV-012",
+                "nombre": "Sopas de Letras Gigante",
+                "imagen": "assets/img/portadas/tech_cover.jpg",
+                "precio": "40.00",
+                "frecuencia": "quincenal",
+                "inventario_tipo": "segundo mercado",
+                "categoria": "revistas",
+                "existencias": 24,
+                "descripcion": "Ejercicios mentales divertidos para mantener la mente activa y ágil a cualquier edad."
+        },
+        {
+                "sku": "REV-013",
+                "nombre": "Crucigramas Clásicos",
+                "imagen": "assets/img/portadas/tech_cover.jpg",
+                "precio": "35.00",
+                "frecuencia": "semanal",
+                "inventario_tipo": "segundo mercado",
+                "categoria": "revistas",
+                "existencias": 18,
+                "descripcion": "Los retos clásicos de palabras y conocimiento general para resolver en tus ratos libres."
+        },
+        {
+                "sku": "REV-014",
+                "nombre": "Sudoku Desafío",
+                "imagen": "assets/img/portadas/tech_cover.jpg",
+                "precio": "38.00",
+                "frecuencia": "quincenal",
+                "inventario_tipo": "segundo mercado",
+                "categoria": "revistas",
+                "existencias": 15,
+                "descripcion": "Rompecabezas numéricos desde nivel básico hasta extremo para entrenar la concentración."
+        },
+        {
+                "sku": "REV-015",
+                "nombre": "Revista Padres e Hijos 2016",
+                "imagen": "assets/img/portadas/wildlife_cover.jpg",
+                "precio": "30.00",
+                "frecuencia": "mensual",
+                "inventario_tipo": "segundo mercado",
+                "categoria": "revistas",
+                "existencias": 11,
+                "descripcion": "Consejos atemporales de pediatría, crianza respetuosa y estimulación temprana para bebés."
+        },
+        {
+                "sku": "DUL-001",
+                "nombre": "Carlos V",
+                "imagen": "assets/img/mascota_tigre.jpg",
+                "precio": "12.00",
+                "frecuencia": "quincenal",
+                "inventario_tipo": "primer mercado",
+                "categoria": "dulces",
+                "existencias": 45,
+                "descripcion": "El chocolate con leche favorito de México, ideal para saciar un antojo dulce instantáneo."
+        },
+        {
+                "sku": "DUL-002",
+                "nombre": "Halls Menta",
+                "imagen": "assets/img/mascota_tigre.jpg",
+                "precio": "10.00",
+                "frecuencia": "quincenal",
+                "inventario_tipo": "primer mercado",
+                "categoria": "dulces",
+                "existencias": 60,
+                "descripcion": "Pastillas refrescantes con sabor a mentol eucalipto para despejar tu garganta y respiración."
+        },
+        {
+                "sku": "DUL-003",
+                "nombre": "Mazapán de la Rosa Grande",
+                "imagen": "assets/img/mascota_tigre.jpg",
+                "precio": "8.00",
+                "frecuencia": "quincenal",
+                "inventario_tipo": "primer mercado",
+                "categoria": "dulces",
+                "existencias": 100,
+                "descripcion": "El dulce tradicional de cacahuate molido con textura suave y sabor inigualable."
+        },
+        {
+                "sku": "CIG-001",
+                "nombre": "Cigarro Suelto",
+                "imagen": "assets/img/mascota_tigre.jpg",
+                "precio": "10.00",
+                "frecuencia": "semanal",
+                "inventario_tipo": "primer mercado",
+                "categoria": "cigarros",
+                "existencias": 200,
+                "descripcion": "Cigarro individual de marcas líderes nacionales con precio de venta único y estándar."
+        }
+];
 
     let currentPage = 1;
     const itemsPerPage = 10;
     const totalPagesList = [1, 2, 3, 4, 5, 7];
-    let activeCategory = "todas";
+    let activeDept = "todas";
+    let activeMarket = "todas";
     let searchQuery = "";
 
         // Productos destacados (Dulces, cigarros, gadgets)
@@ -391,7 +596,10 @@
         // Apply filters
         let filtered = productCatalog;
         if (categoryFilter !== "todas") {
-            filtered = filtered.filter(p => p.inventario_tipo === categoryFilter);
+            filtered = filtered.filter(p => p.categoria === categoryFilter);
+        }
+        if (activeMarket !== "todas") {
+            filtered = filtered.filter(p => p.inventario_tipo === activeMarket);
         }
         if (searchFilter) {
             filtered = filtered.filter(p => 
@@ -466,10 +674,11 @@
         paginationContainer.innerHTML = "";
         
         const filtered = productCatalog.filter(p => {
-            const matchCat = activeCategory === "todas" || p.inventario_tipo === activeCategory;
+            const matchDept = activeDept === "todas" || p.categoria === activeDept;
+            const matchMarket = activeMarket === "todas" || p.inventario_tipo === activeMarket;
             const matchSearch = p.nombre.toLowerCase().includes(searchQuery.toLowerCase()) || 
                                 p.descripcion.toLowerCase().includes(searchQuery.toLowerCase());
-            return matchCat && matchSearch;
+            return matchDept && matchMarket && matchSearch;
         });
 
         const maxPage = Math.ceil(filtered.length / itemsPerPage);
@@ -488,7 +697,7 @@
             btn.innerText = pNum;
             btn.onclick = () => {
                 currentPage = pNum;
-                renderGrid(currentPage, searchQuery, activeCategory);
+                renderGrid(currentPage, searchQuery, activeDept);
                 renderPagination();
             };
             paginationContainer.appendChild(btn);
@@ -511,14 +720,14 @@
             listItems[2].classList.add("font-bold", "text-blue-600");
         }
         
-        renderGrid(currentPage, searchQuery, activeCategory);
+        renderGrid(currentPage, searchQuery, activeDept);
         renderPagination();
     }
 
     function performSearch(query) {
         searchQuery = query;
         currentPage = 1;
-        renderGrid(currentPage, searchQuery, activeCategory);
+        renderGrid(currentPage, searchQuery, activeDept);
         renderPagination();
     }
 
@@ -526,7 +735,7 @@
     document.addEventListener('DOMContentLoaded', () => {
         renderStockList();
         renderFeaturedGrid();
-        renderGrid(currentPage, searchQuery, activeCategory);
+        renderGrid(currentPage, searchQuery, activeDept);
         renderPagination();
 
         const searchInput = document.getElementById('siteSearch');
