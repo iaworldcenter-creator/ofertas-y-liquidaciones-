@@ -32,6 +32,95 @@
         return stored ? JSON.parse(stored) : [];
     }
     function saveCart(cart) {
+    // FUNCIONES DEL CARRITO SLIDE-OVER DRAWER
+    window.openCartDrawer = function() {
+        const drawer = document.getElementById("cartDrawer");
+        if (drawer) {
+            drawer.classList.remove("hidden");
+            renderDrawerCart();
+        }
+    }
+    
+    window.closeCartDrawer = function() {
+        const drawer = document.getElementById("cartDrawer");
+        if (drawer) drawer.classList.add("hidden");
+    }
+    
+    window.removeFromCart = function(sku) {
+        let cart = getCart();
+        cart = cart.filter(item => item.sku !== sku);
+        saveCart(cart);
+        renderDrawerCart();
+    }
+    
+    window.changeQuantity = function(sku, amount) {
+        let cart = getCart();
+        const item = cart.find(i => i.sku === sku);
+        if (item) {
+            item.quantity = (item.quantity || 1) + amount;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.sku !== sku);
+            }
+        }
+        saveCart(cart);
+        renderDrawerCart();
+    }
+    
+    window.renderDrawerCart = function() {
+        const container = document.getElementById("drawer-cart-items");
+        const subtotalDisplay = document.getElementById("drawer-subtotal");
+        if (!container) return;
+        
+        const cart = getCart();
+        container.innerHTML = "";
+        
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-12 text-slate-500">
+                    <i class="fa-solid fa-cart-flatbed text-4xl mb-3 block opacity-40"></i>
+                    <p class="text-xs font-semibold">Tu carrito está vacío.</p>
+                </div>
+            `;
+            if (subtotalDisplay) subtotalDisplay.innerText = "$0.00 MXN";
+            return;
+        }
+        
+        let subtotal = 0;
+        cart.forEach(item => {
+            const price = parseFloat(item.precio);
+            const qty = item.quantity || 1;
+            const itemTotal = price * qty;
+            subtotal += itemTotal;
+            
+            const div = document.createElement("div");
+            div.className = "flex items-center gap-3.5 bg-slate-950 border border-slate-800/80 rounded-2xl p-3 shadow-md";
+            div.innerHTML = `
+                <div class="w-12 h-16 rounded-lg overflow-hidden bg-slate-900 border border-slate-800 shrink-0">
+                    <img src="${item.imagen}" alt="${item.nombre}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 flex flex-col justify-between min-h-[50px]">
+                    <div class="flex justify-between items-start gap-1">
+                        <h4 class="text-[11px] font-black text-white leading-tight line-clamp-2">${item.nombre}</h4>
+                        <button onclick="removeFromCart('${item.sku}')" class="text-slate-500 hover:text-red-400 text-xs cursor-pointer">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs font-black text-amber-400">$${price.toFixed(2)}</span>
+                        <div class="flex items-center gap-2.5 bg-slate-900 border border-slate-800 rounded-lg px-2 py-0.5">
+                            <button onclick="changeQuantity('${item.sku}', -1)" class="text-[10px] text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-minus"></i></button>
+                            <span class="text-[11px] font-mono font-bold w-3 text-center">${qty}</span>
+                            <button onclick="changeQuantity('${item.sku}', 1)" class="text-[10px] text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+        
+        if (subtotalDisplay) subtotalDisplay.innerText = `$${subtotal.toFixed(2)} MXN`;
+    }
+
         localStorage.setItem("shopping_cart", JSON.stringify(cart));
         updateCartBadge();
     }
@@ -101,7 +190,7 @@
         <!-- IZQUIERDA: Carrito, Sesión y Descarga -->
         <div class="flex items-center gap-4 shrink-0 flex-wrap justify-center">
             <!-- Carrito de Compras Estilo Amazon -->
-            <div class="flex items-center gap-2 cursor-pointer group" onclick="goToCheckout()">
+            <div class="flex items-center gap-2 cursor-pointer group" onclick="openCartDrawer()">
                 <div class="relative">
                     <i class="fa-solid fa-cart-shopping text-slate-100 text-lg hover:text-amber-400 transition"></i>
                     <span id="cart-badge-count" class="absolute -top-2 -right-2 bg-amber-500 text-slate-950 text-[9px] font-black rounded-full px-1.5 py-0.2 min-w-[15px] text-center">0</span>
@@ -614,6 +703,95 @@
         return stored ? JSON.parse(stored) : [];
     }
     function saveCart(cart) {
+    // FUNCIONES DEL CARRITO SLIDE-OVER DRAWER
+    window.openCartDrawer = function() {
+        const drawer = document.getElementById("cartDrawer");
+        if (drawer) {
+            drawer.classList.remove("hidden");
+            renderDrawerCart();
+        }
+    }
+    
+    window.closeCartDrawer = function() {
+        const drawer = document.getElementById("cartDrawer");
+        if (drawer) drawer.classList.add("hidden");
+    }
+    
+    window.removeFromCart = function(sku) {
+        let cart = getCart();
+        cart = cart.filter(item => item.sku !== sku);
+        saveCart(cart);
+        renderDrawerCart();
+    }
+    
+    window.changeQuantity = function(sku, amount) {
+        let cart = getCart();
+        const item = cart.find(i => i.sku === sku);
+        if (item) {
+            item.quantity = (item.quantity || 1) + amount;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.sku !== sku);
+            }
+        }
+        saveCart(cart);
+        renderDrawerCart();
+    }
+    
+    window.renderDrawerCart = function() {
+        const container = document.getElementById("drawer-cart-items");
+        const subtotalDisplay = document.getElementById("drawer-subtotal");
+        if (!container) return;
+        
+        const cart = getCart();
+        container.innerHTML = "";
+        
+        if (cart.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-12 text-slate-500">
+                    <i class="fa-solid fa-cart-flatbed text-4xl mb-3 block opacity-40"></i>
+                    <p class="text-xs font-semibold">Tu carrito está vacío.</p>
+                </div>
+            `;
+            if (subtotalDisplay) subtotalDisplay.innerText = "$0.00 MXN";
+            return;
+        }
+        
+        let subtotal = 0;
+        cart.forEach(item => {
+            const price = parseFloat(item.precio);
+            const qty = item.quantity || 1;
+            const itemTotal = price * qty;
+            subtotal += itemTotal;
+            
+            const div = document.createElement("div");
+            div.className = "flex items-center gap-3.5 bg-slate-950 border border-slate-800/80 rounded-2xl p-3 shadow-md";
+            div.innerHTML = `
+                <div class="w-12 h-16 rounded-lg overflow-hidden bg-slate-900 border border-slate-800 shrink-0">
+                    <img src="${item.imagen}" alt="${item.nombre}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1 flex flex-col justify-between min-h-[50px]">
+                    <div class="flex justify-between items-start gap-1">
+                        <h4 class="text-[11px] font-black text-white leading-tight line-clamp-2">${item.nombre}</h4>
+                        <button onclick="removeFromCart('${item.sku}')" class="text-slate-500 hover:text-red-400 text-xs cursor-pointer">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </button>
+                    </div>
+                    <div class="flex justify-between items-center mt-1">
+                        <span class="text-xs font-black text-amber-400">$${price.toFixed(2)}</span>
+                        <div class="flex items-center gap-2.5 bg-slate-900 border border-slate-800 rounded-lg px-2 py-0.5">
+                            <button onclick="changeQuantity('${item.sku}', -1)" class="text-[10px] text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-minus"></i></button>
+                            <span class="text-[11px] font-mono font-bold w-3 text-center">${qty}</span>
+                            <button onclick="changeQuantity('${item.sku}', 1)" class="text-[10px] text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+        
+        if (subtotalDisplay) subtotalDisplay.innerText = `$${subtotal.toFixed(2)} MXN`;
+    }
+
         localStorage.setItem("shopping_cart", JSON.stringify(cart));
         updateCartBadge();
     }
@@ -778,6 +956,47 @@
             listen({ priority: true });
         });
     </script>
+
+
+<!-- CARRITO SLIDE-OVER DRAWER (GLASSMORPHISM) -->
+<div id="cartDrawer" class="fixed inset-0 z-[250] hidden">
+    <!-- Backdrop -->
+    <div onclick="closeCartDrawer()" class="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"></div>
+    <!-- Drawer Content -->
+    <div class="absolute right-0 top-0 h-full w-full max-w-md bg-slate-900 border-l border-slate-800 shadow-2xl flex flex-col justify-between text-slate-100 p-6 transition-transform duration-300">
+        <div>
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-6">
+                <h3 class="text-base font-black text-white flex items-center gap-2">
+                    <i class="fa-solid fa-cart-shopping text-amber-500"></i> Tu Carrito de Compra
+                </h3>
+                <button onclick="closeCartDrawer()" class="text-2xl text-slate-400 hover:text-white cursor-pointer">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <!-- Cart Items List Container -->
+            <div id="drawer-cart-items" class="flex flex-col gap-4 overflow-y-auto max-h-[60vh] pr-1">
+                <!-- Cart items will be loaded dynamically -->
+            </div>
+        </div>
+        
+        <!-- Drawer Footer -->
+        <div class="border-t border-slate-800 pt-6 mt-6 flex flex-col gap-4">
+            <div class="flex justify-between items-center">
+                <span class="text-xs font-mono text-slate-400 uppercase font-bold">Subtotal:</span>
+                <span id="drawer-subtotal" class="text-lg font-black text-white">$0.00 MXN</span>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <button onclick="closeCartDrawer()" class="bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-3 rounded-xl text-xs transition">
+                    Seguir Comprando
+                </button>
+                <a href="checkout.html" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-3 rounded-xl text-xs text-center transition flex items-center justify-center gap-1.5">
+                    Proceder al Pago <i class="fa-solid fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
