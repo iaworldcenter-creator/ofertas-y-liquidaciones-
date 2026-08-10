@@ -110,6 +110,8 @@
     }
     </script>
 
+
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 </head>
 <body>
 <!-- FRANJA NEGRA DE NAVEGACIÓN SUPERIOR AMPLIADA (ECOSISTEMA & AI CO-PILOT) -->
@@ -163,7 +165,7 @@
                     <span class="text-base font-black text-amber-400 tracking-wide uppercase leading-tight">Anti-Gravity Copilot</span>
                     <span class="text-[10px] font-bold text-slate-400 leading-none">Ofertas y Liquidaciones</span>
                 </div>
-                <img src="assets/img/mascota_tigre.jpg" alt="Tigre Logo" class="w-11 h-11 rounded-full object-cover border-2 border-amber-500 shadow-md">
+                <img loading="lazy" decoding="async" src="assets/img/mascota_tigre.jpg" alt="Tigre Logo" class="w-11 h-11 rounded-full object-cover border-2 border-amber-500 shadow-md">
             </div>
         </div>
 
@@ -187,13 +189,13 @@
         <span class="text-slate-500">Departamentos:</span>
         <button onclick="filterByDept('revistas'); filterByMarket('Primer Mercado');" class="hover:text-amber-400 transition">📖 Revistas Físicas</button>
         <span class="text-slate-800">•</span>
-        <button onclick="filterByDept('revistas'); filterByMarket('todas');" class="hover:text-amber-400 transition">📱 Digitales</button>
+        <a href="https://iaworldcenter-creator.github.io/kiosco-digital/" class="hover:text-amber-400 transition">📱 Digitales</a>
         <span class="text-slate-800">•</span>
-        <button onclick="window.location.hash = 'featured-grid-container'; document.getElementById('featured-grid-container').scrollIntoView({behavior: 'smooth'});" class="hover:text-amber-400 transition">🍬 Dulces</button>
+        <a href="https://iaworldcenter-creator.github.io/dulces-bazar/" class="hover:text-amber-400 transition">🍬 Dulces</a>
         <span class="text-slate-800">•</span>
-        <button onclick="window.location.hash = 'featured-grid-container'; document.getElementById('featured-grid-container').scrollIntoView({behavior: 'smooth'});" class="hover:text-amber-400 transition">🚬 Cigarros</button>
+        <a href="https://iaworldcenter-creator.github.io/cigarros-bazar/" class="hover:text-amber-400 transition">🚬 Cigarros</a>
         <span class="text-slate-800">•</span>
-        <button onclick="window.location.hash = 'featured-grid-container'; document.getElementById('featured-grid-container').scrollIntoView({behavior: 'smooth'});" class="hover:text-amber-400 transition">🔌 Cables &amp; Gadgets</button>
+        <a href="https://iaworldcenter-creator.github.io/pc-custom-lab/" class="hover:text-amber-400 transition">🔌 Cables &amp; Gadgets</a>
         <span class="text-slate-800">•</span>
         <button onclick="filterByDept('revistas'); filterByMarket('Segundo Mercado');" class="hover:text-amber-400 transition">📦 Segundo Mercado</button>
     </div>
@@ -574,7 +576,7 @@
             card.innerHTML = `
                 <div class="flex flex-col gap-2">
                     <div class="w-full aspect-[3/4] overflow-hidden rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
-                        <img src="${p.imagen}" alt="${p.nombre}" class="w-full h-full object-cover hover:scale-103 transition duration-300">
+                        <img loading="lazy" decoding="async" src="${p.imagen}" alt="${p.nombre}" class="w-full h-full object-cover hover:scale-103 transition duration-300">
                     </div>
                     <div class="flex flex-col gap-1 mt-1">
                         <div class="flex justify-between items-center gap-1">
@@ -672,7 +674,7 @@
                 <div class="flex flex-col gap-2">
                     <!-- Image -->
                     <div class="w-full aspect-[3/4] overflow-hidden rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center">
-                        <img src="${p.imagen}" alt="${p.nombre}" class="w-full h-full object-cover hover:scale-103 transition duration-300">
+                        <img loading="lazy" decoding="async" src="${p.imagen}" alt="${p.nombre}" class="w-full h-full object-cover hover:scale-103 transition duration-300">
                     </div>
                     <!-- Details -->
                     <div class="flex flex-col gap-1 mt-1">
@@ -752,6 +754,57 @@
         renderPagination();
     }
 
+    
+    // FUNCIONES DE FILTRADO DE DEPARTAMENTOS Y MERCADOS (BUGFIX)
+    window.filterByDept = function(dept) {
+        activeDept = dept;
+        currentPage = 1;
+        
+        const listItems = document.querySelectorAll("#category-filter-list li");
+        if (listItems && listItems.length >= 5) {
+            listItems.forEach(li => li.classList.remove("font-bold", "text-blue-600"));
+            if (dept === "todas") listItems[0].classList.add("font-bold", "text-blue-600");
+            else if (dept === "revistas") listItems[1].classList.add("font-bold", "text-blue-600");
+            else if (dept === "dulces") listItems[2].classList.add("font-bold", "text-blue-600");
+            else if (dept === "cigarros") listItems[3].classList.add("font-bold", "text-blue-600");
+            else if (dept === "gadgets") listItems[4].classList.add("font-bold", "text-blue-600");
+        }
+        
+        renderGrid(currentPage, searchQuery, activeDept);
+        renderPagination();
+    }
+
+    window.filterByMarket = function(market) {
+        activeMarket = market;
+        currentPage = 1;
+        
+        const listItems = Array.from(document.querySelectorAll("li")).filter(li => li.getAttribute("onclick") && li.getAttribute("onclick").includes("filterByMarket"));
+        if (listItems && listItems.length >= 3) {
+            listItems.forEach(li => li.classList.remove("font-bold", "text-blue-600"));
+            if (market === "todas") listItems[0].classList.add("font-bold", "text-blue-600");
+            else if (market === "Primer Mercado") listItems[1].classList.add("font-bold", "text-blue-600");
+            else if (market === "Segundo Mercado") listItems[2].classList.add("font-bold", "text-blue-600");
+        }
+        
+        renderGrid(currentPage, searchQuery, activeDept);
+        renderPagination();
+    }
+
+    // ENRUTADOR POR HASH DE URL
+    function applyHashRouting() {
+        const hash = window.location.hash;
+        if (hash) {
+            const cleanHash = decodeURIComponent(hash.substring(1));
+            if (["revistas", "dulces", "cigarros", "gadgets", "todas"].includes(cleanHash)) {
+                window.filterByDept(cleanHash);
+            } else if (["Primer Mercado", "Segundo Mercado", "todas"].includes(cleanHash)) {
+                window.filterByMarket(cleanHash);
+            }
+        }
+    }
+    window.addEventListener('load', applyHashRouting);
+    window.addEventListener('hashchange', applyHashRouting);
+            
     function performSearch(query) {
         searchQuery = query;
         currentPage = 1;
@@ -1004,6 +1057,15 @@
         function handleChatKeyPress(e) {
             if (e.key === 'Enter') enviarMensajeChatbot();
         }
+    </script>
+
+
+    <!-- Quicklink Prefetching for <100ms Transitions -->
+    <script type="module">
+        import { listen } from 'https://unpkg.com/quicklink@2.3.0/dist/quicklink.mjs';
+        window.addEventListener('load', () => {
+            listen({ priority: true });
+        });
     </script>
 
 </body>

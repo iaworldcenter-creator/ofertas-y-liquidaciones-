@@ -25,12 +25,14 @@
 </style>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 </head>
 <body>
 <!-- HEADER DE CHECKOUT MINIMALISTA AL ESTILO AMAZON -->
 <header class="w-full bg-slate-950 text-white py-2.5 px-6 md:px-12 flex justify-between items-center border-b border-slate-800">
     <div class="flex items-center gap-3">
-        <img src="assets/img/mascota_tigre.jpg" alt="Tigre Logo" class="w-10 h-10 rounded-full object-cover border border-amber-500">
+        <img loading="lazy" decoding="async" src="assets/img/mascota_tigre.jpg" alt="Tigre Logo" class="w-10 h-10 rounded-full object-cover border border-amber-500">
         <span class="text-sm font-black text-amber-400 tracking-wider uppercase">Anti-Gravity Checkout</span>
     </div>
     <h1 class="text-base md:text-lg font-black text-white flex items-center gap-2">
@@ -522,7 +524,7 @@
 
             row.innerHTML = `
                 <div class="flex gap-4">
-                    <img src="${item.imagen}" class="w-14 h-18 object-cover rounded shadow" alt="${item.nombre}">
+                    <img loading="lazy" decoding="async" src="${item.imagen}" class="w-14 h-18 object-cover rounded shadow" alt="${item.nombre}">
                     <div class="flex flex-col text-xs">
                         <strong class="text-slate-900 text-sm">${item.nombre}</strong>
                         <span class="text-[10px] text-slate-400">SKU: ${item.sku}</span>
@@ -829,6 +831,15 @@
         function handleChatKeyPress(e) {
             if (e.key === 'Enter') enviarMensajeChatbot();
         }
+    </script>
+
+
+    <!-- Quicklink Prefetching for <100ms Transitions -->
+    <script type="module">
+        import { listen } from 'https://unpkg.com/quicklink@2.3.0/dist/quicklink.mjs';
+        window.addEventListener('load', () => {
+            listen({ priority: true });
+        });
     </script>
 
 </body>
