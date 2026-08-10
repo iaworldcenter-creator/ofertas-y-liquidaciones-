@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://iaworldcenter-creator.github.io/ofertas-y-liquidaciones/sitemap.xml
+Sitemap: https://iaworldcenter-creator.github.io/ofertas-y-liquidaciones-/sitemap.xml
