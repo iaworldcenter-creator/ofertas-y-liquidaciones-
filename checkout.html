@@ -631,7 +631,87 @@
         }
 ];
 
-    let checkoutItems = [];
+    
+    function showPaymentProcessing(callback) {
+        const overlay = document.getElementById("payment-processing-overlay");
+        const spinner = document.getElementById("payment-spinner");
+        const successIcon = document.getElementById("payment-success-icon");
+        const title = document.getElementById("payment-title");
+        const statusText = document.getElementById("payment-status");
+        
+        const dot1 = document.getElementById("step-dot-1");
+        const dot2 = document.getElementById("step-dot-2");
+        const dot3 = document.getElementById("step-dot-3");
+        const dot4 = document.getElementById("step-dot-4");
+
+        const storedPay = localStorage.getItem("user_payment_method");
+        const payData = storedPay ? JSON.parse(storedPay) : { type: 'cash' };
+
+        overlay.classList.remove("hidden");
+        spinner.classList.remove("hidden");
+        successIcon.classList.add("hidden");
+        title.innerText = "Procesando pago...";
+        
+        dot1.className = "h-1.5 w-8 rounded bg-blue-600 transition duration-300";
+        dot2.className = "h-1.5 w-8 rounded bg-slate-200 transition duration-300";
+        dot3.className = "h-1.5 w-8 rounded bg-slate-200 transition duration-300";
+        dot4.className = "h-1.5 w-8 rounded bg-slate-200 transition duration-300";
+
+        if (payData.type === 'card') {
+            statusText.innerText = "Estableciendo conexión encriptada SSL/TLS...";
+            
+            setTimeout(() => {
+                statusText.innerText = "Comprobando existencia y validez de la tarjeta...";
+                dot2.className = "h-1.5 w-8 rounded bg-blue-600 transition duration-300";
+            }, 1200);
+
+            setTimeout(() => {
+                statusText.innerText = "Validando fondos suficientes con la red bancaria...";
+                dot3.className = "h-1.5 w-8 rounded bg-blue-600 transition duration-300";
+            }, 2400);
+
+            setTimeout(() => {
+                spinner.classList.add("hidden");
+                successIcon.classList.remove("hidden");
+                title.innerText = "¡Pago autorizado!";
+                const authCode = "AUTH-" + Math.floor(100000 + Math.random() * 900000);
+                statusText.innerHTML = `<span class="text-emerald-600 font-bold">Transacción autorizada con éxito.</span><br><span class="font-mono text-[10px] text-slate-500">Ref: ${authCode}</span>`;
+                dot4.className = "h-1.5 w-8 rounded bg-emerald-500 transition duration-300";
+                localStorage.setItem("simulated_auth_code", authCode);
+            }, 3600);
+
+            setTimeout(() => {
+                overlay.classList.add("hidden");
+                callback();
+            }, 5000);
+        } else {
+            statusText.innerText = "Registrando solicitud de pedido contra entrega...";
+            
+            setTimeout(() => {
+                statusText.innerText = "Comprobando cobertura de entrega a domicilio...";
+                dot2.className = "h-1.5 w-8 rounded bg-blue-600 transition duration-300";
+            }, 1000);
+
+            setTimeout(() => {
+                spinner.classList.add("hidden");
+                successIcon.classList.remove("hidden");
+                title.innerText = "¡Pedido registrado!";
+                const ordCode = "ORD-" + Math.floor(100000 + Math.random() * 900000);
+                statusText.innerHTML = `<span class="text-emerald-600 font-bold">Pedido agendado para entrega local.</span><br><span class="font-mono text-[10px] text-slate-500">ID: ${ordCode}</span>`;
+                dot3.className = "h-1.5 w-8 rounded bg-emerald-500 transition duration-300";
+                dot4.className = "h-1.5 w-8 rounded bg-emerald-500 transition duration-300";
+                localStorage.setItem("simulated_auth_code", ordCode);
+            }, 2000);
+
+            setTimeout(() => {
+                overlay.classList.add("hidden");
+                callback();
+            }, 3500);
+        }
+    }
+
+
+let checkoutItems = [];
     let shippingCost = null;
     let pendingDeleteSku = null;
 
@@ -1074,6 +1154,34 @@
             listen({ priority: true });
         });
     </script>
+
+
+<!-- OVERLAY DE PROCESAMIENTO DE PAGO SIMULADO (EXTREME PREMIUM) -->
+<div id="payment-processing-overlay" class="fixed inset-0 z-[300] hidden flex items-center justify-center bg-slate-950/80 backdrop-blur-md">
+    <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-2xl max-w-sm w-full mx-4 text-center flex flex-col items-center gap-5">
+        <div id="payment-spinner" class="relative flex items-center justify-center">
+            <!-- Spinner Animation -->
+            <div class="animate-spin rounded-full h-16 w-16 border-4 border-slate-200 border-t-blue-600"></div>
+            <i class="fa-solid fa-lock absolute text-blue-600 text-lg"></i>
+        </div>
+        <div id="payment-success-icon" class="hidden text-emerald-500 text-5xl animate-bounce">
+            <i class="fa-solid fa-circle-check"></i>
+        </div>
+        
+        <div class="flex flex-col gap-2">
+            <h3 id="payment-title" class="text-sm font-black text-slate-900 uppercase tracking-wide">Validando pago...</h3>
+            <p id="payment-status" class="text-xs text-slate-500 leading-relaxed font-semibold">Conectando con la pasarela de pago bancaria...</p>
+        </div>
+        
+        <!-- Steps Indicators -->
+        <div class="flex gap-1.5 justify-center w-full mt-1">
+            <div id="step-dot-1" class="h-1.5 w-8 rounded bg-blue-600 transition duration-300"></div>
+            <div id="step-dot-2" class="h-1.5 w-8 rounded bg-slate-200 transition duration-300"></div>
+            <div id="step-dot-3" class="h-1.5 w-8 rounded bg-slate-200 transition duration-300"></div>
+            <div id="step-dot-4" class="h-1.5 w-8 rounded bg-slate-200 transition duration-300"></div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
