@@ -14,7 +14,7 @@
         body { 
             margin: 0; 
             background: #EAEDED; 
-            color: var(--texto); 
+            color: víar(--texto); 
             font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif; 
             min-height: 100vh;
             display: flex;
@@ -47,14 +47,11 @@
         <!-- Columna Izquierda (Spans 8/12) -->
         <div class="lg:col-span-8 flex flex-col gap-4">
             
-            <!-- Dirección de Envío -->
+            <!-- Domicilio de Envío Directo (Inline) -->
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <div class="flex justify-between items-start mb-4">
-                    <h3 class="text-sm font-black text-slate-900">1. Dirección de envío</h3>
-                    <button onclick="openAddressModal()" class="text-xs text-blue-600 hover:underline font-bold">Cambiar</button>
-                </div>
+                <h3 class="text-sm font-black text-slate-900 mb-4">1. Domicilio de entrega y registro</h3>
                 <div id="checkout-address-display" class="text-xs text-slate-700 leading-relaxed">
-                    <span class="text-slate-400 italic">No se ha registrado una dirección de entrega. Haz clic en "Cambiar" para agregar una.</span>
+                    <!-- Formulario de registro o datos guardados se inyectan aquí -->
                 </div>
             </div>
 
@@ -89,7 +86,7 @@
                     Seguir comprando
                 </a>
                 <p class="text-[10px] text-slate-500 text-center">
-                    Al realizar tu pedido, aceptas nuestro aviso de privacidad y las condiciones de uso local de Anti-Gravity.
+                    Al realizar tu pedido, aceptas nuestro aviso de privíacidad y las condiciones de uso local de Anti-Gravity.
                 </p>
 
                 <div class="border-t border-slate-100 pt-4 flex flex-col gap-2">
@@ -134,48 +131,6 @@
     </div>
 </div>
 
-<!-- MODAL DE DIRECCIÓN -->
-<div id="addressModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-slate-950/80 backdrop-blur-md px-4">
-    <div class="bg-slate-900/95 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative text-slate-100">
-        <h3 class="text-lg font-black text-white mb-2 flex items-center gap-2">
-            <i class="fa-solid fa-map-location-dot text-amber-500"></i> Registrar Domicilio de Entrega
-        </h3>
-        <p class="text-[11px] text-slate-400 mb-4">Servicio disponible a no más de 5 km de la sucursal Centro.</p>
-        <form id="addressForm" onsubmit="saveAddress(event)" class="flex flex-col gap-3">
-            <div>
-                <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Nombre Completo</label>
-                <input type="text" id="addressName" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
-            </div>
-            <div>
-                <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Teléfono de Contacto</label>
-                <input type="tel" id="addressPhone" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
-            </div>
-            <div>
-                <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Correo Electrónico</label>
-                <input type="email" id="addressEmail" required placeholder="Ej. cliente@correo.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
-            </div>
-            <div>
-                <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Calle y Número</label>
-                <input type="text" id="addressStreet" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
-            </div>
-            <div class="grid grid-cols-2 gap-2.5">
-                <div>
-                    <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Colonia</label>
-                    <input type="text" id="addressColonia" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
-                </div>
-                <div>
-                    <label class="block text-[10px] font-mono text-slate-400 uppercase mb-1 font-bold">Ciudad</label>
-                    <input type="text" id="addressCity" required class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-blue-500">
-                </div>
-            </div>
-            <div class="flex gap-2.5 mt-2">
-                <button type="button" onclick="closeAddressModal()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold py-2 rounded-xl text-xs transition">Cancelar</button>
-                <button type="submit" class="flex-1 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black py-2 rounded-xl text-xs transition">Guardar</button>
-            </div>
-        </form>
-    </div>
-</div>
-
 <!-- MODAL DE PAGO -->
 <div id="paymentModal" class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-slate-950/80 backdrop-blur-md px-4">
     <div class="bg-slate-900/95 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative text-slate-100">
@@ -187,11 +142,11 @@
             <!-- Selector de Tipo de Pago -->
             <div class="flex gap-4 mb-2">
                 <label class="flex items-center gap-2 text-xs cursor-pointer font-bold">
-                    <input type="radio" name="paymentType" value="card" checked onclick="togglePaymentFields('card')" class="accent-amber-500">
+                    <input type="radio" name="paymentType" víalue="card" checked onclick="togglePaymentFields('card')" class="accent-amber-500">
                     💳 Tarjeta (Crédito/Débito)
                 </label>
                 <label class="flex items-center gap-2 text-xs cursor-pointer font-bold">
-                    <input type="radio" name="paymentType" value="cash" onclick="togglePaymentFields('cash')" class="accent-amber-500">
+                    <input type="radio" name="paymentType" víalue="cash" onclick="togglePaymentFields('cash')" class="accent-amber-500">
                     💵 Efectivo / Transferencia
                 </label>
             </div>
@@ -307,7 +262,7 @@
                 "inventario_tipo": "Primer Mercado",
                 "categoria": "gadgets",
                 "existencias": "1",
-                "descripcion": "Bocina portátil de 3 pulgadas Link Bits modelo RFR388. Incluye micrófono alámbrico para karaoke o avisos, luces LED decorativas, Bluetooth, radio FM, lector USB/MicroSD y TWS.",
+                "descripcion": "Bocina portátil de 3 pulgadas Link Bits modelo RFR388. Incluye micrófono alámbrico para karaoke o avisos, luces LED decorativías, Bluetooth, radio FM, lector USB/MicroSD y TWS.",
                 "precio_original": "244",
                 "modelo_caja": "RFR388",
                 "descuento": "45% OFF",
@@ -611,7 +566,7 @@
                 "inventario_tipo": "segundo mercado",
                 "categoria": "revistas",
                 "existencias": "24",
-                "descripcion": "Ejercicios mentales divertidos para mantener la mente activa y ágil a cualquier edad.",
+                "descripcion": "Ejercicios mentales divertidos para mantener la mente activía y ágil a cualquier edad.",
                 "precio_original": "",
                 "modelo_caja": "",
                 "descuento": "",
@@ -716,207 +671,172 @@
         if (stored) {
             const data = JSON.parse(stored);
             display.innerHTML = `
-                <strong class="text-slate-900">${data.name}</strong><br>
-                ${data.street}, Col. ${data.colonia}<br>
-                ${data.city}, México<br>
-                Teléfono: ${data.phone} | Correo: ${data.email}
+                <div class="flex flex-col gap-3 mt-1 relative p-4 rounded-xl bg-slate-50 border border-slate-100">
+                    <div class="absolute top-3 right-3">
+                        <button onclick="editAddress()" class="text-xs text-blue-600 hover:underline font-bold flex items-center gap-1">
+                            <i class="fa-solid fa-pen-to-square"></i> Editar datos
+                        </button>
+                    </div>
+                    <div class="flex flex-col gap-2.5 text-slate-700 text-xs">
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-400 font-bold w-20 uppercase text-[9px]">Nombre:</span>
+                            <strong class="text-slate-900 font-black">${data.name}</strong>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-400 font-bold w-20 uppercase text-[9px]">Correo:</span>
+                            <span class="text-slate-900">${data.email}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-400 font-bold w-20 uppercase text-[9px]">Teléfono:</span>
+                            <span class="text-slate-900">${data.phone}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-400 font-bold w-20 uppercase text-[9px]">Dirección:</span>
+                            <span class="text-slate-900">${data.street} No. ${data.number}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-400 font-bold w-20 uppercase text-[9px]">Colonia:</span>
+                            <span class="text-slate-900">Col. ${data.colonia}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-slate-400 font-bold w-20 uppercase text-[9px]">C.P. / Ciudad:</span>
+                            <span class="text-slate-900">C.P. ${data.zipcode}, ${data.city}</span>
+                        </div>
+                    </div>
+                    <div class="mt-1.5 flex items-center gap-1.5 text-[10px] text-green-600 font-bold">
+                        <i class="fa-solid fa-circle-check"></i> Perfil Registrado y Dirección de Envío Activía
+                    </div>
+                </div>
+            `;
+        } else {
+            display.innerHTML = `
+                <form id="inlineAddressForm" onsubmit="saveAddress(event)" class="flex flex-col gap-3 mt-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                    <p class="text-[11px] text-slate-500 mb-1 leading-relaxed">
+                        Registra tus datos de entrega en la base de datos de tu navegador para poder recibir tu pedido de manera efectivía.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-black text-slate-600 uppercase">Nombre Completo</label>
+                            <input type="text" id="addressName" required placeholder="Ej. Juan Pérez" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-black text-slate-600 uppercase">Teléfono (10 dígitos)</label>
+                            <input type="tel" id="addressPhone" required placeholder="Ej. 5512345678" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-black text-slate-600 uppercase">Correo Electrónico</label>
+                            <input type="email" id="addressEmail" required placeholder="Ej. cliente@correo.com" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-black text-slate-600 uppercase">Calle de Entrega</label>
+                            <input type="text" id="addressStreet" required placeholder="Ej. Av. Juárez" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-black text-slate-600 uppercase">Número (Ext/Int)</label>
+                            <input type="text" id="addressNumber" required placeholder="Ej. 450 Int 3" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-black text-slate-600 uppercase">Colonia</label>
+                            <input type="text" id="addressColonia" required placeholder="Ej. Polanco" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div class="flex flex-col gap-1">
+                            <label class="text-[9px] font-black text-slate-600 uppercase">Código Postal</label>
+                            <input type="text" id="addressZipcode" required placeholder="Ej. 11560" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[9px] font-black text-slate-600 uppercase">Ciudad y Estado</label>
+                        <input type="text" id="addressCity" required placeholder="Ej. Ciudad de México" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <button type="submit" class="w-full mt-2 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-sm transition active:scale-97 cursor-pointer">
+                        Registrar datos en la base de datos
+                    </button>
+                </form>
             `;
         }
     }
 
-    function renderPayment() {
-        const display = document.getElementById("checkout-payment-display");
-        const stored = localStorage.getItem("user_payment_method");
+    function editAddress() {
+        const display = document.getElementById("checkout-address-display");
+        const stored = localStorage.getItem("user_delivery_address");
+        let data = {};
         if (stored) {
-            const data = JSON.parse(stored);
-            if (data.type === "card" || !data.type) {
-                const hiddenNumber = "**** **** **** " + (data.number ? data.number.slice(-4) : "0000");
-                display.innerHTML = `
-                    <strong class="text-slate-900">Tarjeta de débito/crédito</strong><br>
-                    ${data.holder || ''}<br>
-                    Número: ${hiddenNumber} (Vence: ${data.expiry || ''})
-                `;
-            } else {
-                display.innerHTML = `
-                    <strong class="text-slate-900">Pago en Efectivo / Transferencia</strong><br>
-                    Liquidación contra entrega física o envío de comprobante.
-                `;
-            }
+            data = JSON.parse(stored);
         }
-    }
-
-    function renderCheckoutProducts() {
-        const container = document.getElementById("checkout-products-list");
-        container.innerHTML = "";
-
-        if (checkoutItems.length === 0) {
-            container.innerHTML = `<span class="text-slate-400 italic">No hay productos seleccionados.</span>`;
-            return;
-        }
-
-        let subtotal = 0;
-        checkoutItems.forEach(item => {
-            subtotal += parseFloat(item.precio) * (item.quantity || 0);
-        });
-        const isFreeShipping = subtotal >= 500.00;
-        const expressFee = isFreeShipping ? 0.00 : 35.00;
-        const urgentFee = isFreeShipping ? 15.00 : 50.00;
-
-        checkoutItems.forEach((item, idx) => {
-            const row = document.createElement("div");
-            row.className = `flex flex-col md:flex-row gap-4 justify-between items-start border-b border-slate-100 pb-4 ${item.quantity === 0 ? 'opacity-40' : ''}`;
-            
-            const quantityControls = item.quantity === 0 ? `
-                <div class="flex items-center gap-2 mt-2">
-                    <span class="text-red-500 font-bold text-[10px]">Eliminado</span>
-                    <button onclick="adjustQuantity('${item.sku}', 1)" class="bg-blue-600 hover:bg-blue-500 text-white font-black px-2.5 py-0.5 rounded text-[10px] transition">
-                        [+] Agregar de nuevo
+        display.innerHTML = `
+            <form id="inlineAddressForm" onsubmit="saveAddress(event)" class="flex flex-col gap-3 mt-2 bg-slate-50 p-4 rounded-xl border border-slate-100">
+                <p class="text-[11px] text-slate-500 mb-1 leading-relaxed">
+                    Edita tus datos de entrega y guarda los cambios en la base de datos de tu perfil.
+                </p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[9px] font-black text-slate-600 uppercase">Nombre Completo</label>
+                        <input type="text" id="addressName" required placeholder="Ej. Juan Pérez" víalue="${data.name || ''}" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[9px] font-black text-slate-600 uppercase">Teléfono (10 dígitos)</label>
+                        <input type="tel" id="addressPhone" required placeholder="Ej. 5512345678" víalue="${data.phone || ''}" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[9px] font-black text-slate-600 uppercase">Correo Electrónico</label>
+                        <input type="email" id="addressEmail" required placeholder="Ej. cliente@correo.com" víalue="${data.email || ''}" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[9px] font-black text-slate-600 uppercase">Calle de Entrega</label>
+                        <input type="text" id="addressStreet" required placeholder="Ej. Av. Juárez" víalue="${data.street || ''}" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[9px] font-black text-slate-600 uppercase">Número (Ext/Int)</label>
+                        <input type="text" id="addressNumber" required placeholder="Ej. 450 Int 3" víalue="${data.number || ''}" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[9px] font-black text-slate-600 uppercase">Colonia</label>
+                        <input type="text" id="addressColonia" required placeholder="Ej. Polanco" víalue="${data.colonia || ''}" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                    </div>
+                    <div class="flex flex-col gap-1">
+                        <label class="text-[9px] font-black text-slate-600 uppercase">Código Postal</label>
+                        <input type="text" id="addressZipcode" required placeholder="Ej. 11560" víalue="${data.zipcode || ''}" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                    </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                    <label class="text-[9px] font-black text-slate-600 uppercase">Ciudad y Estado</label>
+                    <input type="text" id="addressCity" required placeholder="Ej. Ciudad de México" víalue="${data.city || ''}" class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="flex gap-3">
+                    <button type="button" onclick="renderAddress()" class="flex-1 bg-slate-200 hover:bg-slate-300 text-slate-700 font-bold py-2 rounded-xl text-xs uppercase tracking-wider transition active:scale-97 cursor-pointer">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-sm transition active:scale-97 cursor-pointer">
+                        Guardar cambios
                     </button>
                 </div>
-            ` : `
-                <div class="flex items-center gap-2 mt-2">
-                    <button onclick="adjustQuantity('${item.sku}', -1)" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-2 py-0.5 rounded text-xs transition">-</button>
-                    <span class="font-bold text-slate-800 text-xs px-2">${item.quantity}</span>
-                    <button onclick="adjustQuantity('${item.sku}', 1)" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-2 py-0.5 rounded text-xs transition">+</button>
-                    <button onclick="promptDelete('${item.sku}')" class="text-red-500 hover:underline text-[10px] font-bold ml-2">Eliminar</button>
-                </div>
-            `;
-
-            row.innerHTML = `
-                <div class="flex gap-4">
-                    <img loading="lazy" decoding="async" src="${item.imagen}" class="w-14 h-18 object-cover rounded shadow" alt="${item.nombre}">
-                    <div class="flex flex-col text-xs">
-                        <strong class="text-slate-900 text-sm">${item.nombre}</strong>
-                        <span class="text-[10px] text-slate-400">SKU: ${item.sku}</span>
-                        ${quantityControls}
-                    </div>
-                </div>
-                
-                <div class="flex flex-col gap-3 text-xs w-full md:w-auto">
-                    <strong class="text-slate-900 font-bold">Entrega:</strong>
-                    <div class="flex flex-col gap-1">
-                        <label class="flex items-start gap-2.5 cursor-pointer">
-                            <input type="radio" name="shipping-opt-${idx}" ${item.quantity === 0 ? 'disabled' : ''} checked onclick="changeShipping(${expressFee})" class="mt-0.5 rounded-full border-slate-300 text-blue-600 focus:ring-blue-500">
-                            <div>
-                                <span class="font-bold text-green-700">Express Local (${isFreeShipping ? 'GRATIS' : '$35.00'})</span>
-                                <span class="text-[9px] text-slate-400 block">${isFreeShipping ? 'Compra mayor a $500' : 'Compras menores a $500'}</span>
-                            </div>
-                        </label>
-                        <label class="flex items-start gap-2.5 cursor-pointer mt-1">
-                            <input type="radio" name="shipping-opt-${idx}" ${item.quantity === 0 ? 'disabled' : ''} onclick="changeShipping(${urgentFee})" class="mt-0.5 rounded-full border-slate-300 text-blue-600 focus:ring-blue-500">
-                            <div>
-                                <span class="font-bold text-slate-700">Urgente ($${urgentFee.toFixed(2)})</span>
-                            </div>
-                        </label>
-                    </div>
-                </div>
-            `;
-            container.appendChild(row);
-        });
-    }
-
-    function adjustQuantity(sku, delta) {
-        const item = checkoutItems.find(p => p.sku === sku);
-        if (!item) return;
-
-        const newQty = (item.quantity || 0) + delta;
-        
-        if (newQty <= 0) {
-            promptDelete(sku);
-        } else {
-            item.quantity = newQty;
-            syncCartStorage();
-            
-            // Recalculate default shipping cost based on new subtotal
-            let subtotal = 0;
-            checkoutItems.forEach(p => { subtotal += parseFloat(p.precio) * (p.quantity || 0); });
-            shippingCost = subtotal >= 500.00 ? 0.00 : 35.00;
-            
-            renderCheckoutProducts();
-            updateSummary();
-        }
-    }
-
-    function promptDelete(sku) {
-        pendingDeleteSku = sku;
-        document.getElementById("confirmDeleteModal").classList.remove("hidden");
-    }
-
-    function confirmDeleteResponse(approved) {
-        document.getElementById("confirmDeleteModal").classList.add("hidden");
-        if (approved && pendingDeleteSku) {
-            const item = checkoutItems.find(p => p.sku === pendingDeleteSku);
-            if (item) {
-                item.quantity = 0; // Maintain in checkout catalog as 0-quantity layout
-                syncCartStorage();
-                
-                // Recalculate default shipping cost based on new subtotal
-                let subtotal = 0;
-                checkoutItems.forEach(p => { subtotal += parseFloat(p.precio) * (p.quantity || 0); });
-                shippingCost = subtotal >= 500.00 ? 0.00 : 35.00;
-                
-                renderCheckoutProducts();
-                updateSummary();
-            }
-        }
-        pendingDeleteSku = null;
-    }
-
-    function syncCartStorage() {
-        // Sync active items (qty > 0) back to localStorage shopping_cart
-        const activeItems = checkoutItems.filter(item => item.quantity > 0);
-        localStorage.setItem("shopping_cart", JSON.stringify(activeItems));
-    }
-
-    function changeShipping(cost) {
-        shippingCost = parseFloat(cost);
-        updateSummary();
-    }
-
-    function updateSummary() {
-        let subtotal = 0;
-        checkoutItems.forEach(item => {
-            subtotal += parseFloat(item.precio) * (item.quantity || 0);
-        });
-
-        const cashback = subtotal * 0.05;
-        const total = subtotal + shippingCost - cashback;
-
-        document.getElementById("summary-subtotal").innerText = `$${subtotal.toFixed(2)} MXN`;
-        document.getElementById("summary-shipping").innerText = `$${shippingCost.toFixed(2)} MXN`;
-        document.getElementById("summary-cashback").innerText = `-$${cashback.toFixed(2)} MXN`;
-        document.getElementById("summary-total").innerText = `$${total.toFixed(2)} MXN`;
-        document.getElementById("summary-savings").innerText = `$${cashback.toFixed(2)} MXN`;
-    }
-
-    function openAddressModal() {
-        document.getElementById("addressModal").classList.remove("hidden");
-        const stored = localStorage.getItem("user_delivery_address");
-        if (stored) {
-            const data = JSON.parse(stored);
-            document.getElementById("addressName").value = data.name || "";
-            document.getElementById("addressPhone").value = data.phone || "";
-            document.getElementById("addressEmail").value = data.email || "";
-            document.getElementById("addressStreet").value = data.street || "";
-            document.getElementById("addressColonia").value = data.colonia || "";
-            document.getElementById("addressCity").value = data.city || "";
-        }
-    }
-
-    function closeAddressModal() {
-        document.getElementById("addressModal").classList.add("hidden");
+            </form>
+        `;
     }
 
     function saveAddress(event) {
         event.preventDefault();
-        const name = document.getElementById("addressName").value;
-        const phone = document.getElementById("addressPhone").value;
-        const email = document.getElementById("addressEmail").value;
-        const street = document.getElementById("addressStreet").value;
-        const colonia = document.getElementById("addressColonia").value;
-        const city = document.getElementById("addressCity").value;
+        const name = document.getElementById("addressName").víalue;
+        const phone = document.getElementById("addressPhone").víalue;
+        const email = document.getElementById("addressEmail").víalue;
+        const street = document.getElementById("addressStreet").víalue;
+        const number = document.getElementById("addressNumber").víalue;
+        const colonia = document.getElementById("addressColonia").víalue;
+        const zipcode = document.getElementById("addressZipcode").víalue;
+        const city = document.getElementById("addressCity").víalue;
 
-        const addressData = { name, phone, email, street, colonia, city };
+        const addressData = { name, phone, email, street, number, colonia, zipcode, city };
+        localStorage.setItem("user_delivery_address", JSON.stringify(addressData));
+        renderAddress();
+    };
         localStorage.setItem("user_delivery_address", JSON.stringify(addressData));
         renderAddress();
         closeAddressModal();
@@ -957,16 +877,16 @@
             const data = JSON.parse(stored);
             const isCard = data.type === "card" || !data.type;
             
-            document.querySelector(`input[name="paymentType"][value="${isCard ? 'card' : 'cash'}"]`).checked = true;
+            document.querySelector(`input[name="paymentType"][víalue="${isCard ? 'card' : 'cash'}"]`).checked = true;
             togglePaymentFields(isCard ? 'card' : 'cash');
             
             if (isCard) {
-                document.getElementById("paymentHolder").value = data.holder || "";
-                document.getElementById("paymentCardNumber").value = data.number || "";
-                document.getElementById("paymentExpiry").value = data.expiry || "";
+                document.getElementById("paymentHolder").víalue = data.holder || "";
+                document.getElementById("paymentCardNumber").víalue = data.number || "";
+                document.getElementById("paymentExpiry").víalue = data.expiry || "";
             }
         } else {
-            document.querySelector('input[name="paymentType"][value="card"]').checked = true;
+            document.querySelector('input[name="paymentType"][víalue="card"]').checked = true;
             togglePaymentFields('card');
         }
     }
@@ -977,13 +897,13 @@
 
     function savePayment(event) {
         event.preventDefault();
-        const type = document.querySelector('input[name="paymentType"]:checked').value;
+        const type = document.querySelector('input[name="paymentType"]:checked').víalue;
         let paymentData = {};
         
         if (type === "card") {
-            const holder = document.getElementById("paymentHolder").value;
-            const number = document.getElementById("paymentCardNumber").value;
-            const expiry = document.getElementById("paymentExpiry").value;
+            const holder = document.getElementById("paymentHolder").víalue;
+            const number = document.getElementById("paymentCardNumber").víalue;
+            const expiry = document.getElementById("paymentExpiry").víalue;
             paymentData = { type: "card", holder, number, expiry };
         } else {
             paymentData = { type: "cash" };
@@ -1107,12 +1027,12 @@
 
         function enviarMensajeChatbot() {
             const input = document.getElementById('chat-input');
-            const text = input.value.trim();
+            const text = input.víalue.trim();
             if (!text) return;
 
             const messages = document.getElementById('chat-messages');
             messages.innerHTML += `<div class="bg-blue-600 text-white p-3.5 rounded-2xl rounded-tr-none max-w-[85%] ml-auto font-medium shadow-md">${text}</div>`;
-            input.value = '';
+            input.víalue = '';
 
             setTimeout(() => {
                 messages.innerHTML += `<div class="bg-slate-800 text-slate-100 p-4 rounded-2xl rounded-tl-none border border-slate-700 leading-relaxed space-y-3">
