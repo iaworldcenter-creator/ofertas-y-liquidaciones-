@@ -711,9 +711,9 @@
     }
 
 
-let checkoutItems = [];
-    let shippingCost = null;
-    let pendingDeleteSku = null;
+
+    let checkoutItems = [];
+    let shippingCost = 0;
 
     function getQueryParam(param) {
         const urlParams = new URLSearchParams(window.location.search);
@@ -736,22 +736,157 @@ let checkoutItems = [];
                 }
                 localStorage.setItem("shopping_cart", JSON.stringify(cart));
             }
-            // Clean query parameters so refreshes do not inflate quantities
             window.history.replaceState({}, document.title, window.location.pathname);
         }
         
         checkoutItems = cart;
-        
-        // Determine default shipping cost based on subtotal
-        let subtotal = 0;
-        checkoutItems.forEach(item => { subtotal += parseFloat(item.precio) * (item.quantity || 0); });
-        shippingCost = subtotal >= 500.00 ? 0.00 : 35.00;
-
         renderCheckoutProducts();
         updateSummary();
         renderAddress();
         renderPayment();
+        updateHeaderDeliveryPrompt();
     }
+
+    function updateQty(sku, qty) {
+        const item = checkoutItems.find(p => p.sku === sku);
+        if (item) {
+            item.quantity = Math.max(0, parseInt(qty));
+            
+            // Sync active items (qty > 0) back to localStorage
+            const activeItems = checkoutItems.filter(p => p.quantity > 0);
+            localStorage.setItem("shopping_cart", JSON.stringify(activeItems));
+            
+            renderCheckoutProducts();
+            updateSummary();
+            updateHeaderDeliveryPrompt();
+        }
+    }
+
+    function renderCheckoutProducts() {
+        const container = document.getElementById("checkout-products-container");
+        if (!container) return;
+        container.innerHTML = "";
+
+        if (checkoutItems.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-8 text-slate-400">
+                    <i class="fa-solid fa-cart-shopping text-3xl mb-2"></i>
+                    <p class="text-xs">No hay productos en tu carrito.</p>
+                </div>
+            `;
+            return;
+        }
+
+        checkoutItems.forEach(item => {
+            const isDeleted = (item.quantity || 0) === 0;
+            const prodRow = document.createElement("div");
+            
+            if (isDeleted) {
+                // Grayed out, disabled state for accidental deletion
+                prodRow.className = "flex gap-4 p-4 rounded-xl border border-dashed border-slate-300 bg-slate-50 opacity-45 grayscale transition duration-300 items-center justify-between";
+                prodRow.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-16 bg-white border border-slate-200 rounded-lg overflow-hidden flex items-center justify-center p-1">
+                            <img src="${item.imagen}" alt="${item.nombre}" class="w-full h-full object-contain bg-white">
+                        </div>
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-700 leading-tight line-clamp-1">${item.nombre}</h4>
+                            <p class="text-[10px] text-red-500 font-bold mt-0.5"><i class="fa-solid fa-trash-can"></i> Producto removido de la compra</p>
+                        </div>
+                    </div>
+                    <button onclick="updateQty('${item.sku}', 1)" class="bg-blue-50 hover:bg-blue-100 text-blue-600 border border-blue-200 font-black px-3 py-1.5 rounded-lg text-[9px] uppercase tracking-wider transition active:scale-97 cursor-pointer flex items-center gap-1">
+                        <i class="fa-solid fa-rotate-left"></i> Volver a agregar
+                    </button>
+                `;
+            } else {
+                // Active normal product card row with detailed savings
+                prodRow.className = "flex gap-4 p-4 rounded-xl border border-slate-100 bg-slate-50/50 hover:bg-slate-50 transition duration-200";
+                
+                const hasDiscount = item.precio_original && parseFloat(item.precio_original) > parseFloat(item.precio);
+                const origVal = hasDiscount ? parseFloat(item.precio_original) : 0;
+                const precVal = parseFloat(item.precio);
+                const savingsVal = hasDiscount ? (origVal - precVal) * item.quantity : 0;
+
+                const itemPriceBlock = hasDiscount ? `
+                    <div class="flex flex-col gap-0.5">
+                        <span class="text-[9px] text-slate-400 line-through">Antes: $${Math.floor(origVal)} MXN</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-black text-slate-900">$${Math.floor(precVal)} MXN</span>
+                            <span class="bg-red-50 text-red-500 border border-red-200 text-[8px] font-black px-1.5 py-0.2 rounded uppercase">Ahorraste: $${Math.floor(savingsVal)} MXN (${item.descuento || '45% OFF'})</span>
+                        </div>
+                    </div>
+                ` : `
+                    <span class="text-xs font-black text-slate-900">$${Math.floor(precVal)} MXN</span>
+                `;
+
+                const itemSpecs = `
+                    ${item.modelo_caja ? `<span class="bg-slate-100 border border-slate-200 text-slate-600 text-[9px] font-mono font-bold px-1.5 py-0.2 rounded">${item.modelo_caja}</span>` : ''}
+                    ${item.tamano_altavoz ? `<span class="bg-slate-100 border border-slate-200 text-slate-600 text-[9px] font-mono font-bold px-1.5 py-0.2 rounded">Altavoz ${item.tamano_altavoz}</span>` : ''}
+                `;
+
+                prodRow.innerHTML = `
+                    <div class="w-16 h-20 bg-white border border-slate-200 rounded-xl overflow-hidden flex items-center justify-center p-1 shrink-0">
+                        <img src="${item.imagen}" alt="${item.nombre}" class="w-full h-full object-contain bg-white">
+                    </div>
+                    <div class="flex-1 flex flex-col gap-1.5">
+                        <div>
+                            <h4 class="text-xs font-black text-slate-900 leading-tight">${item.nombre}</h4>
+                            <p class="text-[10px] text-slate-500 line-clamp-1 mt-0.5">${item.descripcion}</p>
+                        </div>
+                        <div class="flex flex-wrap gap-1.5 mt-0.5">
+                            ${itemSpecs}
+                        </div>
+                        <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-100">
+                            <div class="flex items-center gap-2">
+                                ${itemPriceBlock}
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <div class="flex items-center border border-slate-200 rounded-lg overflow-hidden bg-white">
+                                    <button onclick="updateQty('${item.sku}', ${item.quantity - 1})" class="px-2 py-0.5 text-xs text-slate-500 hover:bg-slate-100 hover:text-slate-900 font-bold transition"><i class="fa-solid fa-minus"></i></button>
+                                    <span class="px-2 text-xs font-mono font-bold text-slate-800 bg-slate-50">${item.quantity}</span>
+                                    <button onclick="updateQty('${item.sku}', ${item.quantity + 1})" class="px-2 py-0.5 text-xs text-slate-500 hover:bg-slate-100 hover:text-slate-900 font-bold transition"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                                <button onclick="updateQty('${item.sku}', 0)" class="text-[10px] text-red-500 hover:underline font-bold flex items-center gap-0.5">
+                                    <i class="fa-solid fa-trash-can"></i> Eliminar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            container.appendChild(prodRow);
+        });
+    }
+
+    function updateSummary() {
+        const activeItems = checkoutItems.filter(item => item.quantity > 0);
+        let subtotal = 0;
+        activeItems.forEach(item => {
+            subtotal += parseFloat(item.precio) * item.quantity;
+        });
+
+        // Shipping is Gratis
+        const shipping = 0;
+        
+        // Cashback: 5% of subtotal, rounded down to nearest integer (Math.floor) as requested
+        const cashback = Math.floor(subtotal * 0.05);
+        
+        // Total sum
+        const total = subtotal + shipping - cashback;
+
+        const subtotalEl = document.getElementById("summary-subtotal");
+        if (subtotalEl) subtotalEl.innerText = `$${Math.floor(subtotal)} MXN`;
+        
+        const shippingEl = document.getElementById("summary-shipping");
+        if (shippingEl) shippingEl.innerText = "Gratis";
+        
+        const cashbackEl = document.getElementById("summary-cashback");
+        if (cashbackEl) cashbackEl.innerText = `-$${Math.floor(cashback)} MXN`;
+        
+        const totalEl = document.getElementById("summary-total");
+        if (totalEl) totalEl.innerText = `$${Math.floor(total)} MXN`;
+    }
+
 
     function renderAddress() {
         const display = document.getElementById("checkout-address-display");
