@@ -41,7 +41,7 @@ def cargar_catalogo_csv(csv_path="catalog.csv"):
 def guardar_catalogo_csv(productos, csv_path="catalog.csv"):
     if not productos:
         return
-    fieldnames = ["sku", "nombre", "imagen", "precio", "frecuencia", "inventario_tipo", "categoria", "existencias", "descripcion"]
+    fieldnames = ["sku", "nombre", "imagen", "precio", "frecuencia", "inventario_tipo", "categoria", "existencias", "descripcion", "precio_original", "modelo_caja", "descuento", "tamano_altavoz", "caracteristicas"]
     with open(csv_path, "w", encoding="utf-8", newline="") as f:
         writer = csv.DictWriter(f, fieldnames=fieldnames)
         writer.writeheader()
@@ -55,7 +55,8 @@ def sincronizar_htmls(productos):
         print("No hay productos en el catálogo para sincronizar.")
         return
 
-    js_array = json.dumps(productos, ensure_ascii=False, indent=8)
+    productos_ordenados = sorted(productos, key=lambda x: x.get("nombre", "").lower())
+    js_array = json.dumps(productos_ordenados, ensure_ascii=False, indent=8)
     js_array_formatted = "const productCatalog = " + js_array + ";"
 
     pattern = re.compile(r"const productCatalog\s*=\s*\[.*?\]\s*;", re.DOTALL)
