@@ -639,6 +639,15 @@
     }
 
     // ENVÍO DE LA ORDEN DE COMPRA A WHATSAPP
+        function clearEntireCart() {
+        if (confirm("¿Estás seguro de que deseas vaciar todo el carrito?")) {
+            localStorage.removeItem("shopping_cart");
+            if (typeof renderCheckoutProducts === 'function') renderCheckoutProducts();
+            if (typeof updateOrderSummary === 'function') updateOrderSummary();
+            if (typeof updateHeaderBadge === 'function') updateHeaderBadge();
+        }
+    }
+
     function processFinalOrder() {
         const addressStored = localStorage.getItem("user_delivery_address");
         if (!addressStored) {
