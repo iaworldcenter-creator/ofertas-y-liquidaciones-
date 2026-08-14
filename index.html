@@ -232,7 +232,7 @@
     "addressCountry": "MX"
   }
 }</script></head>
-<body class="min-h-screen bg-slate-900 text-slate-100 flex flex-col justify-between selection:bg-blue-600 selection:text-white"><h1 class="sr-only">Ofertas y Liquidaciones Anti-Gravity</h1>
+<body class="min-h-screen bg-slate-50 text-slate-800 flex flex-col justify-between selection:bg-[#FFD814] selection:text-[#0F1111]"><h1 class="sr-only">Ofertas y Liquidaciones Anti-Gravity</h1>
 <!-- FRANJA NEGRA DE NAVEGACIÓN SUPERIOR AMPLIADA (ECOSISTEMA & AI CO-PILOT) -->
 <!-- FRANJA NEGRA DE NAVEGACIÓN SUPERIOR AMPLIADA (ECOSISTEMA & AI CO-PILOT) -->
 <header class="w-full bg-slate-950 border-b border-slate-800 pt-3 pb-3 px-4 flex flex-col gap-2.5 relative z-[100] text-slate-100">
@@ -894,37 +894,37 @@
         
         featuredCatalog.forEach(p => {
             const card = document.createElement("div");
-            card.className = "bg-slate-950/80 border border-slate-800/80 p-5 rounded-2xl flex flex-col justify-between h-full shadow-lg hover:border-blue-500 hover:shadow-blue-900/10 transition duration-300 relative group cursor-pointer";
+            card.className = "bg-white p-4.5 rounded-2xl border border-slate-200/80 shadow hover:shadow-md hover:border-[#FFD814] transition duration-200 flex flex-col justify-between h-full relative group cursor-pointer";
             card.onclick = (e) => {
                 if (!e.target.closest('button') && !e.target.closest('a')) {
                     window.location.href = `producto.html?sku=${p.sku}`;
                 }
             };
             card.innerHTML = `
-                <div class="flex flex-col gap-3">
-                    <div class="w-full aspect-[4/3] overflow-hidden rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center p-1.5">
-                        <img loading="lazy" src="${p.imagen}" alt="${p.nombre}" class="w-full h-full object-contain p-2 bg-slate-950 group-hover:scale-105 transition duration-300" onerror="this.onerror=null;this.parentNode.innerHTML='<div class=&quot;flex flex-col items-center justify-center w-full h-full text-slate-500&quot;><i class=&quot;fa-solid fa-box-open text-4xl mb-2&quot;></i><span class=&quot;text-[10px] font-mono uppercase tracking-wider font-bold&quot;>Imagen Próximamente</span></div>';">
+                <div class="flex flex-col gap-2.5">
+                    <div class="w-full aspect-[4/3] overflow-hidden rounded-xl bg-white border border-slate-100 flex items-center justify-center p-2">
+                        <img loading="lazy" src="${p.imagen}" alt="${p.nombre}" class="w-full h-full object-contain p-2 bg-white group-hover:scale-103 transition duration-300" onerror="this.onerror=null;this.parentNode.innerHTML='<div class=&quot;flex flex-col items-center justify-center w-full h-full text-slate-400&quot;><i class=&quot;fa-solid fa-box-open text-3xl mb-2&quot;></i><span class=&quot;text-[9px] font-mono uppercase tracking-wider font-bold&quot;>Imagen Próximamente</span></div>';">
                     </div>
-                    <div class="flex flex-col gap-1.5 mt-1">
+                    <div class="flex flex-col gap-1 mt-1">
                         <div class="flex justify-between items-center gap-1">
-                            <span class="text-[9px] font-mono font-bold text-slate-500">${p.sku}</span>
-                            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">${p.categoria}</span>
+                            <span class="text-[9px] font-mono font-bold text-slate-400">${p.sku}</span>
+                            <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-slate-50 text-slate-600 border border-slate-150">${p.categoria}</span>
                         </div>
-                        <h4 class="text-sm font-black text-white leading-tight line-clamp-2 min-h-[40px] hover:text-blue-400 transition">${p.nombre}</h4>
-                        <p class="text-[10px] text-slate-400 line-clamp-2 leading-snug">${p.descripcion}</p>
+                        <h4 class="text-xs font-black text-slate-900 leading-tight line-clamp-2 min-h-[32px] group-hover:text-blue-600 transition">${p.nombre}</h4>
+                        <p class="text-[9px] text-slate-500 line-clamp-2 leading-snug">${p.descripcion}</p>
                     </div>
                 </div>
-                <div class="flex flex-col gap-2.5 mt-5 pt-4 border-t border-slate-800">
-                    <div class="flex items-center gap-2 mt-1">
-                        <span class="text-base font-black text-white">$${Math.floor(p.precio)} MXN</span>
-                        ${p.precio_original ? `<span class="text-[10px] text-slate-500 line-through">$${Math.floor(p.precio_original)} MXN</span>` : ''}
-                        ${p.descuento ? `<span class="text-[9px] font-bold px-1 py-0.2 rounded bg-red-500/15 text-red-400 border border-red-500/10">${p.descuento}</span>` : ''}
+                <div class="flex flex-col gap-2 mt-4 pt-3 border-t border-slate-100">
+                    <div class="flex items-center gap-2.5 mb-1.5 flex-wrap">
+                        <span class="text-sm font-black text-slate-900">$${Math.floor(p.precio)} MXN</span>
+                        ${p.precio_original ? `<span class="text-[10px] text-slate-400 line-through">$${Math.floor(p.precio_original)} MXN</span>` : ''}
+                        ${p.descuento ? `<span class="text-[8px] font-bold px-1 rounded bg-red-50 text-red-600 border border-red-100">${p.descuento}</span>` : ''}
                     </div>
                     <div class="grid grid-cols-2 gap-2">
-                        <button onclick="window.location.href='producto.html?sku=${p.sku}'" class="bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 font-bold py-2 rounded-xl text-[10px] text-center shadow-md transition active:scale-95 cursor-pointer flex items-center justify-center gap-1 uppercase tracking-wider">
+                        <button onclick="window.location.href='producto.html?sku=${p.sku}'" class="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold py-2 rounded-xl text-[10px] text-center shadow-sm transition active:scale-95 cursor-pointer flex items-center justify-center gap-1 uppercase tracking-wider">
                             <i class="fa-solid fa-eye"></i> Ver
                         </button>
-                        <button onclick="addToCart('${p.sku}'); event.stopPropagation();" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2 rounded-xl text-[10px] text-center shadow-md transition active:scale-95 cursor-pointer flex items-center justify-center gap-1 uppercase tracking-wider">
+                        <button onclick="addToCart('${p.sku}'); event.stopPropagation();" class="bg-[#FFD814] hover:bg-[#F7CA00] text-[#0F1111] font-bold py-2 rounded-xl text-[10px] text-center shadow-sm border border-[#FCD200] transition active:scale-97 cursor-pointer flex items-center justify-center gap-1 uppercase tracking-wider">
                             <i class="fa-solid fa-cart-plus"></i> Compra
                         </button>
                     </div>
