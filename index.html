@@ -427,6 +427,8 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
 <button aria-label="📦 Segundo Mercado" class="hover:text-amber-400 transition" onclick="filterByDept('revistas'); filterByMarket('Segundo Mercado');">📦 Segundo Mercado</button>
 </div>
 </header>
+<main id="main-content">
+
 <!-- MODAL DE REGISTRO DE DIRECCIÓN (GLASSMORPHISM) -->
 <div class="fixed inset-0 z-[200] hidden flex items-center justify-center bg-slate-950/80 backdrop-blur-md px-4" id="deliveryModal">
 <div class="bg-slate-900/90 border border-slate-800 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative overflow-hidden text-slate-100">
@@ -1689,6 +1691,8 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
 <span class="text-xs text-slate-400 font-semibold" id="cartToastDetails"></span>
 </div>
 <!-- FOOTER INFORMACIÓN Y POLÍTICAS -->
+
+</main>
 <footer class="w-full bg-slate-950 text-slate-400 text-xs py-8 px-6 md:px-12 border-t border-slate-800 mt-12">
 <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
 <div>
@@ -1721,7 +1725,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
 </footer>
 <!-- CHATBOT FLOTANTE -->
 <div class="fixed bottom-6 right-6 z-[9999] text-slate-100 font-sans">
-<button aria-label="Botón de acción interactiva" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 text-white w-16 h-16 rounded-full shadow-2xl shadow-blue-600/50 flex items-center justify-center text-2xl transition-all cursor-pointer" id="chatbot-toggle" onclick="toggleChatbot()">
+<button aria-label="Botón de acción interactiva" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 text-white w-16 h-16 rounded-full shadow-2xl shadow-blue-600/50 flex items-center justify-center text-2xl transition-all cursor-pointer" id="chatbot-toggle" aria-label="Abrir chat de asistencia" onclick="toggleChatbot()">
 <i class="fa-solid fa-comments" id="chatbot-icon"></i>
 </button>
 <div class="hidden absolute bottom-20 right-0 w-80 sm:w-[420px] bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl overflow-hidden flex flex-col" id="chatbot-window">
