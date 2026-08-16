@@ -149,27 +149,47 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         const stored = localStorage.getItem("ecosystem_global_cart");
         return stored ? JSON.parse(stored) : [];
     }
-    function saveCart(cart) {
+        function saveCart(cart) {
+        localStorage.setItem("ecosystem_global_cart", JSON.stringify(cart));
+        updateCartBadge();
+    }
+    
     // FUNCIONES DEL CARRITO SLIDE-OVER DRAWER
     window.openCartDrawer = function() {
         const drawer = document.getElementById("cartDrawer");
         if (drawer) {
+            drawer.style.setProperty("display", "block", "important");
             drawer.classList.remove("hidden");
             renderDrawerCart();
         }
-    }
+    };
     
     window.closeCartDrawer = function() {
         const drawer = document.getElementById("cartDrawer");
-        if (drawer) drawer.classList.add("hidden");
-    }
+        if (drawer) {
+            drawer.style.setProperty("display", "none", "important");
+            drawer.classList.add("hidden");
+        }
+    };
+
+    window.toggleCartDrawer = function() {
+        const drawer = document.getElementById("cartDrawer");
+        if (drawer) {
+            const isHidden = drawer.style.display === 'none' || drawer.classList.contains('hidden');
+            if (isHidden) {
+                window.openCartDrawer();
+            } else {
+                window.closeCartDrawer();
+            }
+        }
+    };
     
     window.removeFromCart = function(sku) {
         let cart = getCart();
         cart = cart.filter(item => item.sku !== sku);
         saveCart(cart);
         renderDrawerCart();
-    }
+    };
     
     window.changeQuantity = function(sku, amount) {
         let cart = getCart();
@@ -182,7 +202,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         }
         saveCart(cart);
         renderDrawerCart();
-    }
+    };
     
     window.renderDrawerCart = function() {
         const container = document.getElementById("drawer-cart-items");
@@ -237,11 +257,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         });
         
         if (subtotalDisplay) subtotalDisplay.innerText = `$${subtotal.toFixed(2)} MXN`;
-    }
-
-        localStorage.setItem("ecosystem_global_cart", JSON.stringify(cart));
-        updateCartBadge();
-    }
+    };
     function updateCartBadge() {
         const cart = getCart();
         let totalQty = 0;
@@ -1705,27 +1721,47 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         const stored = localStorage.getItem("ecosystem_global_cart");
         return stored ? JSON.parse(stored) : [];
     }
-    function saveCart(cart) {
+        function saveCart(cart) {
+        localStorage.setItem("ecosystem_global_cart", JSON.stringify(cart));
+        updateCartBadge();
+    }
+    
     // FUNCIONES DEL CARRITO SLIDE-OVER DRAWER
     window.openCartDrawer = function() {
         const drawer = document.getElementById("cartDrawer");
         if (drawer) {
+            drawer.style.setProperty("display", "block", "important");
             drawer.classList.remove("hidden");
             renderDrawerCart();
         }
-    }
+    };
     
     window.closeCartDrawer = function() {
         const drawer = document.getElementById("cartDrawer");
-        if (drawer) drawer.classList.add("hidden");
-    }
+        if (drawer) {
+            drawer.style.setProperty("display", "none", "important");
+            drawer.classList.add("hidden");
+        }
+    };
+
+    window.toggleCartDrawer = function() {
+        const drawer = document.getElementById("cartDrawer");
+        if (drawer) {
+            const isHidden = drawer.style.display === 'none' || drawer.classList.contains('hidden');
+            if (isHidden) {
+                window.openCartDrawer();
+            } else {
+                window.closeCartDrawer();
+            }
+        }
+    };
     
     window.removeFromCart = function(sku) {
         let cart = getCart();
         cart = cart.filter(item => item.sku !== sku);
         saveCart(cart);
         renderDrawerCart();
-    }
+    };
     
     window.changeQuantity = function(sku, amount) {
         let cart = getCart();
@@ -1738,7 +1774,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         }
         saveCart(cart);
         renderDrawerCart();
-    }
+    };
     
     window.renderDrawerCart = function() {
         const container = document.getElementById("drawer-cart-items");
@@ -1793,11 +1829,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         });
         
         if (subtotalDisplay) subtotalDisplay.innerText = `$${subtotal.toFixed(2)} MXN`;
-    }
-
-        localStorage.setItem("ecosystem_global_cart", JSON.stringify(cart));
-        updateCartBadge();
-    }
+    };
     function updateCartBadge() {
         const cart = getCart();
         let totalQty = 0;
