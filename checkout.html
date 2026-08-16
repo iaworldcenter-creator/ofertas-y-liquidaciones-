@@ -313,12 +313,12 @@
 <script>
     // Obtener y Guardar Carrito
     function getCart() {
-        const stored = sessionStorage.getItem("shopping_cart");
+        const stored = localStorage.getItem("ecosystem_global_cart");
         return stored ? JSON.parse(stored) : [];
     }
 
     function saveCart(cart) {
-        sessionStorage.setItem("shopping_cart", JSON.stringify(cart));
+        localStorage.setItem("ecosystem_global_cart", JSON.stringify(cart));
         renderCheckoutProducts();
     }
 
@@ -621,7 +621,7 @@
     // ENVÍO DE LA ORDEN DE COMPRA A WHATSAPP
         function clearEntireCart() {
         if (confirm("¿Estás seguro de que deseas vaciar todo el carrito?")) {
-            sessionStorage.removeItem("shopping_cart");
+            localStorage.removeItem("ecosystem_global_cart");
             if (typeof renderCheckoutProducts === 'function') renderCheckoutProducts();
             if (typeof updateOrderSummary === 'function') updateOrderSummary();
             if (typeof updateHeaderBadge === 'function') updateHeaderBadge();
