@@ -1,8 +1,8 @@
-const CACHE_NAME = 'ofertas-liqui-cache-v1.0.6';
+const CACHE_NAME = 'ofertas-y-liquidaciones-cache-v1.0.9';
 const ASSETS_TO_CACHE = [
   './index.html',
-  './assets/css/tailwind-built.css?v=1.0.2',
-  './assets/css/fontawesome-all.min.css?v=1.0.2'
+  './assets/css/tailwind-built.css?v=1.0.9',
+  './assets/css/fontawesome-all.min.css?v=1.0.9'
 ];
 
 self.addEventListener('install', (event) => {
@@ -29,22 +29,38 @@ self.addEventListener('activate', (event) => {
 
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
-  if (url.origin === self.location.origin || url.href.includes('cdnjs.cloudflare.com')) {
+  
+  // Use Network-First for HTML/Navigations to prevent user stuck on old versions
+  if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname.endsWith('/')) {
     event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-        return fetch(event.request).then((networkResponse) => {
+      fetch(event.request)
+        .then((networkResponse) => {
           if (networkResponse && networkResponse.status === 200) {
             const cacheCopy = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, cacheCopy);
-            });
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, cacheCopy));
           }
           return networkResponse;
-        });
-      })
+        })
+        .catch(() => caches.match(event.request))
     );
+    return;
   }
+  
+  // Cache-First for other assets (CSS, FontAwesome, Images)
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      return fetch(event.request).then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          const cacheCopy = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, cacheCopy);
+          });
+        }
+        return networkResponse;
+      });
+    })
+  );
 });

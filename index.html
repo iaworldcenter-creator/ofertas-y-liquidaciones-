@@ -6,7 +6,22 @@
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
-      .then(reg => console.log('Service Worker registered successfully'))
+      .then(reg => {
+        console.log('Service Worker registered successfully');
+        reg.onupdatefound = () => {
+          const installingWorker = reg.installing;
+          if (installingWorker) {
+            installingWorker.onstatechange = () => {
+              if (installingWorker.state === 'installed') {
+                if (navigator.serviceWorker.controller) {
+                  console.log('New content is available, auto-reloading page...');
+                  window.location.reload();
+                }
+              }
+            };
+          }
+        };
+      })
       .catch(err => console.log('Service Worker registration failed:', err));
   });
 }
@@ -143,8 +158,8 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
 .border-t { border-top-width: 1px; }
 .border-slate-100 { border-color: #f1f5f9; }
 </style>
-<link rel="preload" href="assets/css/tailwind-built.css?v=1.0.5" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link href="assets/css/tailwind-built.css?v=1.0.5" rel="stylesheet" /></noscript>
+<link rel="preload" href="assets/css/tailwind-built.css?v=1.0.9" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="assets/css/tailwind-built.css?v=1.0.9" rel="stylesheet" /></noscript>
 <script>    function getCart() {
         const stored = localStorage.getItem("ecosystem_global_cart");
         return stored ? JSON.parse(stored) : [];
@@ -326,8 +341,8 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
     });
 
 </script>
-<link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.5" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link href="assets/css/fontawesome-all.min.css?v=1.0.5" rel="stylesheet" /></noscript>
+<link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.9" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="assets/css/fontawesome-all.min.css?v=1.0.9" rel="stylesheet" /></noscript>
 <!-- Open Graph para Applebot, Siri, Spotlight, Facebook, Discord -->
 <meta content="Ofertas y Liquidaciones | Tienda Oficial" property="og:title"/>
 <meta content="Encuentra las mejores ofertas y liquidaciones en revistas, dulces, cigarros y gadgets en nuestro puesto local. ¡Hasta 5% de cashback!" property="og:description"/>
