@@ -274,7 +274,7 @@
         <a href="https://iaworldcenter-creator.github.io/ofertas-y-liquidaciones-/" onclick="const isOf = window.location.pathname.includes('ofertas-y-liquidaciones-') || window.location.pathname.includes('ofertas-y-liquidaciones'); if (isOf) { event.preventDefault(); window.location.reload(); }" class="hover:text-amber-400 transition">Liquidaciones y Ofertas</a>
     
         <span class="text-slate-800">|</span>
-      <button onclick="goToCatalogCategory(1)" class="hover:text-amber-400 transition cursor-pointer">Boutique de Ofertas</button>
+      <button onclick="window.location.href='index.html#featured-grid-section'" class="hover:text-amber-400 transition cursor-pointer">Boutique de Ofertas</button>
       <span class="text-slate-800">|</span>
       <a href="#contacto" class="hover:text-amber-400 transition">Contacto</a>
         <span class="text-slate-800">|</span>
@@ -1163,6 +1163,8 @@
     };
 
     let reorderItems = [];
+    
+    let reorderItems = [];
     window.renderOrdersModal = function() {
         const content = document.getElementById("orders-modal-content");
         if (!content) return;
@@ -1194,35 +1196,119 @@
             reorderItems = JSON.parse(JSON.stringify(history[0].items));
         }
         
-        content.innerHTML = history.map(order => `
-            <div class="bg-slate-950 border border-slate-800 rounded-2xl p-4 flex flex-col gap-3">
-                <div class="flex justify-between items-center border-b border-slate-900 pb-2.5">
-                    <div>
-                        <span class="text-[10px] font-mono text-slate-500 uppercase block">Pedido ${order.orderId}</span>
-                        <span class="text-xs font-bold text-white">${order.date}</span>
+        content.innerHTML = "";
+        
+        history.forEach(order => {
+            const orderDiv = document.createElement("div");
+            orderDiv.className = "bg-slate-950/50 border border-slate-800 rounded-2xl p-5 flex flex-col gap-4";
+            
+            let statusClass = "text-green-400 bg-green-500/10 border-green-500/20";
+            if (order.status === "Preparando") statusClass = "text-amber-400 bg-amber-500/10 border-amber-500/20";
+            if (order.status === "En tránsito") statusClass = "text-blue-400 bg-blue-500/10 border-blue-500/20";
+            
+            let itemsHtml = "";
+            order.items.forEach(item => {
+                let imgUrl = item.imagen;
+                if (imgUrl && !imgUrl.startsWith('http') && !imgUrl.startsWith('https')) {
+                    imgUrl = './' + imgUrl;
+                }
+                itemsHtml += `
+                    <div class="flex items-center gap-3 text-xs">
+                        <img src="${imgUrl}" class="w-8 h-8 object-contain bg-white rounded p-0.5 shrink-0" />
+                        <span class="text-white font-bold flex-1 truncate">${item.nombre}</span>
+                        <span class="text-slate-400 shrink-0">Cant: ${item.quantity}</span>
+                        <span class="text-amber-500 font-bold shrink-0">$${(parseFloat(item.precio) * item.quantity).toFixed(2)} MXN</span>
                     </div>
-                    <span class="text-[10px] font-mono bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 px-2 py-0.5 rounded-full font-bold">${order.status}</span>
-                </div>
-                <div class="flex flex-col gap-2.5">
-                    ${order.items.map(item => `
-                        <div class="flex items-center gap-3">
-                            <div class="w-9 h-12 rounded bg-slate-900 border border-slate-800 flex items-center justify-center p-1 overflow-hidden shrink-0">
-                                <img src="${item.imagen}" class="w-full h-full object-contain">
+                `;
+            });
+            
+            let reorderHtml = "";
+            if (reorderItems.length > 0) {
+                let reorderRows = "";
+                let reorderSubtotal = 0;
+                reorderItems.forEach(item => {
+                    const sub = parseFloat(item.precio) * item.quantity;
+                    reorderSubtotal += sub;
+                    let imgUrl = item.imagen;
+                    if (imgUrl && !imgUrl.startsWith('http') && !imgUrl.startsWith('https')) {
+                        imgUrl = './' + imgUrl;
+                    }
+                    
+                    let opacityClass = "";
+                    let xButtonHtml = "";
+                    if (item.quantity === 0) {
+                        opacityClass = "opacity-40 grayscale";
+                        xButtonHtml = `
+                            <button onclick="deleteHistoricalItem('${item.sku}')" class="absolute -top-1 -right-1 bg-red-600 hover:bg-red-700 text-white font-black w-4.5 h-4.5 rounded-full flex items-center justify-center text-[9px] shadow-md z-20 cursor-pointer" title="Eliminar definitivamente del historial">X</button>
+                        `;
+                    }
+                    
+                    reorderRows += `
+                        <div class="relative flex items-center justify-between gap-3 bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs ${opacityClass}">
+                            ${xButtonHtml}
+                            <div class="flex items-center gap-2 min-w-0 flex-1">
+                                <img src="${imgUrl}" class="w-6 h-6 object-contain bg-white rounded p-0.5 shrink-0" />
+                                <span class="text-white font-semibold truncate flex-1">${item.nombre}</span>
                             </div>
-                            <div class="flex-1 min-w-0">
-                                <h4 class="text-xs font-bold text-white truncate">${item.nombre}</h4>
-                                <span class="text-[10px] text-slate-400">${item.quantity} pz x $${parseFloat(item.precio).toFixed(2)}</span>
+                            <div class="flex items-center gap-2 shrink-0">
+                                <div class="flex items-center gap-1 bg-slate-950 border border-slate-800 rounded p-0.5">
+                                    <button onclick="changeReorderQty('${item.sku}', -1)" class="w-4 h-4 rounded text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-[10px]">-</button>
+                                    <span class="text-white font-black text-[10px] w-3 text-center">${item.quantity}</span>
+                                    <button onclick="changeReorderQty('${item.sku}', 1)" class="w-4 h-4 rounded text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-[10px]">+</button>
+                                </div>
+                                <span class="text-amber-500 font-bold min-w-[70px] text-right">$${sub.toFixed(2)} MXN</span>
                             </div>
                         </div>
-                    `).join('')}
+                    `;
+                });
+                
+                reorderHtml = `
+                    <div class="border-t border-slate-800 pt-4 mt-2 flex flex-col gap-3">
+                        <h4 class="text-xs font-black text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-arrows-rotate"></i> Volver a comprar (Ajustar cantidades):</h4>
+                        <div class="flex flex-col gap-2">
+                            ${reorderRows || '<div class="text-center py-4 text-slate-500 text-xs">No hay productos seleccionados.</div>'}
+                        </div>
+                        ${reorderItems.length > 0 ? `
+                        <div class="flex justify-between items-center bg-slate-900 border border-slate-800 rounded-xl p-3 mt-1">
+                            <div class="flex flex-col">
+                                <span class="text-[10px] text-slate-400 font-bold uppercase">Total del Pedido:</span>
+                                <span class="text-sm font-black text-cyan-400">$${reorderSubtotal.toFixed(2)} MXN</span>
+                            </div>
+                            <button onclick="addReorderToCart()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-4 py-2 rounded-xl text-xs transition active:scale-95">
+                                Agregar al Carrito <i class="fa-solid fa-plus-circle ml-1"></i>
+                            </button>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            }
+            
+            orderDiv.innerHTML = `
+                <div class="flex justify-between items-start border-b border-slate-800/60 pb-3">
+                    <div class="flex flex-col">
+                        <span class="text-white font-black text-sm">Pedido #${order.orderId}</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">${order.date}</span>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${statusClass}">${order.status}</span>
+                        <span class="text-[10px] text-slate-400 font-semibold">${order.deliveryTime}</span>
+                    </div>
                 </div>
-                <div class="flex justify-between items-center border-t border-slate-900 pt-3 mt-1">
-                    <span class="text-[10px] text-slate-500">${order.deliveryTime}</span>
-                    <button onclick="reorderPurchase()" class="bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold px-3.5 py-1.5 rounded-xl text-xs transition active:scale-95 cursor-pointer">Volver a Comprar</button>
+                <div class="flex flex-col gap-2.5">
+                    ${itemsHtml}
                 </div>
-            </div>
-        `).join('');
+                ${reorderHtml}
+            `;
+            content.appendChild(orderDiv);
+        });
     };
+
+    ;
+
+    ;
+
+    ;
+;
 
     window.reorderPurchase = function() {
         const cart = getCart();
