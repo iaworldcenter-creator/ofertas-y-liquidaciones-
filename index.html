@@ -447,7 +447,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
 
 <!-- CART DRAWER (Slide-in right to left) -->
 <div class="fixed inset-0 z-[250]" id="cartDrawer" style="display: none !important;">
-    <div class="absolute inset-0 bg-slate-950/60" onclick="closeCartDrawer()"></div>
+    <div class="absolute inset-0 bg-slate-950/60 cursor-pointer" onclick="closeCartDrawerAndGoToBoutique()"></div>
     <div class="absolute right-0 top-0 h-full w-full max-w-md bg-slate-900 border-l border-slate-800 shadow-2xl flex flex-col justify-between text-slate-100 p-6 transition-transform duration-300">
         <div>
             <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-6">
@@ -1725,6 +1725,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         }
     };
 
+    
     let reorderItems = [];
     window.renderOrdersModal = function() {
         const content = document.getElementById("orders-modal-content");
@@ -1796,28 +1797,30 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
                     }
                     
                     let opacityClass = "";
-                    let xButtonHtml = "";
+                    let trashBtnHtml = "";
                     if (item.quantity === 0) {
-                        opacityClass = "opacity-40 grayscale";
-                        xButtonHtml = `
-                            <button onclick="deleteHistoricalItem('${item.sku}')" class="absolute -top-1 -right-1 bg-red-600 hover:bg-red-700 text-white font-black w-4.5 h-4.5 rounded-full flex items-center justify-center text-[9px] shadow-md z-20 cursor-pointer" title="Eliminar definitivamente del historial">X</button>
+                        opacityClass = "opacity-40 grayscale text-slate-500 border-red-500/30 bg-red-950/5";
+                        trashBtnHtml = `
+                            <button onclick="deleteHistoricalItem('${item.sku}')" class="text-red-500 hover:text-red-400 text-sm cursor-pointer shrink-0 transition flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 hover:bg-red-500/20" title="Eliminar del historial">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
                         `;
                     }
                     
                     reorderRows += `
                         <div class="relative flex items-center justify-between gap-3 bg-slate-900 border border-slate-800 rounded-xl p-2.5 text-xs ${opacityClass}">
-                            ${xButtonHtml}
                             <div class="flex items-center gap-2 min-w-0 flex-1">
-                                <img src="${imgUrl}" class="w-6 h-6 object-contain bg-white rounded p-0.5 shrink-0" />
+                                <img src="${imgUrl}" class="w-8 h-8 object-contain bg-white rounded p-0.5 shrink-0" />
                                 <span class="text-white font-semibold truncate flex-1">${item.nombre}</span>
                             </div>
-                            <div class="flex items-center gap-2 shrink-0">
-                                <div class="flex items-center gap-1 bg-slate-950 border border-slate-800 rounded p-0.5">
-                                    <button onclick="changeReorderQty('${item.sku}', -1)" class="w-4 h-4 rounded text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-[10px]">-</button>
-                                    <span class="text-white font-black text-[10px] w-3 text-center">${item.quantity}</span>
-                                    <button onclick="changeReorderQty('${item.sku}', 1)" class="w-4 h-4 rounded text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-[10px]">+</button>
+                            <div class="flex items-center gap-2.5 shrink-0">
+                                ${trashBtnHtml}
+                                <div class="flex items-center gap-1.5 bg-slate-950 border border-slate-800 rounded-lg p-0.5">
+                                    <button onclick="changeReorderQty('${item.sku}', -1)" class="w-8 h-8 rounded bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-sm cursor-pointer select-none">-</button>
+                                    <span class="text-white font-black text-sm w-5 text-center">${item.quantity}</span>
+                                    <button onclick="changeReorderQty('${item.sku}', 1)" class="w-8 h-8 rounded bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white transition flex items-center justify-center font-bold text-sm cursor-pointer select-none">+</button>
                                 </div>
-                                <span class="text-amber-500 font-bold min-w-[70px] text-right">$${sub.toFixed(2)} MXN</span>
+                                <span class="text-amber-500 font-bold min-w-[75px] text-right">$${sub.toFixed(2)} MXN</span>
                             </div>
                         </div>
                     `;
@@ -1830,14 +1833,19 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
                             ${reorderRows || '<div class="text-center py-4 text-slate-500 text-xs">No hay productos seleccionados.</div>'}
                         </div>
                         ${reorderItems.length > 0 ? `
-                        <div class="flex justify-between items-center bg-slate-900 border border-slate-800 rounded-xl p-3 mt-1">
-                            <div class="flex flex-col">
+                        <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-900 border border-slate-800 rounded-xl p-3.5 mt-1 gap-3">
+                            <div class="flex items-center gap-2">
+                                <button onclick="closeOrdersModal(); scrollToBoutique();" class="bg-slate-800 hover:bg-slate-700 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition cursor-pointer flex items-center gap-1.5 active:scale-95">
+                                    <i class="fa-solid fa-arrow-left"></i> Seguir comprando
+                                </button>
+                                <button onclick="addReorderToCart()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-4 py-2.5 rounded-xl text-xs transition active:scale-95 cursor-pointer flex items-center gap-1.5">
+                                    Agregar al Carrito <i class="fa-solid fa-cart-plus"></i>
+                                </button>
+                            </div>
+                            <div class="flex flex-col text-right">
                                 <span class="text-[10px] text-slate-400 font-bold uppercase">Total del Pedido:</span>
                                 <span class="text-sm font-black text-cyan-400">$${reorderSubtotal.toFixed(2)} MXN</span>
                             </div>
-                            <button onclick="addReorderToCart()" class="bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-4 py-2 rounded-xl text-xs transition active:scale-95">
-                                Agregar al Carrito <i class="fa-solid fa-plus-circle ml-1"></i>
-                            </button>
                         </div>
                         ` : ''}
                     </div>
@@ -1863,6 +1871,49 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
             content.appendChild(orderDiv);
         });
     };
+
+    window.changeReorderQty = function(sku, amount) {
+        const item = reorderItems.find(i => i.sku === sku);
+        if (item) {
+            item.quantity += amount;
+            if (item.quantity < 0) {
+                item.quantity = 0;
+            }
+        }
+        renderOrdersModal();
+    };
+
+    window.deleteHistoricalItem = function(sku) {
+        reorderItems = reorderItems.filter(i => i.sku !== sku);
+        renderOrdersModal();
+    };
+
+    window.addReorderToCart = function() {
+        let cart = getCart();
+        reorderItems.forEach(reItem => {
+            if (reItem.quantity > 0) {
+                const existing = cart.find(i => i.sku === reItem.sku);
+                if (existing) {
+                    existing.quantity = (existing.quantity || 1) + reItem.quantity;
+                } else {
+                    cart.push({
+                        sku: reItem.sku,
+                        nombre: reItem.nombre,
+                        precio: reItem.precio,
+                        imagen: reItem.imagen,
+                        quantity: reItem.quantity
+                    });
+                }
+            }
+        });
+        saveCart(cart);
+        closeOrdersModal();
+        if (typeof toggleCartDrawer === 'function') {
+            toggleCartDrawer();
+        }
+        alert("¡Productos del historial agregados al carrito!");
+    };
+;
 
     ;
 
