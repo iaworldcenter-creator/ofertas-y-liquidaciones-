@@ -83,6 +83,21 @@ try {
 <meta content="8K2sKSVop9TiESQupe6QkSBIJjwXpli847qEAWCq87I" name="google-site-verification">
 <meta content="BwSy5nNuFFrHJUtxe189nJtPxM4h5QY-SxK1V8wqYDE" name="google-site-verification">
 <style>
+
+/* BANDA MARQUEE CONTINUA UNIVERSAL */
+@keyframes marqueeContinuous {
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+}
+.marquee-track {
+    display: inline-flex;
+    width: max-content;
+    animation: marqueeContinuous 35s linear infinite;
+}
+.marquee-track:hover {
+    animation-play-state: paused;
+}
+
         :root { 
             --fondo: #FFF7ED; 
             --azul: #123B5D; 
@@ -159,8 +174,8 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
 .border-t { border-top-width: 1px; }
 .border-slate-100 { border-color: #f1f5f9; }
 </style>
-<link rel="preload" href="assets/css/tailwind-built.css?v=1.0.9" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link href="assets/css/tailwind-built.css?v=1.0.9" rel="stylesheet" /></noscript>
+<link rel="preload" href="assets/css/tailwind-built.css?v=1.1.0" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="assets/css/tailwind-built.css?v=1.1.0" rel="stylesheet" /></noscript>
 <script>    function getCart() {
         const stored = localStorage.getItem("ecosystem_global_cart");
         return stored ? JSON.parse(stored) : [];
@@ -346,8 +361,8 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
     });
 
 </script>
-<link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.0.9" as="style" onload="this.onload=null;this.rel='stylesheet'" />
-<noscript><link href="assets/css/fontawesome-all.min.css?v=1.0.9" rel="stylesheet" /></noscript>
+<link rel="preload" href="assets/css/fontawesome-all.min.css?v=1.1.0" as="style" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="assets/css/fontawesome-all.min.css?v=1.1.0" rel="stylesheet" /></noscript>
 <!-- Open Graph para Applebot, Siri, Spotlight, Facebook, Discord -->
 <meta content="Ofertas y Liquidaciones | Tienda Oficial" property="og:title"/>
 <meta content="Encuentra las mejores ofertas y liquidaciones en revistas, dulces, cigarros y gadgets en nuestro puesto local. ¡Hasta 5% de cashback!" property="og:description"/>
@@ -463,6 +478,34 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         </div>
     </div>
 </header>
+<!-- BANDA PROMOCIONAL MARQUEE UNIVERSAL -->
+<div class="w-full bg-[#f0c14b] border-b border-[#ddb347] text-slate-950 py-2 overflow-hidden">
+    <div class="marquee-track flex gap-8 items-center text-xs font-black uppercase tracking-wider">
+        <span class="flex items-center gap-1.5">🚚 ¡ENVÍO GRATIS en compras a partir de $499!</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">💳 5% DE CASHBACK acumulable con registro</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">📦 PRECIO DE MAYOREO: 15% de descuento directo al llevar 3+</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🔔 CONDICIÓN: Sin registro no hay cashback</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🏬 BOUTIQUES ESPECIALIZADAS, UN SOLO CARRITO</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🔒 Pagos con tarjeta y transferencia</span>
+        <!-- Bucle continuo -->
+        <span class="flex items-center gap-1.5">🚚 ¡ENVÍO GRATIS en compras a partir de $499!</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">💳 5% DE CASHBACK acumulable con registro</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">📦 PRECIO DE MAYOREO: 15% de descuento directo al llevar 3+</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🔔 CONDICIÓN: Sin registro no hay cashback</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🏬 BOUTIQUES ESPECIALIZADAS, UN SOLO CARRITO</span>
+        <span class="text-slate-900 font-bold">•</span>
+        <span class="flex items-center gap-1.5">🔒 Pagos con tarjeta y transferencia</span>
+    </div>
+</div>
 
 <!-- BANDA PROMOCIONAL MARQUEE -->
 <div class="w-full bg-[#f0c14b] border-b border-[#ddb347] text-slate-950 py-2.5 overflow-hidden relative z-50 select-none shadow-sm">
