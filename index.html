@@ -379,7 +379,25 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
     "postalCode": "44100",
     "addressCountry": "MX"
   }
-}</script></head>
+}</script><script>
+(function() {
+    try {
+        const vKey = "ecosystem_reset_v2026_clean";
+        if (!localStorage.getItem(vKey)) {
+            const cart = localStorage.getItem("ecosystem_global_cart");
+            if (cart && (cart.includes("GPU-001") || cart === "[object Object]")) {
+                localStorage.setItem("ecosystem_global_cart", "[]");
+            }
+            const history = localStorage.getItem("user_purchases_history");
+            if (history && history.includes("AGY-4982")) {
+                localStorage.setItem("user_purchases_history", "[]");
+            }
+            localStorage.setItem(vKey, "true");
+        }
+    } catch(e) {}
+})();
+</script>
+</head>
 <body><h1 class="sr-only">Ofertas y Liquidaciones Anti-Gravity</h1>
 <!-- FRANJA NEGRA DE NAVEGACIÓN SUPERIOR AMPLIADA (ECOSISTEMA & AI CO-PILOT) -->
 <!-- FRANJA NEGRA DE NAVEGACIÓN SUPERIOR AMPLIADA (ECOSISTEMA & AI CO-PILOT) -->
@@ -1797,24 +1815,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
             }
         } catch(e) {}
         
-        if (history.length === 0) {
-            const simItems = [
-                { sku: 'OLG-001', nombre: 'NVIDIA RTX 4060 8GB OC', precio: 6500, quantity: 1, imagen: 'assets/img/bocinas/Gemini_Generated_Image_2ppzz92ppzz92ppz.webp' },
-                { sku: 'OLC-001', nombre: 'Intel Core i5-12400F Outlet', precio: 1900, quantity: 2, imagen: 'assets/img/bocinas/Gemini_Generated_Image_2ppzz92ppzz92ppz.webp' }
-            ];
-            
-            history = [{
-                orderId: 'OL-4982',
-                date: 'Ayer, 16:30',
-                status: 'Entregado',
-                deliveryTime: 'Entregado en 18 min',
-                items: simItems
-            }];
-        }
         
-        if (reorderItems.length === 0 && history.length > 0) {
-            reorderItems = JSON.parse(JSON.stringify(history[0].items));
-        }
         
         content.innerHTML = "";
         
