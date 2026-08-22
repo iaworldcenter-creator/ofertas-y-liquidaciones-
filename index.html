@@ -4,6 +4,19 @@
 <head>
     <meta name="google-site-verification" content="2xIPYIU_imoZjFogZhoFRuepS7PFhXQloOamPV7ex6Q" />
 <script>
+// Global Error & Promise Rejection Guard (Safe Headless & Mobile Execution)
+window.addEventListener('error', function(e) {
+    if (e && e.message && (e.message.includes('play()') || e.message.includes('quicklink') || e.message.includes('ResizeObserver') || e.message.includes('SpeechRecognition'))) {
+        e.preventDefault();
+        return true;
+    }
+}, true);
+window.addEventListener('unhandledrejection', function(e) {
+    if (e && e.reason && (e.reason.name === 'NotAllowedError' || e.reason.name === 'AbortError' || e.reason.name === 'SecurityError')) {
+        e.preventDefault();
+    }
+});
+
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./sw.js')
@@ -241,7 +254,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         container.innerHTML = "";
         
         if (cart.length === 0) {
-            container.innerHTML = `<div class="text-center py-12 text-slate-500"><i class="fa-solid fa-cart-flatbed text-4xl mb-3 block opacity-40"></i><p class="text-xs font-semibold">Tu carrito está vacío.</p></div>`;
+            container.innerHTML = `<div class="text-center py-12 text-slate-400"><i class="fa-solid fa-cart-flatbed text-4xl mb-3 block opacity-40"></i><p class="text-xs font-semibold">Tu carrito está vacío.</p></div>`;
             if (subtotalDisplay) subtotalDisplay.innerText = "$0.00 MXN";
             return;
         }
@@ -257,7 +270,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
             const isZero = qty === 0;
             const div = document.createElement("div");
             if (isZero) {
-                div.className = "flex items-center gap-3.5 bg-slate-950 border border-slate-900 rounded-2xl p-3 shadow-md opacity-40 text-slate-500";
+                div.className = "flex items-center gap-3.5 bg-slate-950 border border-slate-900 rounded-2xl p-3 shadow-md opacity-40 text-slate-400";
             } else {
                 div.className = "flex items-center gap-3.5 bg-slate-950 border border-slate-800/80 rounded-2xl p-3 shadow-md";
             }
@@ -268,11 +281,11 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
                 </div>
                 <div class="flex-1 flex flex-col justify-between min-h-[50px]">
                     <div class="flex justify-between items-start gap-1">
-                        <h4 class="text-[11px] font-black ${isZero ? 'text-slate-500' : 'text-white'} leading-tight line-clamp-2">${item.nombre}</h4>
-                        <button onclick="removeFromCart('${item.sku}')" class="text-slate-500 hover:text-red-400 text-xs cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
+                        <h4 class="text-[11px] font-black ${isZero ? 'text-slate-400' : 'text-white'} leading-tight line-clamp-2">${item.nombre}</h4>
+                        <button onclick="removeFromCart('${item.sku}')" class="text-slate-400 hover:text-red-400 text-xs cursor-pointer"><i class="fa-solid fa-trash-can"></i></button>
                     </div>
                     <div class="flex justify-between items-center mt-1">
-                        <span class="text-xs font-black ${isZero ? 'text-slate-500 line-through' : 'text-amber-400'}">$${price.toFixed(2)}</span>
+                        <span class="text-xs font-black ${isZero ? 'text-slate-400 line-through' : 'text-amber-400'}">$${price.toFixed(2)}</span>
                         <div class="flex items-center gap-2.5 bg-slate-900 border border-slate-800 rounded-lg px-2 py-0.5">
                             <button onclick="changeQuantity('${item.sku}', -1)" class="text-[10px] text-slate-400 hover:text-white cursor-pointer"><i class="fa-solid fa-minus"></i></button>
                             <span class="text-[11px] font-mono font-bold w-3 text-center ${isZero ? 'text-red-400 font-black' : 'text-slate-300'}">${qty}</span>
@@ -413,7 +426,8 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
 })();
 </script>
 <link rel="stylesheet" href="assets/css/tailwind-built.css?v=1.1.0" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased overflow-x-hidden"><h1 class="sr-only">Ofertas y Liquidaciones Anti-Gravity</h1>
 <!-- FRANJA NEGRA DE NAVEGACIÓN SUPERIOR AMPLIADA (ECOSISTEMA & AI CO-PILOT) -->
@@ -716,18 +730,18 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
 <div class="lg:col-span-1 bg-white p-4 rounded-2xl border border-slate-200/80 shadow-md flex flex-col gap-4">
 <div>
 <h4 class="text-xs font-black text-slate-800 mb-2">Disponibilidad</h4>
-<label class="flex items-center gap-2 text-xs text-slate-600 mb-1 cursor-pointer">
+<label class="flex items-center gap-2 text-xs text-slate-400 mb-1 cursor-pointer">
 <input aria-label="Campo de entrada de texto" checked="" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500" type="checkbox"/>
 <span>En existencia</span>
 </label>
-<label class="flex items-center gap-2 text-xs text-slate-600 cursor-pointer">
+<label class="flex items-center gap-2 text-xs text-slate-400 cursor-pointer">
 <input aria-label="Campo de entrada de texto" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500" type="checkbox"/>
 <span>Incluir No Disponibles</span>
 </label>
 </div>
 <div class="border-t border-slate-100 pt-3">
 <h4 class="text-xs font-black text-slate-800 mb-2">Departamentos</h4>
-<ul class="flex flex-col gap-1 text-xs text-slate-600" id="department-filter-list">
+<ul class="flex flex-col gap-1 text-xs text-slate-400" id="department-filter-list">
 <li class="font-bold text-blue-600 cursor-pointer hover:underline" onclick="filterByDept('todas')">🛍️ Todas las Secciones</li>
 <li class="cursor-pointer hover:text-blue-600" onclick="filterByDept('revistas')">📖 Revistas y Periódicos</li>
 <li class="cursor-pointer hover:text-blue-600" onclick="filterByDept('dulces')">🍬 Dulcería y Botanas</li>
@@ -737,7 +751,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
 </div>
 <div class="border-t border-slate-100 pt-3">
 <h4 class="text-xs font-black text-slate-800 mb-2">Tipo de Mercado</h4>
-<ul class="flex flex-col gap-1 text-xs text-slate-600" id="market-filter-list">
+<ul class="flex flex-col gap-1 text-xs text-slate-400" id="market-filter-list">
 <li class="font-bold text-blue-600 cursor-pointer hover:underline" onclick="filterByMarket('todas')">Todos los Mercados</li>
 <li class="cursor-pointer hover:text-blue-600" onclick="filterByMarket('Primer Mercado')">Primer Mercado (Nuevos)</li>
 <li class="cursor-pointer hover:text-blue-600" onclick="filterByMarket('Segundo Mercado')">Segundo Mercado (Reventa)</li>
@@ -998,7 +1012,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
 <h3 class="text-sm font-black text-slate-900 flex items-center gap-1.5">
 <i class="fa-solid fa-tags text-amber-500 animate-pulse"></i> Boutique de Ofertas (Los Más Vendidos, Saldos y Liquidaciones)
 </h3>
-<p class="text-[10px] text-slate-500 -mt-2">Artículos recomendados de hoy.</p>
+<p class="text-[10px] text-slate-400 -mt-2">Artículos recomendados de hoy.</p>
 <div class="flex md:grid overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4 pb-4 md:pb-0" id="featured-grid-container">
 <!-- 10 productos cargados por JS -->
 </div>
@@ -1264,11 +1278,11 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
                     <div class="flex flex-col gap-1 mt-1">
                         <div class="flex justify-between items-center gap-1">
                             <span class="text-[9px] font-mono font-bold text-slate-400">${p.sku}</span>
-                            <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-slate-100 text-slate-600 border border-slate-200">${p.categoria}</span>
+                            <span class="text-[9px] font-bold px-1.5 py-0.2 rounded bg-slate-100 text-slate-400 border border-slate-200">${p.categoria}</span>
                         </div>
                         <h4 class="text-xs font-black text-slate-900 leading-tight line-clamp-2 min-h-[32px]">${p.nombre}</h4>
-                        <div class="text-[9px] font-mono text-slate-500 mb-1">Exist: <span class="font-bold text-slate-700">${p.existencias}</span></div>
-                        <p class="text-[9px] text-slate-500 line-clamp-2 leading-snug">${p.descripcion}</p>
+                        <div class="text-[9px] font-mono text-slate-400 mb-1">Exist: <span class="font-bold text-slate-700">${p.existencias}</span></div>
+                        <p class="text-[9px] text-slate-400 line-clamp-2 leading-snug">${p.descripcion}</p>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 mt-4 pt-2.5 border-t border-slate-100">
@@ -1320,7 +1334,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
             gridContainer.innerHTML = `
                 <div class="col-span-full bg-white p-12 rounded-3xl text-center border border-slate-200 shadow-md">
                     <i class="fa-solid fa-folder-open text-slate-300 text-4xl mb-3"></i>
-                    <p class="text-sm font-semibold text-slate-500">No se encontraron productos coincidentes en el inventario.</p>
+                    <p class="text-sm font-semibold text-slate-400">No se encontraron productos coincidentes en el inventario.</p>
                 </div>
             `;
             return;
@@ -1335,7 +1349,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
             gridContainer.innerHTML = `
                 <div class="col-span-full bg-white p-12 rounded-3xl text-center border border-slate-200 shadow-md">
                     <i class="fa-solid fa-rectangle-xmark text-slate-300 text-4xl mb-3"></i>
-                    <p class="text-sm font-semibold text-slate-500">Esta página está vacía. Registra más productos en el catálogo.</p>
+                    <p class="text-sm font-semibold text-slate-400">Esta página está vacía. Registra más productos en el catálogo.</p>
                 </div>
             `;
             return;
@@ -1361,8 +1375,8 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
                             <span class="text-[9px] font-bold px-1.5 py-0.2 rounded ${p.inventario_tipo === 'Primer Mercado' ? 'bg-green-50 text-green-700 border border-green-200' : 'bg-amber-50 text-amber-700 border border-amber-200'}">${p.inventario_tipo}</span>
                         </div>
                         <h4 class="text-xs font-black text-slate-900 leading-tight line-clamp-2 min-h-[32px]">${p.nombre}</h4>
-                        <div class="text-[9px] font-mono text-slate-500 mb-1">Exist: <span class="font-bold text-slate-700">${p.existencias}</span></div>
-                        <p class="text-[10px] text-slate-500 line-clamp-2 leading-snug">${p.descripcion}</p>
+                        <div class="text-[9px] font-mono text-slate-400 mb-1">Exist: <span class="font-bold text-slate-700">${p.existencias}</span></div>
+                        <p class="text-[10px] text-slate-400 line-clamp-2 leading-snug">${p.descripcion}</p>
                         <span class="text-[9px] text-slate-400 font-medium">Frecuencia: <strong>${p.frecuencia}</strong></span>
                     </div>
                 </div>
@@ -1396,7 +1410,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         
         for (let i = 1; i <= maxPage; i++) {
             const btn = document.createElement("button");
-            btn.className = `px-3.5 py-1.5 rounded-lg text-xs font-black transition border shadow-sm ${currentPage === i ? 'bg-blue-600 text-white border-transparent' : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'}`;
+            btn.className = `px-3.5 py-1.5 rounded-lg text-xs font-black transition border shadow-sm ${currentPage === i ? 'bg-blue-600 text-white border-transparent' : 'bg-white text-slate-400 border-slate-200 hover:bg-slate-50'}`;
             btn.innerText = i;
             btn.onclick = () => {
                 currentPage = i;
@@ -1609,7 +1623,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
         
         if (cart.length === 0) {
             container.innerHTML = `
-                <div class="text-center py-12 text-slate-500">
+                <div class="text-center py-12 text-slate-400">
                     <i class="fa-solid fa-cart-flatbed text-4xl mb-3 block opacity-40"></i>
                     <p class="text-xs font-semibold">Tu carrito está vacío.</p>
                 </div>
@@ -1634,7 +1648,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
                 <div class="flex-1 flex flex-col justify-between min-h-[50px]">
                     <div class="flex justify-between items-start gap-1">
                         <h4 class="text-[11px] font-black text-white leading-tight line-clamp-2">${item.nombre}</h4>
-                        <button onclick="removeFromCart('${item.sku}')" class="text-slate-500 hover:text-red-400 text-xs cursor-pointer">
+                        <button onclick="removeFromCart('${item.sku}')" class="text-slate-400 hover:text-red-400 text-xs cursor-pointer">
                             <i class="fa-solid fa-trash-can"></i>
                         </button>
                     </div>
@@ -1823,7 +1837,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
                     let opacityClass = "";
                     let trashBtnHtml = "";
                     if (item.quantity === 0) {
-                        opacityClass = "opacity-40 grayscale text-slate-500 border-red-500/30 bg-red-950/5";
+                        opacityClass = "opacity-40 grayscale text-slate-400 border-red-500/30 bg-red-950/5";
                         trashBtnHtml = `
                             <button onclick="deleteHistoricalItem('${item.sku}')" class="text-red-500 hover:text-red-400 text-sm cursor-pointer shrink-0 transition flex items-center justify-center w-8 h-8 rounded-lg bg-red-500/10 hover:bg-red-500/20" title="Eliminar del historial">
                                 <i class="fa-solid fa-trash-can"></i>
@@ -1854,7 +1868,7 @@ body { background-color: #f8fafc; color: #1e293b; margin: 0; font-family: system
                     <div class="border-t border-slate-800 pt-4 mt-2 flex flex-col gap-3">
                         <h4 class="text-xs font-black text-cyan-400 flex items-center gap-1.5"><i class="fa-solid fa-arrows-rotate"></i> Volver a comprar (Ajustar cantidades):</h4>
                         <div class="flex flex-col gap-2">
-                            ${reorderRows || '<div class="text-center py-4 text-slate-500 text-xs">No hay productos seleccionados.</div>'}
+                            ${reorderRows || '<div class="text-center py-4 text-slate-400 text-xs">No hay productos seleccionados.</div>'}
                         </div>
                         ${reorderItems.length > 0 ? `
                         <div class="flex flex-col sm:flex-row justify-between items-center bg-slate-900 border border-slate-800 rounded-xl p-3.5 mt-1 gap-3">
@@ -2164,7 +2178,7 @@ window.addEventListener('storage', syncGlobalCartState);
                         <i class="fa-solid fa-location-dot text-amber-400"></i> Contacto Local
                     </h4>
                     <p class="flex items-start gap-2 text-slate-300">
-                        <i class="fa-solid fa-map-pin text-slate-500 mt-0.5 shrink-0"></i>
+                        <i class="fa-solid fa-map-pin text-slate-400 mt-0.5 shrink-0"></i>
                         <span>Pedro Moreno 501 A, Guadalajara Centro, Jalisco (CP 44100)</span>
                     </p>
                     <p class="flex items-center gap-2">
@@ -2215,7 +2229,7 @@ window.addEventListener('storage', syncGlobalCartState);
                         </div>
                     </div>
                     <div class="flex items-start gap-2.5">
-                        <i class="fa-solid fa-cookie-bite text-slate-500 mt-1 shrink-0"></i>
+                        <i class="fa-solid fa-cookie-bite text-slate-400 mt-1 shrink-0"></i>
                         <div>
                             <strong class="text-slate-200 block text-xs">Políticas de Cookies:</strong>
                             <span class="text-slate-400 text-[11px] leading-relaxed">Usadas exclusivamente para mantener activa la sesión de tu carrito y mejorar el servicio.</span>
@@ -2236,7 +2250,7 @@ window.addEventListener('storage', syncGlobalCartState);
                         <strong class="text-slate-300 block mb-1">Aclaración Importante:</strong>
                         El cashback es acumulable únicamente con registro activo. Regístrate en nuestro portal para recibir beneficios acumulados y ofertas exclusivas.
                     </p>
-                    <div class="pt-2 text-[10px] font-mono text-slate-500 flex items-center gap-2">
+                    <div class="pt-2 text-[10px] font-mono text-slate-400 flex items-center gap-2">
                         <i class="fa-solid fa-robot text-cyan-400"></i>
                         <span>Potenciado por el software de Anti-Gravity Copilot.</span>
                     </div>
@@ -2245,7 +2259,7 @@ window.addEventListener('storage', syncGlobalCartState);
             </div>
 
             <!-- COPYRIGHT INFERIOR -->
-            <div class="pt-8 text-center text-slate-500 text-[11px]">
+            <div class="pt-8 text-center text-slate-400 text-[11px]">
                 <p>&copy; 2026 Liquidaciones y Ofertas. Pedro Moreno 501 A, Guadalajara Centro. Todos los derechos reservados.</p>
             </div>
         </div>
