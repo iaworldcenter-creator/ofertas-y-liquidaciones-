@@ -127,7 +127,16 @@
   <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"></noscript>
 
       <!-- TAILWIND CSS CDN OFICIAL CON CONFIGURACIÓN DARK/CLASS -->
-    <script src="https://cdn.tailwindcss.com"></script>
+        function parseCleanPrice(val) {
+      if (typeof val === 'number') return isNaN(val) ? 0 : val;
+      if (!val) return 0;
+      const clean = String(val).replace(/[^0-9.-]+/g, '');
+      const num = parseFloat(clean);
+      return isNaN(num) ? 0 : num;
+    }
+    window.parseCleanPrice = window.parseCleanPrice || parseCleanPrice;
+
+<script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -560,6 +569,10 @@
         <div class="flex justify-between text-slate-300">
           <span>Subtotal Productos:</span>
           <span id="chk-subtotal" class="text-white font-bold text-sm">$0.00 MXN</span>
+        </div>
+        <div class="flex justify-between text-slate-300 text-[11px]">
+          <span>IVA (16% Incluido):</span>
+          <span id="chk-iva" class="text-slate-300 font-mono">$0.00 MXN</span>
         </div>
         <div class="flex justify-between items-center text-slate-300">
           <span class="flex items-center gap-1"><i class="fa-solid fa-key text-emerald-400"></i> PIN Chofer Uber:</span>
@@ -1172,6 +1185,7 @@
         : '7453';
 
       const elSub = document.getElementById("chk-subtotal");
+      const elIva = document.getElementById("chk-iva");
       const elCash = document.getElementById("chk-cashback");
       const elShip = document.getElementById("chk-shipping");
       const elTot = document.getElementById("chk-total");
@@ -1180,6 +1194,9 @@
       const cashback = calc.subtotal * 0.05;
 
       if (elSub) elSub.innerText = `$${calc.subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
+      const subtotalSinIva = (typeof calc !== "undefined" && calc.subtotal !== undefined ? calc.subtotal : subtotal) / 1.16;
+      const ivaVal = (typeof calc !== "undefined" && calc.subtotal !== undefined ? calc.subtotal : subtotal) - subtotalSinIva;
+      if (elIva) elIva.innerText = `$${ivaVal.toLocaleString("es-MX", { minimumFractionDigits: 2 })} MXN`;
       if (elCash) elCash.innerText = `$${cashback.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
       
       if (elShip) {
