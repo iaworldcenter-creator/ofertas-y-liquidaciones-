@@ -313,20 +313,26 @@
                 </div>
                 <div>
                     <label for="custPhone" class="text-[11px] font-mono text-slate-300 font-bold block mb-1">WhatsApp / Teléfono Móvil: *</label>
-                    <input type="tel" id="custPhone" placeholder="Ej. 33 3727 1440" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-cyan-400 font-mono font-bold min-h-[44px]" required />
+                    <input type="tel" id="custPhone" placeholder="Ej. 33 3727 1440" oninput="calculateTotals()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-cyan-400 font-mono font-bold min-h-[44px]" required />
                 </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                     <label for="custEmail" class="text-[11px] font-mono text-slate-300 font-bold block mb-1">Correo Electrónico (Confirmación y Factura): *</label>
-                    <input type="email" id="custEmail" placeholder="Ej. juan.perez@email.com" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-cyan-400 font-medium min-h-[44px]" required />
+                    <input type="email" id="custEmail" placeholder="Ej. juan.perez@email.com" oninput="calculateTotals()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-cyan-400 font-medium min-h-[44px]" required />
                 </div>
                 <div>
                     <label for="custCP" class="text-[11px] font-mono text-slate-300 font-bold block mb-1">Código Postal (5 dígitos): *</label>
                     <input type="text" id="custCP" maxlength="5" placeholder="Ej. 44100" oninput="onAddressFieldChange()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-cyan-400 font-mono font-bold min-h-[44px]" required />
                 </div>
-            </div>
+
+
+            <!-- AVISO DE CASHBACK CONDICIONADO (PASO 1) -->
+            <div id="cashback-notice-step1" class="p-3 bg-emerald-950/40 border border-emerald-500/40 rounded-xl text-[11px] text-emerald-200 font-mono flex items-center gap-2">
+                <i class="fa-solid fa-coins text-emerald-400 shrink-0 text-sm"></i>
+                <span>🎁 <strong>5% de Cashback acumulable</strong> exclusivo para clientes registrados con WhatsApp y correo permanente vigentes.</span>
+            </div>            </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
@@ -593,6 +599,11 @@
         <div class="flex justify-between text-slate-300">
           <span class="flex items-center gap-1"><i class="fa-solid fa-coins text-emerald-400"></i> 5% Cashback Acumulable:</span>
           <span id="chk-cashback" class="text-emerald-400 font-bold">$0.00 MXN</span>
+        </div>
+        <!-- AVISO DE CASHBACK CONDICIONADO (PASO 3) -->
+        <div id="cashback-notice-step3" class="p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-[10px] text-slate-300 font-mono flex items-center gap-2">
+          <i class="fa-solid fa-circle-info text-cyan-400 shrink-0"></i>
+          <span>🎁 5% de Cashback acumulable exclusivo para clientes registrados con WhatsApp y correo permanente vigentes.</span>
         </div>
         <div class="flex justify-between text-slate-300">
           <span class="flex items-center gap-1"><i class="fa-solid fa-motorcycle text-amber-400"></i> Envío Express Uber Flash:</span>
@@ -1202,13 +1213,35 @@
       const elTot = document.getElementById("chk-total");
       const elPinSummary = document.getElementById("chk-summary-pin");
 
-      const cashback = calc.subtotal * 0.05;
+      // Validación estricta de Cashback del 5%
+      const DISPOSABLE_EMAIL_DOMAINS = [
+        'tempmail.com', '10minutemail.com', 'guerrillamail.com', 'yopmail.com', 'mailinator.com',
+        'throwawaymail.com', 'getairmail.com', 'sharklasers.com', 'dispostable.com', 'trashmail.com',
+        'fakeinbox.com', 'mohmal.com', 'temp-mail.org', 'generator.email', 'emailondeck.com',
+        'burnermail.io', 'trashmail.net', 'yopmail.fr', 'yopmail.net', 'cool.fr.nf', 'jetable.org'
+      ];
 
-      if (elSub) elSub.innerText = `$${calc.subtotal.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
-      const subtotalSinIva = (typeof calc !== "undefined" && calc.subtotal !== undefined ? calc.subtotal : subtotal) / 1.16;
-      const ivaVal = (typeof calc !== "undefined" && calc.subtotal !== undefined ? calc.subtotal : subtotal) - subtotalSinIva;
-      if (elIva) elIva.innerText = `$${ivaVal.toLocaleString("es-MX", { minimumFractionDigits: 2 })} MXN`;
-      if (elCash) elCash.innerText = `$${cashback.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
+      const phoneRaw = (document.getElementById("custPhone") ? document.getElementById("custPhone").value : '').replace(/[^0-9]/g, '');
+      const emailRaw = (document.getElementById("custEmail") ? document.getElementById("custEmail").value : '').trim().toLowerCase();
+      const emailParts = emailRaw.split('@');
+      const emailDomain = emailParts.length === 2 ? emailParts[1].trim() : '';
+      const isDisposable = DISPOSABLE_EMAIL_DOMAINS.some(d => emailDomain === d || emailDomain.endsWith('.' + d));
+      const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailRaw) && !isDisposable;
+      const isPhoneValid = phoneRaw.length >= 10;
+      const isCashbackEligible = isEmailValid && isPhoneValid;
+
+      const subtotalBase = (typeof calc !== "undefined" && calc && calc.subtotal !== undefined) 
+        ? calc.subtotal 
+        : (typeof subtotal !== "undefined" ? subtotal : 0);
+      const cashback = isCashbackEligible ? (subtotalBase * 0.05) : 0;
+
+      if (elCash) {
+        if (isCashbackEligible && subtotalBase > 0) {
+          elCash.innerHTML = `<span class="text-emerald-400 font-bold">$${cashback.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN</span> <span class="text-[9px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded font-mono uppercase ml-1">Activo</span>`;
+        } else {
+          elCash.innerHTML = `<span class="text-slate-500 font-bold">$0.00 MXN</span> <span class="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono uppercase ml-1" title="Requiere teléfono válido (10 dígitos) y correo permanente no desechable">Pendiente</span>`;
+        }
+      })} MXN`;
       
       if (elShip) {
         if (calc.subtotal === 0) elShip.innerText = "$0.00 MXN";
