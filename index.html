@@ -248,6 +248,7 @@
     }
   </script>
 
+  <link rel="stylesheet" href="css/shared-flyout.css">
 </head>
 <body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-cyan-500 selection:text-slate-950">
 
@@ -304,6 +305,7 @@
       </div>
 
       <!-- Canasta / Carrito con Total en Vivo -->
+      <div id="vectec-flyout-container" class="shrink-0"></div>
       <button onclick="toggleCartDrawer()" aria-label="Abrir canasta de compras" title="Ver Carrito" class="flex items-center gap-2 sm:gap-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-white px-3 sm:px-4 py-2 rounded-xl transition cursor-pointer active:scale-95 shadow shrink-0 group">
         <div class="relative">
           <i class="fa-solid fa-cart-shopping text-red-400 text-sm sm:text-base group-hover:scale-110 transition"></i>
@@ -2179,5 +2181,6 @@
   <script defer src="js/shared-product-modal.js"></script>
     <script src="js/shared-instant-search.js"></script>
   <script defer src="js/ux-engine.js"></script>
+  <script defer src="js/shared-flyout.js"></script>
 </body>
 </html>
