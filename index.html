@@ -336,9 +336,9 @@
         </div>
 
         <nav class="flex flex-col gap-2" id="sidebar-categories-list">
-          <!-- ACCESO DESTACADO A TECNOLOGÍA & CÓMPUTO VECTEC -->
+          <!-- ACCESO DESTACADO A TECNOLOGÍA & CÓMPUTO VECTEC (LOCAL SIN SALIDA) -->
           <div class="mb-3">
-            <a href="https://iaworldcenter-creator.github.io/vectec/" class="w-full text-left p-3.5 rounded-2xl bg-red-950/60 hover:bg-red-900/80 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.35)] flex justify-between items-center transition group cursor-pointer block">
+            <button type="button" onclick="handleTechSidebarClick(event)" class="w-full text-left p-3.5 rounded-2xl bg-red-950/60 hover:bg-red-900/80 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.35)] flex justify-between items-center transition group cursor-pointer block">
               <div class="flex items-center gap-3 min-w-0">
                 <div class="w-8 h-8 rounded-xl bg-red-900/90 flex items-center justify-center text-red-300 shrink-0 shadow border border-red-400/50">
                   <i class="fa-solid fa-microchip text-sm"></i>
@@ -348,8 +348,8 @@
                   <span class="text-[9px] text-red-200/90 block truncate font-mono">Aparador Hardware +17.5k Piezas</span>
                 </div>
               </div>
-              <i class="fa-solid fa-arrow-up-right-from-square text-[11px] text-red-400 group-hover:text-white group-hover:translate-x-0.5 transition shrink-0 ml-1"></i>
-            </a>
+              <i class="fa-solid fa-chevron-down text-[11px] text-red-400 group-hover:text-white group-hover:translate-y-0.5 transition shrink-0 ml-1"></i>
+            </button>
           </div>
 
           <button 
@@ -827,7 +827,7 @@
     const btnPrev = document.getElementById("btn-prev-page");
     const btnNext = document.getElementById("btn-next-page");
     if (btnPrev) btnPrev.disabled = (currentPage === 1);
-    if (btnNext) btnNext.disabled = (currentPage === totalPages);
+    if (btnNext) btnNext.disabled = (currentPage >= getTotalPages());
   }
 
   function renderPagination() {
@@ -835,7 +835,8 @@
     if (!pagesContainer) return;
 
     let html = '';
-    for (let i = 1; i <= totalPages; i++) {
+    const maxP = getTotalPages();
+    for (let i = 1; i <= maxP; i++) {
       const isActive = (i === currentPage);
       html += `
         <button 
@@ -851,13 +852,60 @@
   }
 
   function changePage(page) {
-    if (page < 1 || page > totalPages || page === currentPage) return;
+    if (page < 1 || page > getTotalPages() || page === currentPage) return;
     renderAparadorPage(page);
     const grid = document.getElementById("products-grid-container");
     if (grid) {
       grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   }
+
+  
+  function getTotalPages() {
+    return Math.max(1, Math.ceil(filteredProducts.length / itemsPerPage));
+  }
+
+  function handleTechSidebarClick(e) {
+    if (e) e.preventDefault();
+    filterCategory('all');
+    const target = document.getElementById("products-grid-container");
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  window.filterByDepartment = function(deptId, deptName) {
+    const deptMapping = {
+      "procesadores": ["procesador", "cpu", "ryzen", "core i", "intel core", "amd"],
+      "tarjetas_video": ["tarjeta de video", "gpu", "rtx", "radeon", "geforce"],
+      "tarjetas_madre": ["motherboard", "tarjeta madre", "b650", "h610", "b760"],
+      "memorias_ram": ["ram", "ddr4", "ddr5", "dimm", "sodimm", "memorias_ram_pc", "memorias_ram_laptop", "memorias_ram_servidor"],
+      "almacenamiento": ["ssd", "disco", "nvme", "m.2", "usb", "pendrive", "microsd", "ssds_m2_nvme", "tarjetas_microsd", "memorias_usb_pendrives"],
+      "laptops_pcs": ["laptop", "computadora", "pc", "ensamblada", "computadoras_ensambladas"],
+      "monitores": ["monitor", "pantalla", "curvo", "ips"],
+      "perifericos": ["teclado", "mouse", "diadema", "headset", "bocina", "auricular", "limpieza_mantenimiento"],
+      "redes": ["switch", "router", "access point", "cable", "red"],
+      "gabinetes_fuentes": ["fuente", "gabinete", "chasis", "ventilador", "cooler", "fuentes_energia"]
+    };
+
+    const terms = deptMapping[deptId] || [deptId];
+    const matched = boutiqueProducts.filter(p => {
+      const blob = ((p.nombre || '') + ' ' + (p.categoria || '') + ' ' + (p.descripcion || '')).toLowerCase();
+      return terms.some(t => blob.includes(t.toLowerCase()));
+    });
+
+    if (matched.length > 0) {
+      filteredProducts = matched;
+      const countTxt = document.getElementById("results-count-txt");
+      if (countTxt) countTxt.innerText = `Mostrando ${matched.length} Productos en ${deptName}`;
+    } else {
+      filteredProducts = [...boutiqueProducts];
+      const countTxt = document.getElementById("results-count-txt");
+      if (countTxt) countTxt.innerText = `Catálogo General en Liquidación (200)`;
+    }
+    currentPage = 1;
+    renderAparadorPage(1);
+    const targetEl = document.getElementById("products-grid-container");
+    if (targetEl) targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
 
   function filterCategory(catName) {
     if (!catName || catName === 'all' || catName === 'Todos') {
