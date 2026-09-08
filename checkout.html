@@ -495,20 +495,37 @@
             </div>
           </div>
         </div>
-
-        <!-- OPCIÓN 3: DEPÓSITO O ABONO EN EFECTIVO (OXXO / TIENDAS) -->
+        <!-- OPCIÓN 3: DEPÓSITO EN EFECTIVO (RED NACIONAL MULTITIENDA) -->
         <div class="p-4 bg-slate-950 border-2 border-slate-800 hover:border-amber-500/60 rounded-2xl transition cursor-pointer" onclick="selectPaymentMethod('oxxo')">
           <div class="flex items-center justify-between mb-2">
             <label class="flex items-center gap-2.5 cursor-pointer font-bold text-white text-xs sm:text-sm">
-              <input type="radio" name="payment_method_radio" id="pay_oxxo" value="oxxo" class="accent-amber-400 w-4 h-4 cursor-pointer" />
+              <input type="radio" name="payment_method_radio" id="pay_oxxo" value="oxxo" aria-label="Depósito en Efectivo OXXO y Red Nacional" class="accent-amber-400 w-4 h-4 cursor-pointer" />
               <i class="fa-solid fa-store text-amber-400 text-base"></i>
-              <span>Depósito / Abono en Efectivo (OXXO, 7-Eleven, Farmacias)</span>
+              <span>Depósito en Efectivo (Tiendas de Conveniencia, Farmacias y Autoservicio)</span>
             </label>
-            <span class="bg-amber-500/20 text-amber-300 text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase">Efectivo</span>
+            <span class="bg-amber-500/20 text-amber-300 text-[9px] font-mono font-bold px-2 py-0.5 rounded uppercase">Red Nacional</span>
           </div>
-          <p class="text-slate-300 text-[11px] leading-relaxed pl-6">
-            Paga en efectivo en más de 20,000 establecimientos autorizados generando tu referencia digital de abono.
+          <p class="text-slate-300 text-[11px] leading-relaxed pl-6 mb-3">
+            Paga al instante en más de 25,000 puntos: OXXO, 7-Eleven, Farmacias Guadalajara, Benavides, Soriana, Chedraui, Farmacias del Ahorro y más.
           </p>
+          <!-- BADGES OFICIALES DE COMERCIOS AFILIADOS -->
+          <div class="pl-6 flex flex-wrap items-center gap-2 pt-1">
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-red-600/20 border border-red-500/40 text-red-300 font-bold text-[10px] tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-red-500"></span> OXXO
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 font-bold text-[10px] tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span> 7-Eleven
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-600/20 border border-blue-500/40 text-blue-300 font-bold text-[10px] tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-blue-500"></span> Farmacias Guadalajara
+            </span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-600/20 border border-orange-500/40 text-orange-300 font-bold text-[10px] tracking-wide">
+              <span class="w-2 h-2 rounded-full bg-orange-500"></span> Soriana
+            </span>
+            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-slate-800 border border-slate-700/60 text-slate-400 font-medium text-[10px]">
+              + Farmacias del Ahorro, Benavides, Chedraui
+            </span>
+          </div>
         </div>
 
         <!-- Botón de Confirmación de Pago -->
@@ -741,7 +758,6 @@
 
   <!-- SCRIPT OFICIAL DE CHECKOUT DINÁMICO & PERSISTENCIA CRM -->
   <!-- SCRIPT OFICIAL DE CHECKOUT DINÁMICO & PERSISTENCIA CRM -->
-  <script src="js/shared-cart-whatsapp.js"></script>
   <!-- SCRIPT OFICIAL DE CHECKOUT DINÁMICO & PERSISTENCIA CRM -->
   <script src="js/shared-cart-whatsapp.js"></script>
   <script>
@@ -852,7 +868,7 @@
       if (btnLabel) {
         if (method === 'tarjeta') btnLabel.innerText = "Pagar con Tarjeta (Mercado Pago)";
         else if (method === 'spei') btnLabel.innerText = "Confirmar Pago SPEI (WhatsApp)";
-        else btnLabel.innerText = "Generar Ficha de Pago OXXO";
+        else btnLabel.innerText = "Generar Ficha de Pago en Efectivo (OXXO / Red Nacional)";
       }
     }
 
@@ -867,7 +883,7 @@
         if (payTitle) payTitle.innerText = "Transferencia SPEI Directa (BBVA México - 0% Comisión)";
         if (payIcon) payIcon.className = "fa-solid fa-building-columns text-emerald-400 text-xl shrink-0";
       } else {
-        if (payTitle) payTitle.innerText = "Depósito / Abono en Efectivo (OXXO / 7-Eleven)";
+        if (payTitle) payTitle.innerText = "Depósito en Efectivo (OXXO, 7-Eleven, Farmacias GDL, Soriana)";
         if (payIcon) payIcon.className = "fa-solid fa-store text-amber-400 text-xl shrink-0";
       }
 
