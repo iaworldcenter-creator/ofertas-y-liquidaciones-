@@ -13,7 +13,7 @@
     "name": "Procesadores Intel & AMD",
     "icon": "fa-microchip",
     "badge": "Top Ventas",
-    "link": "#catalogo",
+    "link": "https://iaworldcenter-creator.github.io/vectec/catalogo-02-procesadores.html",
     "products": [
       {
         "sku": "A-CPUINT4010",
@@ -62,7 +62,7 @@
     "name": "Tarjetas de Video (GPUs)",
     "icon": "fa-vr-cardboard",
     "badge": "RTX Serie 50/40",
-    "link": "#catalogo",
+    "link": "https://iaworldcenter-creator.github.io/vectec/catalogo-03-tarjetas-de-video.html",
     "products": [
       {
         "sku": "A-TVIGIG3080",
@@ -111,7 +111,7 @@
     "name": "Tarjetas Madre (Motherboards)",
     "icon": "fa-chess-board",
     "badge": "AM5 / LGA1700",
-    "link": "#catalogo",
+    "link": "https://iaworldcenter-creator.github.io/vectec/catalogo-01-tarjetas-madre.html",
     "products": [
       {
         "sku": "A-MBDECS2220",
@@ -160,7 +160,7 @@
     "name": "Memorias RAM (DDR4 / DDR5)",
     "icon": "fa-memory",
     "badge": "Hasta 7200MHz",
-    "link": "#catalogo",
+    "link": "https://iaworldcenter-creator.github.io/vectec/catalogo-04-memorias-ram.html",
     "products": [
       {
         "sku": "A-CPUINT4520",
@@ -209,7 +209,7 @@
     "name": "Almacenamiento & SSDs NVMe",
     "icon": "fa-hard-drive",
     "badge": "PCIe 4.0/5.0",
-    "link": "#catalogo",
+    "link": "https://iaworldcenter-creator.github.io/vectec/catalogo-05-discos-duros.html",
     "products": [
       {
         "sku": "A-DDUKGT1290",
@@ -258,7 +258,7 @@
     "name": "Laptops & Computadoras",
     "icon": "fa-laptop",
     "badge": "Garantía 1 Año",
-    "link": "#catalogo",
+    "link": "https://iaworldcenter-creator.github.io/vectec/laptops/index.html",
     "products": [
       {
         "sku": "A-CFG-INTEL-14400",
@@ -307,7 +307,7 @@
     "name": "Monitores & Pantallas",
     "icon": "fa-desktop",
     "badge": "144Hz - 240Hz",
-    "link": "#catalogo",
+    "link": "https://iaworldcenter-creator.github.io/vectec/catalogo-11-monitores-software.html",
     "products": [
       {
         "sku": "A-MONSMG2120",
@@ -356,7 +356,7 @@
     "name": "Periféricos, Teclados & Audio",
     "icon": "fa-headphones",
     "badge": "E-Sports",
-    "link": "#catalogo",
+    "link": "https://iaworldcenter-creator.github.io/vectec/catalogo-09-perifericos.html",
     "products": [
       {
         "sku": "A-ACCYEY110",
@@ -405,7 +405,7 @@
     "name": "Conectividad & Redes",
     "icon": "fa-network-wired",
     "badge": "Gigabit / Mesh",
-    "link": "#catalogo",
+    "link": "https://iaworldcenter-creator.github.io/vectec/catalogo-10-conectividad-redes.html",
     "products": [
       {
         "sku": "A-ROUTPL180",
@@ -454,7 +454,7 @@
     "name": "Fuentes, Chasis & Enfriamiento",
     "icon": "fa-server",
     "badge": "80 Plus Gold",
-    "link": "#catalogo",
+    "link": "https://iaworldcenter-creator.github.io/vectec/catalogo-07-gabinetes.html",
     "products": [
       {
         "sku": "A-CPUINT5080",
@@ -546,22 +546,9 @@
                     const idx = parseInt(item.getAttribute("data-index"));
                     setActiveDepartment(idx);
                 });
-                item.addEventListener("click", (e) => {
-                    e.preventDefault();
+                item.addEventListener("click", () => {
                     const idx = parseInt(item.getAttribute("data-index"));
                     setActiveDepartment(idx);
-                    const dept = DEPARTMENTS[idx];
-                    closePanel();
-                    if (typeof window.filterByDepartment === "function") {
-                        window.filterByDepartment(dept.id, dept.name);
-                    }
-                    const targetEl = document.getElementById("products-grid-container") ||
-                                     document.getElementById("seccion-pasillo-vectec") ||
-                                     document.getElementById("tech-products-grid") ||
-                                     document.getElementById("catalogo");
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-                    }
                 });
             });
         }
@@ -575,10 +562,10 @@
                         <i class="fa-solid ${dept.icon} text-cyan-400"></i>
                         <span>${dept.name}</span>
                     </div>
-                    <button type="button" class="flyout-sub-btn-all" onclick="window.handleFlyoutDepartmentClick('${dept.id}', '${dept.name}')">
-                        <span>Filtrar en catálogo local</span>
-                        <i class="fa-solid fa-filter text-[10px]"></i>
-                    </button>
+                    <a href="${dept.link}" class="flyout-sub-btn-all" target="_blank">
+                        <span>Ver departamento</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </a>
                 </div>
                 <div class="flyout-products-grid">
                     ${products.map(p => `
@@ -652,7 +639,6 @@
 
         // Clic para alternar en dispositivos móviles/touch
         triggerBtn.addEventListener("click", (e) => {
-            e.preventDefault();
             e.stopPropagation();
             if (panel.classList.contains("is-open")) {
                 closePanel();
@@ -660,21 +646,6 @@
                 openPanel();
             }
         });
-
-        // Handler global para filtrado departamental nativo
-        window.handleFlyoutDepartmentClick = function(deptId, deptName) {
-            closePanel();
-            if (typeof window.filterByDepartment === "function") {
-                window.filterByDepartment(deptId, deptName);
-            }
-            const targetEl = document.getElementById("products-grid-container") ||
-                             document.getElementById("seccion-pasillo-vectec") ||
-                             document.getElementById("tech-products-grid") ||
-                             document.getElementById("catalogo");
-            if (targetEl) {
-                targetEl.scrollIntoView({ behavior: "smooth", block: "start" });
-            }
-        };
 
         // Cerrar al hacer clic fuera
         document.addEventListener("click", (e) => {
