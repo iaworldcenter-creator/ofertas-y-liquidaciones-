@@ -254,7 +254,13 @@
         </div>
       </div>
     </div>
-  </header>
+  
+        <!-- AVISO-LEGAL-PRECIOS-VISIBLE-VECTEC -->
+        <div class="w-full bg-amber-500/15 border-t border-amber-500/40 px-3 py-1 text-center text-[10px] sm:text-xs font-mono font-bold text-amber-300 tracking-wide">
+            <i class="fa-solid fa-triangle-exclamation text-amber-400 mr-1"></i>
+            Precios en MXN sujetos a cambio sin previo aviso por fluctuación cambiaria del dólar y disponibilidad de inventario.
+        </div>
+    </header>
 
   <!-- CONTENEDOR PRINCIPAL DEL CHECKOUT INTERACTIVO -->
   <main class="w-full max-w-4xl mx-auto px-3 sm:px-6 py-6 flex-1 space-y-6" id="checkout-main-root">
@@ -279,10 +285,56 @@
                 <i class="fa-solid fa-pen-to-square mr-1"></i> Modificar Domicilio
             </button>
         </div>
+        <!-- SELECTOR DE MODALIDAD: ENVÍO A DOMICILIO O RECOGER EN TIENDA -->
+        <div class="mb-4 p-3.5 bg-slate-950/80 border border-slate-800 rounded-2xl">
+          <label class="block text-[11px] font-mono text-slate-300 font-bold mb-2 uppercase tracking-wider">
+            <i class="fa-solid fa-truck-ramp-box text-cyan-400 mr-1.5"></i> Modalidad de Entrega:
+          </label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <label id="lbl-deliv-domicilio" class="flex items-center gap-3 p-3 rounded-xl border-2 border-cyan-500 bg-cyan-950/30 cursor-pointer transition">
+              <input type="radio" name="deliveryMethod" id="deliv_domicilio" value="domicilio" checked onchange="toggleDeliveryMethod('domicilio')" class="accent-cyan-400 w-4 h-4">
+              <div>
+                <span class="block text-xs font-bold text-white flex items-center gap-1.5">
+                  <i class="fa-solid fa-truck-fast text-cyan-400"></i> Envío a Domicilio
+                </span>
+                <span class="block text-[10px] text-slate-400">Uber Flash / Paquetería Especializada</span>
+              </div>
+            </label>
+
+            <label id="lbl-deliv-tienda" class="flex items-center gap-3 p-3 rounded-xl border-2 border-slate-800 bg-slate-900/60 hover:border-slate-700 cursor-pointer transition">
+              <input type="radio" name="deliveryMethod" id="deliv_tienda" value="tienda" onchange="toggleDeliveryMethod('tienda')" class="accent-emerald-400 w-4 h-4">
+              <div>
+                <span class="block text-xs font-bold text-white flex items-center gap-1.5">
+                  <i class="fa-solid fa-store text-emerald-400"></i> Recoger en Tienda
+                  <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 text-[9px] font-mono font-bold">GRATIS</span>
+                </span>
+                <span class="block text-[10px] text-slate-400">Pedro Moreno 501 A, GDL Centro</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- BANNER DE RECOLECCIÓN EN TIENDA -->
+        <div id="store-pickup-banner" class="hidden mb-4 p-4 bg-emerald-950/30 border border-emerald-500/40 rounded-2xl space-y-2 text-xs">
+          <div class="flex items-center gap-2 text-emerald-400 font-bold">
+            <i class="fa-solid fa-store text-base"></i>
+            <span>Recolección Inmediata en Mostrador (Costo de Envío: $0.00 MXN)</span>
+          </div>
+          <p class="text-[11.5px] text-slate-200">
+            📍 <strong>Punto Oficial de Entrega:</strong> Pedro Moreno 501 A, Col. Centro, Guadalajara, Jalisco (CP 44100).
+          </p>
+          <p class="text-[11px] text-slate-300">
+            🕒 <strong>Horario de Mostrador:</strong> Lunes a Sábado de 10:00 a 19:00 hrs.
+          </p>
+          <p class="text-[10.5px] text-emerald-300">
+            Solo requerimos tu Nombre, WhatsApp/Teléfono y Correo para tener tu pedido listo y entregártelo con tu PIN de seguridad.
+          </p>
+        </div>
+
 
         <!-- FORMULARIO DE DOMICILIO COMPLETO -->
         <div id="form-domicilio-full" class="space-y-3.5 text-xs">
-            <div class="p-3 bg-cyan-950/40 border border-cyan-500/40 rounded-2xl flex items-start gap-2.5 text-cyan-200">
+            <div id="domicilio-policy-banner" class="p-3 bg-cyan-950/40 border border-cyan-500/40 rounded-2xl flex items-start gap-2.5 text-cyan-200">
                 <i class="fa-solid fa-truck-ramp-box text-cyan-400 text-base mt-0.5 shrink-0"></i>
                 <div class="leading-relaxed">
                     <strong class="text-white block font-mono text-[11px] uppercase">Modelo Oficial 100% a Domicilio con Cotizador Dinámico:</strong>
@@ -325,7 +377,7 @@
                     <label for="custEmail" class="text-[11px] font-mono text-slate-300 font-bold block mb-1">Correo Electrónico (Confirmación y Factura): *</label>
                     <input type="email" id="custEmail" placeholder="Ej. juan.perez@email.com" oninput="calculateTotals()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-cyan-400 font-medium min-h-[44px]" required />
                 </div>
-                <div>
+                <div id="field-cp-wrap">
                     <label for="custCP" class="text-[11px] font-mono text-slate-300 font-bold block mb-1">Código Postal (5 dígitos): *</label>
                     <input type="text" id="custCP" maxlength="5" placeholder="Ej. 44100" oninput="onAddressFieldChange()" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white outline-none focus:border-cyan-400 font-mono font-bold min-h-[44px]" required />
                 </div>
@@ -336,6 +388,8 @@
                 <i class="fa-solid fa-coins text-emerald-400 shrink-0 text-sm"></i>
                 <span>🎁 <strong>5% de Cashback acumulable</strong> exclusivo para clientes registrados con WhatsApp y correo permanente vigentes.</span>
             </div>            </div>
+            <!-- CAMPOS EXCLUSIVOS PARA ENVÍO A DOMICILIO -->
+            <div id="domicilio-address-fields" class="space-y-3.5">
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
@@ -398,10 +452,12 @@
                     <span>Inscribirme para recibir promociones exclusivas y novedades por correo</span>
                 </label>
             </div>
+            </div>
+            <!-- FIN CAMPOS DOMICILIO -->
 
             <!-- Botón de Confirmación para colapsar -->
             <div class="pt-2 flex justify-end">
-                <button type="button" onclick="saveAndCollapseAddress()" class="btn-action w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg transition cursor-pointer min-h-[44px]">
+                <button type="button" id="btn-confirm-domicilio" onclick="saveAndCollapseAddress()" class="btn-action w-full sm:w-auto px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg transition cursor-pointer min-h-[44px]">
                     <i class="fa-solid fa-circle-check mr-1.5"></i> Confirmar Domicilio de Entrega
                 </button>
             </div>
@@ -609,7 +665,7 @@
           <span>🎁 5% de Cashback acumulable exclusivo para clientes registrados con WhatsApp y correo permanente vigentes.</span>
         </div>
         <div class="flex justify-between text-slate-300">
-          <span class="flex items-center gap-1"><i class="fa-solid fa-motorcycle text-amber-400"></i> Envío Express Uber Flash:</span>
+          <span class="flex items-center gap-1" id="chk-shipping-label"><i class="fa-solid fa-truck-fast text-amber-400"></i> Envío:</span>
           <span id="chk-shipping" class="text-amber-400 font-bold">$35.00 MXN</span>
         </div>
         <div class="flex justify-between items-center text-sm font-bold text-white pt-3 border-t border-slate-800">
@@ -776,6 +832,46 @@
   <script src="js/shared-cart-whatsapp.js"></script>
   <script>
     let currentPaymentMethod = 'tarjeta';
+    let currentDeliveryMethod = 'domicilio';
+
+    function toggleDeliveryMethod(method) {
+      currentDeliveryMethod = method;
+      const rDom = document.getElementById("deliv_domicilio");
+      const rTie = document.getElementById("deliv_tienda");
+      const lblDom = document.getElementById("lbl-deliv-domicilio");
+      const lblTie = document.getElementById("lbl-deliv-tienda");
+      const storeBanner = document.getElementById("store-pickup-banner");
+      const policyBanner = document.getElementById("domicilio-policy-banner");
+      const addrFields = document.getElementById("domicilio-address-fields");
+      const cpWrap = document.getElementById("field-cp-wrap");
+      const shipLabel = document.getElementById("chk-shipping-label");
+      const btnDom = document.getElementById("btn-confirm-domicilio");
+
+      if (rDom) rDom.checked = (method === 'domicilio');
+      if (rTie) rTie.checked = (method === 'tienda');
+
+      if (method === 'tienda') {
+        if (lblDom) lblDom.className = "flex items-center gap-3 p-3 rounded-xl border-2 border-slate-800 bg-slate-900/60 hover:border-slate-700 cursor-pointer transition";
+        if (lblTie) lblTie.className = "flex items-center gap-3 p-3 rounded-xl border-2 border-emerald-500 bg-emerald-950/30 cursor-pointer transition";
+        if (storeBanner) storeBanner.classList.remove("hidden");
+        if (policyBanner) policyBanner.classList.add("hidden");
+        if (addrFields) addrFields.classList.add("hidden");
+        if (cpWrap) cpWrap.classList.add("hidden");
+        if (shipLabel) shipLabel.innerHTML = '<i class="fa-solid fa-store text-emerald-400"></i> Recolección en Tienda:';
+        if (btnDom) btnDom.innerHTML = '<i class="fa-solid fa-circle-check mr-1.5"></i> Confirmar Recolección en Tienda';
+      } else {
+        if (lblDom) lblDom.className = "flex items-center gap-3 p-3 rounded-xl border-2 border-cyan-500 bg-cyan-950/30 cursor-pointer transition";
+        if (lblTie) lblTie.className = "flex items-center gap-3 p-3 rounded-xl border-2 border-slate-800 bg-slate-900/60 hover:border-slate-700 cursor-pointer transition";
+        if (storeBanner) storeBanner.classList.add("hidden");
+        if (policyBanner) policyBanner.classList.remove("hidden");
+        if (addrFields) addrFields.classList.remove("hidden");
+        if (cpWrap) cpWrap.classList.remove("hidden");
+        if (shipLabel) shipLabel.innerHTML = '<i class="fa-solid fa-truck-fast text-amber-400"></i> Envío:';
+        if (btnDom) btnDom.innerHTML = '<i class="fa-solid fa-circle-check mr-1.5"></i> Confirmar Domicilio de Entrega';
+      }
+      calculateTotals();
+    }
+
     let isAddressCollapsed = false;
     let isPaymentCollapsed = false;
     let isManualZoneSelected = false;
@@ -816,45 +912,40 @@
 
     // Guardar Domicilio y Colapsar a espacio pequeño
     function saveAndCollapseAddress(showAlert = true) {
+      const isPickup = (typeof currentDeliveryMethod !== 'undefined' && currentDeliveryMethod === 'tienda');
       const name = (document.getElementById("custName").value || '').trim();
       const phone = (document.getElementById("custPhone").value || '').trim();
       const email = (document.getElementById("custEmail").value || '').trim();
-      const cp = (document.getElementById("custCP").value || '').trim();
-      const address = (document.getElementById("custAddress").value || '').trim();
-      const colonia = (document.getElementById("custColonia") ? document.getElementById("custColonia").value : '').trim();
-      const city = (document.getElementById("custCity") ? document.getElementById("custCity").value : 'Guadalajara, Jalisco').trim();
-      const references = (document.getElementById("custReferences") ? document.getElementById("custReferences").value : '').trim();
+      const cp = isPickup ? '44100' : (document.getElementById("custCP").value || '').trim();
+      const address = isPickup ? 'Pedro Moreno 501 A' : (document.getElementById("custAddress").value || '').trim();
+      const colonia = isPickup ? 'Centro' : ((document.getElementById("custColonia") ? document.getElementById("custColonia").value : '').trim() || 'Centro');
+      const city = isPickup ? 'Guadalajara, Jalisco' : ((document.getElementById("custCity") ? document.getElementById("custCity").value : 'Guadalajara, Jalisco').trim());
+      const references = isPickup ? 'Recolección en Mostrador por el titular' : ((document.getElementById("custReferences") ? document.getElementById("custReferences").value : '').trim());
 
-      if (!name || !phone || !email || !address || !colonia || !city || !cp || !references) {
-        if (showAlert) alert("⚠️ Para cumplir con el modelo de entrega 100% a domicilio, es obligatorio proporcionar todos los campos:\n- Nombre de quien recibe\n- WhatsApp / Teléfono\n- Correo Electrónico\n- Calle y Número Exterior/Interior\n- Colonia\n- Código Postal (5 dígitos)\n- Ciudad / Municipio\n- Referencias de entrega");
+      if (!name || !phone || !email || (!isPickup && (!address || !colonia || !city || !cp || !references))) {
+        if (showAlert) {
+          if (isPickup) {
+            alert("⚠️ Para recolección en tienda, completa tu Nombre, WhatsApp y Correo Electrónico.");
+          } else {
+            alert("⚠️ Para cumplir con la entrega a domicilio, es obligatorio proporcionar todos los campos:\n- Nombre de quien recibe\n- WhatsApp / Teléfono\n- Correo Electrónico\n- Calle y Número Exterior/Interior\n- Colonia\n- Código Postal (5 dígitos)\n- Ciudad / Municipio\n- Referencias de entrega");
+          }
+        }
         return;
       }
 
-      const profile = { 
-        nombre: name, 
-        telefono: phone, 
-        email: email, 
-        cp: cp, 
-        direccion: address, 
-        colonia: colonia, 
-        ciudad: city, 
-        referencias: references 
-      };
+      const profile = { nombre: name, telefono: phone, email: email, cp: cp, direccion: address, colonia: colonia, ciudad: city, referencias: references };
       localStorage.setItem('ecosystem_customer_profile', JSON.stringify(profile));
 
-      // Actualizar vista colapsada
       const colName = document.getElementById("col-cust-name");
       const colContact = document.getElementById("col-cust-contact");
       const colAddr = document.getElementById("col-cust-address");
       const colRefs = document.getElementById("col-cust-refs");
       if (colName) colName.innerText = name;
       if (colContact) colContact.innerText = `Tel: ${phone} • ${email}`;
-      if (colAddr) colAddr.innerText = `${address}, Col. ${colonia}, ${city} (CP ${cp})`;
-      if (colRefs) colRefs.innerText = `Ref: ${references}`;
-      
-      const pin = window.SharedCart && typeof window.SharedCart.syncPin === 'function'
-        ? window.SharedCart.syncPin()
-        : (localStorage.getItem('checkout_uber_pin') || '7453');
+      if (colAddr) colAddr.innerText = isPickup ? "Recolección en Tienda: Pedro Moreno 501 A, Col. Centro, GDL (CP 44100)" : `${address}, Col. ${colonia}, ${city} (CP ${cp})`;
+      if (colRefs) colRefs.innerText = isPickup ? "Horario: Lun-Sáb 10:00 a 19:00 hrs" : `Ref: ${references}`;
+
+      if (window.SharedCart && typeof window.SharedCart.syncPin === 'function') window.SharedCart.syncPin();
 
       document.getElementById("form-domicilio-full").classList.add("hidden");
       document.getElementById("form-domicilio-collapsed").classList.remove("hidden");
@@ -1101,7 +1192,8 @@
           if (typeof selectPaymentMethod === 'function') selectPaymentMethod(currentPaymentMethod);
         }
       }
-    
+    }
+
     function updateItemQuantity(sku, delta) {
       let items = getCartItems();
       const item = items.find(i => i.sku === sku);
@@ -1139,63 +1231,73 @@
       const warnBox = document.getElementById("shipping-warning-box");
 
       const optUberGroup = document.getElementById("optgroup-uber");
-      const optHeavyGroup = document.getElementById("optgroup-heavy");
       const optFreeGroup = document.getElementById("optgroup-free");
-      const optFree = document.getElementById("opt-free-shipping");
 
-      // Usar cálculo avanzado de SharedCart
+      const isPickup = (typeof currentDeliveryMethod !== 'undefined' && currentDeliveryMethod === 'tienda');
+
+      // Usar cálculo avanzado de SharedCart con soporte para recolección en tienda
       const calc = window.SharedCart && typeof window.SharedCart.calculateShippingDetails === 'function'
-        ? window.SharedCart.calculateShippingDetails(items, { street, colonia, cp, city })
+        ? window.SharedCart.calculateShippingDetails(items, { 
+            street, 
+            colonia, 
+            cp, 
+            city, 
+            deliveryMethod: isPickup ? 'tienda' : 'domicilio', 
+            isPickup: isPickup 
+          })
         : {
-            cost: 35,
+            cost: isPickup ? 0 : 35,
             subtotal: 0,
             total: 0,
-            carrier: "Uber Flash Moto",
-            label: "Tarifa Base",
+            carrier: isPickup ? "Recolección en Mostrador" : "Uber Flash Moto",
+            label: isPickup ? "Gratis" : "Tarifa Base",
             isHeavy: false,
-            isFreeShipping: false,
+            isFreeShipping: isPickup,
+            uberEstimate: { isLocalZMG: true, fee: 35 },
             noticeHtml: "Calculando flete..."
           };
 
-      let finalShipping = calc.cost;
+      let finalShipping = isPickup ? 0 : calc.cost;
 
-      // Actualizar UI del selector
-      if (calc.isHeavy) {
-        // Si hay productos pesados, deshabilitar moto Uber
-        if (optUberGroup) optUberGroup.disabled = true;
-        if (optFreeGroup) optFreeGroup.classList.add("hidden");
-        if (zoneSelect) zoneSelect.value = "heavy_calc";
-      } else {
-        if (optUberGroup) optUberGroup.disabled = false;
-        
-        if (calc.isFreeShipping) {
-          if (optFreeGroup) optFreeGroup.classList.remove("hidden");
-          if (zoneSelect) zoneSelect.value = "0";
-        } else {
+      // Actualizar UI del selector si es entrega a domicilio
+      if (!isPickup) {
+        if (calc.isHeavy) {
+          if (optUberGroup) optUberGroup.disabled = true;
           if (optFreeGroup) optFreeGroup.classList.add("hidden");
-          if (!isManualChange && zoneSelect) {
-            if (!calc.uberEstimate.isLocalZMG) {
-              zoneSelect.value = "national";
-            } else {
-              zoneSelect.value = String(calc.uberEstimate.fee || 35);
+          if (zoneSelect) zoneSelect.value = "heavy_calc";
+        } else {
+          if (optUberGroup) optUberGroup.disabled = false;
+          if (calc.isFreeShipping) {
+            if (optFreeGroup) optFreeGroup.classList.remove("hidden");
+            if (zoneSelect) zoneSelect.value = "0";
+          } else {
+            if (optFreeGroup) optFreeGroup.classList.add("hidden");
+            if (!isManualChange && zoneSelect) {
+              if (!calc.uberEstimate.isLocalZMG) {
+                zoneSelect.value = "national";
+              } else {
+                zoneSelect.value = String(calc.uberEstimate.fee || 35);
+              }
             }
           }
         }
-      }
-
-      // Si el usuario manipuló el select manualmente (y no es pesado)
-      if (isManualChange && !calc.isHeavy && zoneSelect) {
-        const manualVal = parseFloat(zoneSelect.value);
-        if (!isNaN(manualVal)) {
-          finalShipping = manualVal;
+        if (isManualChange && !calc.isHeavy && zoneSelect) {
+          const manualVal = parseFloat(zoneSelect.value);
+          if (!isNaN(manualVal)) {
+            finalShipping = manualVal;
+          }
         }
+      } else {
+        finalShipping = 0;
       }
 
-      const total = calc.subtotal === 0 ? 0 : (calc.subtotal + finalShipping);
+      const subtotalBase = (typeof calc !== "undefined" && calc && calc.subtotal !== undefined) ? calc.subtotal : 0;
+      const total = subtotalBase === 0 ? 0 : (subtotalBase + finalShipping);
 
       // Actualizar Badges y Warning Box
       if (rateBadge) {
-        if (calc.subtotal === 0) rateBadge.innerText = "$0.00 MXN";
+        if (isPickup) rateBadge.innerText = "¡GRATIS (Mostrador)!";
+        else if (subtotalBase === 0) rateBadge.innerText = "$0.00 MXN";
         else if (finalShipping === 0) rateBadge.innerText = "¡GRATIS!";
         else rateBadge.innerText = `$${finalShipping.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
       }
@@ -1204,7 +1306,6 @@
         warnBox.innerHTML = calc.noticeHtml;
       }
 
-      // Asegurar sincronización del PIN
       const pin = window.SharedCart && typeof window.SharedCart.syncPin === 'function'
         ? window.SharedCart.syncPin()
         : '7453';
@@ -1215,6 +1316,11 @@
       const elShip = document.getElementById("chk-shipping");
       const elTot = document.getElementById("chk-total");
       const elPinSummary = document.getElementById("chk-summary-pin");
+
+      const subtotalSinIva = subtotalBase / 1.16;
+      const iva = subtotalBase - subtotalSinIva;
+      if (elSub) elSub.innerText = `$${subtotalBase.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
+      if (elIva) elIva.innerText = `$${iva.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
 
       // Validación estricta de Cashback del 5%
       const DISPOSABLE_EMAIL_DOMAINS = [
@@ -1232,10 +1338,6 @@
       const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailRaw) && !isDisposable;
       const isPhoneValid = phoneRaw.length >= 10;
       const isCashbackEligible = isEmailValid && isPhoneValid;
-
-      const subtotalBase = (typeof calc !== "undefined" && calc && calc.subtotal !== undefined) 
-        ? calc.subtotal 
-        : (typeof subtotal !== "undefined" ? subtotal : 0);
       const cashback = isCashbackEligible ? (subtotalBase * 0.05) : 0;
 
       if (elCash) {
@@ -1244,15 +1346,17 @@
         } else {
           elCash.innerHTML = `<span class="text-slate-500 font-bold">$0.00 MXN</span> <span class="text-[9px] bg-slate-800 text-slate-400 px-1.5 py-0.5 rounded font-mono uppercase ml-1" title="Requiere teléfono válido (10 dígitos) y correo permanente no desechable">Pendiente</span>`;
         }
-      })} MXN`;
-      
+      }
+
       if (elShip) {
-        if (calc.subtotal === 0) elShip.innerText = "$0.00 MXN";
+        if (isPickup) elShip.innerText = "$0.00 MXN (Recolección en Tienda)";
+        else if (subtotalBase === 0) elShip.innerText = "$0.00 MXN";
         else if (finalShipping === 0) elShip.innerText = "¡GRATIS! (Piezas Compactas)";
         else elShip.innerText = `$${finalShipping.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
       }
-      
+
       if (elTot) elTot.innerText = `$${total.toLocaleString('es-MX', { minimumFractionDigits: 2 })} MXN`;
+
       const elMayoreoRow = document.getElementById("chk-mayoreo-row");
       const elMayoreo = document.getElementById("chk-mayoreo");
       if (elMayoreoRow && elMayoreo) {
@@ -1282,25 +1386,27 @@
       const backordered = items.filter(i => i.stock === 0 || i.stk === 0 || i.disponible === false || i.estado_comercial === 'bajo_pedido');
       if (backordered.length > 0) {
         const backorderedNames = backordered.map(i => `• [${i.sku}] ${i.name}`).join('\n');
-        alert(`⚠️ ACCIÓN BLOQUEADA: Tu canasta contiene artículos bajo pedido (sin stock inmediato):\n\n${backorderedNames}\n\nPor favor retíralos para continuar con la compra directa a domicilio, o comunícate con mostrador vía WhatsApp (+52 33 3727 1440) para programar su pedido especial.`);
-        return;
-      }
-        alert("⚠️ Tu carrito está vacío. Agrega productos antes de realizar tu pedido.");
+        alert(`⚠️ ACCIÓN BLOQUEADA: Tu canasta contiene artículos bajo pedido (sin stock inmediato):\n\n${backorderedNames}\n\nPor favor retíralos para continuar o comunícate con mostrador vía WhatsApp (+52 33 3727 1440) para programar su pedido especial.`);
         return;
       }
 
+      const isPickup = (typeof currentDeliveryMethod !== 'undefined' && currentDeliveryMethod === 'tienda');
       const name = (document.getElementById("custName").value || '').trim();
       const phone = (document.getElementById("custPhone").value || '').trim();
       const email = (document.getElementById("custEmail").value || '').trim();
-      const address = (document.getElementById("custAddress").value || '').trim();
-      const colonia = (document.getElementById("custColonia") ? document.getElementById("custColonia").value : '').trim();
-      const city = (document.getElementById("custCity") ? document.getElementById("custCity").value : 'Guadalajara, Jalisco').trim();
-      const cp = (document.getElementById("custCP").value || '').trim();
-      const references = (document.getElementById("custReferences") ? document.getElementById("custReferences").value : '').trim();
+      const address = isPickup ? 'Pedro Moreno 501 A' : (document.getElementById("custAddress").value || '').trim();
+      const colonia = isPickup ? 'Centro' : ((document.getElementById("custColonia") ? document.getElementById("custColonia").value : '').trim() || 'Centro');
+      const city = isPickup ? 'Guadalajara, Jalisco' : ((document.getElementById("custCity") ? document.getElementById("custCity").value : 'Guadalajara, Jalisco').trim());
+      const cp = isPickup ? '44100' : (document.getElementById("custCP").value || '').trim();
+      const references = isPickup ? 'Recolección en Mostrador por el titular' : ((document.getElementById("custReferences") ? document.getElementById("custReferences").value : '').trim());
 
-      if (!name || !phone || !email || !address || !colonia || !city || !cp || !references) {
-        alert("⚠️ Para cumplir con el modelo de entrega 100% a domicilio, es obligatorio completar todos los campos:\n- Nombre de quien recibe\n- WhatsApp / Teléfono\n- Correo Electrónico\n- Dirección (Calle y Número)\n- Colonia\n- Código Postal (5 dígitos)\n- Ciudad\n- Referencias de entrega");
-        expandAddressForm();
+      if (!name || !phone || !email || (!isPickup && (!address || !colonia || !city || !cp || !references))) {
+        if (isPickup) {
+          alert("⚠️ Para recolección en tienda, completa tu Nombre, WhatsApp y Correo Electrónico.");
+        } else {
+          alert("⚠️ Para entrega a domicilio, es obligatorio completar todos los campos:\n- Nombre de quien recibe\n- WhatsApp / Teléfono\n- Correo Electrónico\n- Dirección (Calle y Número)\n- Colonia\n- Código Postal (5 dígitos)\n- Ciudad\n- Referencias de entrega");
+          expandAddressForm();
+        }
         return;
       }
 
@@ -1315,7 +1421,10 @@
           city: city,
           cp: cp,
           references: references,
-          paymentMethod: currentPaymentMethod
+          paymentMethod: currentPaymentMethod,
+          deliveryMethod: isPickup ? 'tienda' : 'domicilio',
+          isPickup: isPickup,
+          items: items
         });
       }
     }
